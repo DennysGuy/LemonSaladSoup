@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=3 uid="uid://cqmipwjw5ygil"]
+
+[ext_resource type="PackedScene" uid="uid://cwfahle4ha0uq" path="res://src/Scenes/player.tscn" id="1_bcb0y"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bcb0y"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_u45fm"]
+sky_material = SubResource("ProceduralSkyMaterial_bcb0y")
+
+[sub_resource type="Environment" id="Environment_vbyki"]
+background_mode = 2
+sky = SubResource("Sky_u45fm")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bcb0y"]
+albedo_color = Color(0.2998001, 0.7365796, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u45fm"]
+albedo_color = Color(5.0055983e-06, 0.70066935, 0.7896899, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iqv8f"]
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vbyki"]
+albedo_color = Color(0.97487015, 0.44784027, 0, 1)
+
+[node name="Arena" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_vbyki")
+
+[node name="Floor" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26171875, -0.5144441, -0.122421265)
+size = Vector3(4.3808594, 1, 4.3422546)
+
+[node name="Player" parent="." node_paths=PackedStringArray("look_at_point_1", "look_at_point_2", "look_at_point_3", "look_at_point_4") instance=ExtResource("1_bcb0y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.29742157, 0)
+look_at_point_1 = NodePath("../LookAtPoint1/LookAtMarker1")
+look_at_point_2 = NodePath("../LookAtPoint2/LookAtMarker2")
+look_at_point_3 = NodePath("../LookAtPoint3/LookAtMarker3")
+look_at_point_4 = NodePath("../LookAtPoint4/LookAtMarker4")
+
+[node name="LookAtPoint1" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0032562613, 0.22328722, -1.6752706)
+material_override = SubResource("StandardMaterial3D_bcb0y")
+use_collision = true
+size = Vector3(0.45669556, 0.39691162, 0.4645996)
+
+[node name="LookAtMarker1" type="Marker3D" parent="LookAtPoint1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44350076, 0)
+
+[node name="LookAtPoint2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5732801, 0.22328722, 0.17150474)
+material_override = SubResource("StandardMaterial3D_u45fm")
+use_collision = true
+size = Vector3(0.45669556, 0.39691162, 0.4645996)
+
+[node name="LookAtMarker2" type="Marker3D" parent="LookAtPoint2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44350076, 0)
+
+[node name="LookAtPoint3" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.883779, 0.22328722, 0.013588905)
+material_override = SubResource("StandardMaterial3D_iqv8f")
+use_collision = true
+size = Vector3(0.45669556, 0.39691162, 0.4645996)
+
+[node name="LookAtMarker3" type="Marker3D" parent="LookAtPoint3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44350076, 0)
+
+[node name="LookAtPoint4" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1068331, 0.22328722, 1.5897248)
+material_override = SubResource("StandardMaterial3D_vbyki")
+use_collision = true
+size = Vector3(0.45669556, 0.39691162, 0.4645996)
+
+[node name="LookAtMarker4" type="Marker3D" parent="LookAtPoint4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.44350076, 0)
