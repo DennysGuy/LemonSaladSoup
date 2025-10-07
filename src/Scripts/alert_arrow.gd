@@ -7,8 +7,8 @@ var alarm_on : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	hide()
-	SignalBus.alert_player.connect(alert_player)
+	#hide()
+	#SignalBus.alert_player.connect(alert_player)
 	SignalBus.silence_alarm.connect(hide_alert)
 	
 

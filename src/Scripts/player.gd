@@ -5,6 +5,10 @@ class_name Player extends CharacterBody3D
 @export var look_at_point_3 : Marker3D
 @export var look_at_point_4 : Marker3D
 
+@onready var alert_arrow_left: TextureRect = $Crosshair/AlertArrow
+@onready var alert_arrow_right: TextureRect = $Crosshair/AlertArrow2
+@onready var alert_arrow_back: TextureRect = $Crosshair/AlertArrow3
+
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera
 @onready var gun_arm: Node3D = $Head/GunArm
@@ -33,14 +37,14 @@ var mouse_visibilty_toggled : bool = false
 @onready var detector_2: Area3D = $Detector2
 @onready var detector_3: Area3D = $Detector3
 
-@onready var alert_silencer: Area3D = $Head/AlertSilencer
-
 
 @onready var look_at_positions : Array[Marker3D] = [look_at_point_3, look_at_point_1, look_at_point_2, look_at_point_4]
 
 @export var aim_box_size: Vector2 = Vector2(200, 200) # how far the reticle can drift from center
 
 func _ready() -> void:
+	SignalBus.enemy_spawned.connect(notify_enemy)
+	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	target_location = look_at_positions[target_index]
@@ -52,6 +56,8 @@ func _ready() -> void:
 @export var max_arm_offset: Vector2 = Vector2(600, 300) # how far the arm can move on screen
 
 func _process(delta: float) -> void:
+	_update_arrows()
+	
 	var screen_center = get_viewport().get_visible_rect().size * 0.5
 	var mouse_pos = screen_center + reticle_offset
 	# Move the crosshair UI anywhere on the screen
@@ -75,7 +81,7 @@ func _process(delta: float) -> void:
 	gun_arm.rotation = Vector3(x_rot, gun_arm.rotation.y, gun_arm.rotation.z)
 	
 	if Input.is_action_just_pressed("rotate_left"):
-		alert_silencer.get_child(0).disabled = true
+		SignalBus.ping_enemies.emit()
 		timer.start()
 		#print("hello")
 		target_index -= 1
@@ -86,7 +92,7 @@ func _process(delta: float) -> void:
 		target_location = look_at_positions[target_index]
 	
 	if Input.is_action_just_pressed("rotate_right"):
-		alert_silencer.get_child(0).disabled = true
+		SignalBus.ping_enemies.emit()
 		timer.start()
 		#print("bye")
 		target_index += 1
@@ -98,7 +104,7 @@ func _process(delta: float) -> void:
 		target_location = look_at_positions[target_index]
 	
 	if Input.is_action_just_pressed("rotate_opposite"):
-		alert_silencer.get_child(0).disabled = true
+		SignalBus.ping_enemies.emit()
 		timer.start()
 		if target_index == look_at_positions.size()-1:
 			target_index = 1
@@ -126,8 +132,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if Input.is_action_just_pressed("shoot"):
 		animation_player.play("shoot_pistol")
-		shoot_ray()
-	
+		var collided_object = shoot_ray()
+		if collided_object is TestEnemy:
+			collided_object.damage_enemy()
+		
 	if event is InputEventMouseMotion:
 		# Move virtual reticle with mouse delta
 		reticle_offset += event.relative * SENSITIVITY
@@ -191,28 +199,60 @@ func move_camera(_delta : float) -> void:
 		camera.fov = lerp(camera.fov, initial_fov, _delta * zoom_speed)
 
 
-func _on_detector_1_body_entered(body: Node3D) -> void:
-	print("A mf entered on the left side!")
-	SignalBus.alert_player.emit(detector_1)
-
-
-func _on_detector_2_body_entered(body: Node3D) -> void:
-	print("A mf entered on the right side!")
-	SignalBus.alert_player.emit(detector_2)
-
-func _on_detector_3_body_entered(body: Node3D) -> void:
-	print("A mf entered on the back!")
-	SignalBus.alert_player.emit(detector_3)
-
-
-func _on_alert_silencer_area_entered(area) -> void:
-	print("WOWWWWW")
-	if area is EnemyDetectorDetector:
-		var enemy_detector : EnemyDetectorDetector = area
-		print("I've seen you: " + str(area))
-		SignalBus.silence_alarm.emit(area.detector_area)
-		area.detector_area = null
-
-
 func _on_timer_timeout() -> void:
-	alert_silencer.get_child(0).disabled = false
+	pass
+
+
+var enemy_alerts: Array = [] 
+
+func notify_enemy(enemy: Node3D) -> void:
+	if enemy not in enemy_alerts:
+		enemy_alerts.append(enemy)
+		
+func _get_enemy_quadrant(enemy: Node3D) -> String:
+	var to_enemy = (enemy.global_transform.origin - global_transform.origin).normalized()
+	var local_dir = camera.global_transform.basis.inverse() * to_enemy
+
+	if abs(local_dir.x) > abs(local_dir.z):
+		return "right" if local_dir.x > 0 else "left"
+	else:
+		return "back" if local_dir.z > 0 else "front"
+
+func _get_facing_quadrant() -> String:
+	var forward = -camera.global_transform.basis.z
+	if abs(forward.x) > abs(forward.z):
+		return "right" if forward.x > 0 else "left"
+	else:
+		return "front" if forward.z < 0 else "back"
+
+
+func _update_arrows() -> void:
+	# Hide all arrows
+	#arrow_front.visible = false
+	alert_arrow_back.visible = false
+	alert_arrow_left.visible = false
+	alert_arrow_right.visible = false
+
+	var dir_shown = {"front": false, "back": false, "left": false, "right": false}
+	var facing = _get_facing_quadrant()
+
+	for enemy in enemy_alerts:
+		if not is_instance_valid(enemy):
+			enemy_alerts.erase(enemy)
+			continue
+
+		var q = _get_enemy_quadrant(enemy)
+
+		# If player is facing this quadrant, clear the alert
+		if q == facing:
+			enemy_alerts.erase(enemy)
+			continue
+
+		# Otherwise show the arrow once for that quadrant
+		if not dir_shown[q]:
+			match q:
+				"front": pass
+				"back": alert_arrow_back.visible = true
+				"left": alert_arrow_left.visible = true
+				"right": alert_arrow_right.visible = true
+			dir_shown[q] = true

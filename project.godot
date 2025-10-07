@@ -18,6 +18,10 @@ config/icon="res://icon.svg"
 
 SignalBus="*res://src/Scripts/Globals/SignalBus.gd"
 
+[global_group]
+
+Player=""
+
 [input]
 
 rotate_left={
