@@ -1,20 +1,227 @@
-[gd_scene load_steps=3 format=3 uid="uid://cwfahle4ha0uq"]
+[gd_scene load_steps=16 format=3 uid="uid://cwfahle4ha0uq"]
 
-[ext_resource type="Script" uid="uid://dwqwn0yq03m0" path="res://player.gd" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://dwqwn0yq03m0" path="res://src/Scripts/player.gd" id="1_4flbx"]
+[ext_resource type="Texture2D" uid="uid://1qkf0wxayb7f" path="res://CrosshairTest.png" id="2_nuidu"]
+[ext_resource type="Script" uid="uid://el3ur7a8rggo" path="res://src/Scripts/reticle.gd" id="3_f8bxg"]
+[ext_resource type="PackedScene" uid="uid://de75lun6r25ey" path="res://src/Scenes/alert_arrow.tscn" id="4_waosb"]
+[ext_resource type="Script" uid="uid://b0i4y53n6gpy1" path="res://src/Scripts/enemy_detector.gd" id="5_vhadf"]
+
+[sub_resource type="Animation" id="Animation_f8bxg"]
+resource_name = "shoot_pistol"
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../Head/GunArm:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13465391, 0.24),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.09931809, 0, -0.101154566), Vector3(0.09931809, 0, 0.21747321), Vector3(0.09931809, 0, -0.101154566)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../Head/GunArm:rotation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.13465941, 0.24),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.44982368, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_waosb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../Head/GunArm:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.09931809, 0, -0.101154566)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../Head/GunArm:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vhadf"]
+_data = {
+&"RESET": SubResource("Animation_waosb"),
+&"shoot_pistol": SubResource("Animation_f8bxg")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_630vu"]
+albedo_color = Color(0.45840502, 0.45840508, 0.45840502, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nuidu"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f8bxg"]
+albedo_color = Color(0.72914034, 0.48635185, 0.313854, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_vhadf"]
+size = Vector3(0.40615845, 0.21170044, 5.985962)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_sh265"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_f8bxg"]
+size = Vector3(5, 1, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_waosb"]
+size = Vector3(3.6362305, 1, 5)
+
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_4flbx")
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Detector1/CollisionShape3D")
+libraries = {
+&"": SubResource("AnimationLibrary_vhadf")
+}
 
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.104676336, 0)
 
 [node name="Camera" type="Camera3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.055753767, 0, 0)
 current = true
 fov = 61.59939
+
+[node name="GunArm" type="Node3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0.09931809, 0, -0.101154566)
+
+[node name="Pistol" type="CSGBox3D" parent="Head/GunArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.100782424, -0.108855054, -0.4538074)
+material_override = SubResource("StandardMaterial3D_630vu")
+size = Vector3(0.11031532, 0.12391305, 0.29129267)
+
+[node name="Hand" type="CSGBox3D" parent="Head/GunArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.100782424, -0.22084074, -0.37810755)
+material_override = SubResource("StandardMaterial3D_nuidu")
+size = Vector3(0.11031532, 0.10052872, 0.10377884)
+
+[node name="Arm" type="CSGBox3D" parent="Head/GunArm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10118011, -0.22526388, -0.10076362)
+material_override = SubResource("StandardMaterial3D_f8bxg")
+size = Vector3(0.08564758, 0.07984924, 0.6223526)
+
+[node name="AlertSilencer" type="Area3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.104676336, -0.32173502)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/AlertSilencer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.010238647, 0.047042847, -2.6355958)
+shape = SubResource("BoxShape3D_vhadf")
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
 transform = Transform3D(0.34652677, 0, 0, 0, 0.31030542, 0, 0, 0, 0.33825758, 0, 0, 0)
 use_collision = true
 mesh = SubResource("CapsuleMesh_sh265")
+
+[node name="Crosshair" type="CanvasLayer" parent="."]
+
+[node name="Reticle" type="TextureRect" parent="Crosshair"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_nuidu")
+script = ExtResource("3_f8bxg")
+
+[node name="AlertArrow" parent="Crosshair" node_paths=PackedStringArray("connected_area") instance=ExtResource("4_waosb")]
+anchors_preset = 4
+anchor_left = 0.0
+anchor_right = 0.0
+offset_left = 22.0
+offset_top = -158.81119
+offset_right = 98.0
+offset_bottom = 140.81119
+grow_horizontal = 1
+connected_area = NodePath("../../Detector1")
+
+[node name="AlertArrow2" parent="Crosshair" node_paths=PackedStringArray("connected_area") instance=ExtResource("4_waosb")]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -93.0
+offset_right = -25.0
+grow_horizontal = 0
+flip_h = true
+connected_area = NodePath("../../Detector2")
+
+[node name="AlertArrow3" parent="Crosshair" node_paths=PackedStringArray("connected_area") instance=ExtResource("4_waosb")]
+anchors_preset = 7
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 171.96509
+offset_top = -71.42206
+offset_right = 232.38715
+offset_bottom = 277.4474
+grow_vertical = 0
+rotation = 1.5707964
+flip_h = true
+connected_area = NodePath("../../Detector3")
+
+[node name="Detector1" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2624345, 0, 0)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("5_vhadf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detector1"]
+shape = SubResource("BoxShape3D_f8bxg")
+
+[node name="Detector2" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0321608, 0, 0)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("5_vhadf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detector2"]
+shape = SubResource("BoxShape3D_f8bxg")
+
+[node name="Detector3" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2831416, 0, 4.9309254)
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("5_vhadf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Detector3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.18188477, 0, 0)
+shape = SubResource("BoxShape3D_waosb")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="Head/AlertSilencer" to="." method="_on_alert_silencer_area_entered"]
+[connection signal="body_entered" from="Detector1" to="." method="_on_detector_1_body_entered"]
+[connection signal="body_entered" from="Detector2" to="." method="_on_detector_2_body_entered"]
+[connection signal="body_entered" from="Detector3" to="." method="_on_detector_3_body_entered"]

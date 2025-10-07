@@ -120,5 +120,7 @@ look_at_point_1 = NodePath("../LookAtMarker1")
 look_at_point_2 = NodePath("../LookAtMarker2")
 look_at_point_3 = NodePath("../LookAtMarker3")
 look_at_point_4 = NodePath("../LookAtMarker4")
+aim_box_size = Vector2(200, 200)
+max_arm_offset = Vector2(600, 300)
 
 [editable path="Player"]
