@@ -71,16 +71,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11062825, 0.22328722, 3.68
 material_override = SubResource("StandardMaterial3D_vbyki")
 size = Vector3(6.9158726, 0.39691162, 0.4645996)
 
-[node name="Player" parent="." node_paths=PackedStringArray("look_at_point_1", "look_at_point_2", "look_at_point_3", "look_at_point_4") instance=ExtResource("1_bcb0y")]
+[node name="Player" parent="." node_paths=PackedStringArray("look_at_point_1", "look_at_point_2", "look_at_point_3", "look_at_point_4", "enemies_root") instance=ExtResource("1_bcb0y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26049674, 0)
 look_at_point_1 = NodePath("../LookAtMarker1")
 look_at_point_2 = NodePath("../LookAtMarker2")
 look_at_point_3 = NodePath("../LookAtMarker3")
 look_at_point_4 = NodePath("../LookAtMarker4")
+enemies_root = NodePath("../Enemies")
+
+[node name="Enemies" type="Node" parent="."]
 
 [node name="SpawnTimer" type="Timer" parent="."]
 process_callback = 0
-wait_time = 3.0
+wait_time = 2.0
 
 [node name="SpawnPoints" type="Node" parent="."]
 

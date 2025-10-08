@@ -10,7 +10,7 @@ func _ready() -> void:
 	#hide()
 	#SignalBus.alert_player.connect(alert_player)
 	SignalBus.silence_alarm.connect(hide_alert)
-	
+	animation_player.play("blink")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

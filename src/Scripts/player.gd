@@ -39,12 +39,16 @@ var mouse_visibilty_toggled : bool = false
 @onready var detector_2: Area3D = $Detector2
 @onready var detector_3: Area3D = $Detector3
 
+@onready var direction_teller: Label = $Crosshair/DirectionTeller
 
 @onready var look_at_positions : Array[Marker3D] = [look_at_point_3, look_at_point_1, look_at_point_2, look_at_point_4]
 
 @export var aim_box_size: Vector2 = Vector2(200, 200) # how far the reticle can drift from center
 
+@export var enemies_root : Node
+
 func _ready() -> void:
+	#direction_teller.hide()
 	SignalBus.enemy_spawned.connect(notify_enemy)
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -83,7 +87,7 @@ func _process(delta: float) -> void:
 	gun_arm.rotation = Vector3(x_rot, gun_arm.rotation.y, gun_arm.rotation.z)
 	
 	if Input.is_action_just_pressed("rotate_left"):
-		SignalBus.ping_enemies.emit()
+		#SignalBus.ping_enemies.emit()
 		timer.start()
 		#print("hello")
 		target_index -= 1
@@ -94,7 +98,7 @@ func _process(delta: float) -> void:
 		target_location = look_at_positions[target_index]
 	
 	if Input.is_action_just_pressed("rotate_right"):
-		SignalBus.ping_enemies.emit()
+		#SignalBus.ping_enemies.emit()
 		timer.start()
 		#print("bye")
 		target_index += 1
@@ -106,7 +110,7 @@ func _process(delta: float) -> void:
 		target_location = look_at_positions[target_index]
 	
 	if Input.is_action_just_pressed("rotate_opposite"):
-		SignalBus.ping_enemies.emit()
+		#SignalBus.ping_enemies.emit()
 		timer.start()
 		if target_index == look_at_positions.size()-1:
 			target_index = 1
@@ -181,18 +185,24 @@ func move_camera(_delta: float) -> void:
 		var target_pos = target_location.global_transform.origin
 		var my_pos = global_transform.origin
 
-		# --- Determine desired yaw (cardinal) ---
+		# --- Compute desired yaw to target ---
 		var to_target = (target_pos - my_pos).normalized()
 		to_target.y = 0.0
 		var target_yaw = atan2(-to_target.x, -to_target.z)
 
-		# Snap target_yaw to nearest 90° (cardinal direction)
+		# --- Snap yaw to nearest cardinal direction ---
 		var snapped_yaw = round(target_yaw / (PI / 2.0)) * (PI / 2.0)
 
-		# Smoothly rotate player toward snapped direction
-		rotation.y = lerp_angle(rotation.y, snapped_yaw, _delta * rotate_speed)
+		# --- Smoothly rotate player to snapped direction with easing ---
+		var yaw_diff = wrapf(snapped_yaw - rotation.y, -PI, PI)
+		var t = 1.0 - pow(0.5, _delta * rotate_speed)  # smooth exponential easing
+		rotation.y += yaw_diff * t
 
-		# --- Smooth pitch only if you want vertical aim ---
+		# Optional: snap instantly if very close to target to avoid tiny jitters
+		if abs(yaw_diff) < deg_to_rad(1.0):
+			rotation.y = snapped_yaw
+
+		# --- Smooth pitch (head tilt) ---
 		var head_to_target = (target_pos - head.global_transform.origin).normalized()
 		var target_pitch = -asin(head_to_target.y)
 		head.rotation.x = lerp_angle(head.rotation.x, target_pitch, _delta * rotate_speed)
@@ -200,7 +210,7 @@ func move_camera(_delta: float) -> void:
 		# --- Smooth zoom ---
 		camera.fov = lerp(camera.fov, zoom_target, _delta * zoom_speed)
 	else:
-		# Reset back to initial pose if no target
+		# Ease back to initial rotation and FOV when no target
 		rotation.y = lerp_angle(rotation.y, initial_player_rotation.y, _delta * rotate_speed)
 		head.rotation.x = lerp_angle(head.rotation.x, initial_head_rotation.x, _delta * rotate_speed)
 		camera.fov = lerp(camera.fov, initial_fov, _delta * zoom_speed)
@@ -215,12 +225,22 @@ func notify_enemy(enemy: Node3D) -> void:
 		
 func _get_enemy_quadrant(enemy: Node3D) -> String:
 	var to_enemy = (enemy.global_transform.origin - global_transform.origin).normalized()
-	var local_dir = camera.global_transform.basis.inverse() * to_enemy
 
-	if abs(local_dir.x) > abs(local_dir.z):
-		return "right" if local_dir.x > 0 else "left"
+	# Transform into player's local space
+	var local_dir = global_transform.basis.inverse() * to_enemy
+
+	# Get angle of enemy in local XZ plane
+	var angle = atan2(local_dir.x, -local_dir.z) # radians, relative to forward (-Z)
+
+	# Snap to quadrant
+	if abs(angle) <= PI / 4:
+		return "front"
+	elif angle > PI / 4 and angle < 3 * PI / 4:
+		return "right"
+	elif angle < -PI / 4 and angle > -3 * PI / 4:
+		return "left"
 	else:
-		return "back" if local_dir.z > 0 else "front"
+		return "back"
 
 func _get_facing_quadrant() -> String:
 	var forward = -camera.global_transform.basis.z
@@ -228,6 +248,24 @@ func _get_facing_quadrant() -> String:
 		return "right" if forward.x > 0 else "left"
 	else:
 		return "front" if forward.z < 0 else "back"
+
+func _is_facing_quadrant(enemy_quadrant: String) -> bool:
+	var forward = -camera.global_transform.basis.z.normalized()
+
+	var local_dir := Vector3.ZERO
+	match enemy_quadrant:
+		"front": local_dir = Vector3.FORWARD
+		"right": local_dir = Vector3.RIGHT
+		"back": local_dir = Vector3.BACK
+		"left": local_dir = Vector3.LEFT
+
+	# convert local quadrant dir to world space
+	var world_dir = global_transform.basis * local_dir
+	world_dir = world_dir.normalized()
+
+	# dot product now makes sense: forward (world) vs quadrant (world)
+	var dot = forward.dot(world_dir)
+	return dot > cos(deg_to_rad(20))  # ~0.94
 
 
 func _update_arrows() -> void:
@@ -239,35 +277,59 @@ func _update_arrows() -> void:
 
 	var dir_shown = {"front": false, "back": false, "left": false, "right": false}
 	var quadrant_counts = {"front": 0, "back": 0, "left": 0, "right": 0}
+	
 	var facing = _get_facing_quadrant()
-
+	
 	# Count enemies per quadrant
-	for enemy in enemy_alerts:
+	for enemy in enemies_root.get_children():
 		if not is_instance_valid(enemy):
 			enemy_alerts.erase(enemy)
 			continue
 
 		var q = _get_enemy_quadrant(enemy)
-
+		print("Im facing here: " + facing + " Enemy is located here: " + q)
+		
+		#match q:
+			#"front": 
+				#direction_teller.show()
+				#direction_teller.text = "IN FRONT OF YOU!"
+			#"back": 
+				#direction_teller.show()
+				#direction_teller.text = "BEHIND YOU!"
+			#"left": 
+				#direction_teller.show()
+				#direction_teller.text = "ON YOUR LEFT!"
+			#"right": 
+				#direction_teller.show()
+				#direction_teller.text = "ON YOUR RIGHT!"
+		
 		# Remove enemies if player is facing that quadrant
-		if q == facing:
+		if _is_facing_quadrant(q):
+			print("but I dropped in here...")
 			enemy_alerts.erase(enemy)
+			#direction_teller.hide()
 			continue
 
 		quadrant_counts[q] += 1
 
 		# Show arrow once per quadrant
-		if not dir_shown[q]:
-			match q:
-				"front": alert_arrow_front.visible = true
-				"back": alert_arrow_back.visible = true
-				"left": alert_arrow_left.visible = true
-				"right": alert_arrow_right.visible = true
-			dir_shown[q] = true
+		print(q)
+		match q:
+			"front": 
+				alert_arrow_front.visible = true
+
+			"back": 
+				alert_arrow_back.visible = true
+			"left": 
+				alert_arrow_left.visible = true
+			"right": 
+				alert_arrow_right.visible = true
+	
+		dir_shown[q] = true
 
 	# Debug output
-	print("Facing:", facing, 
-		" | Counts -> F:", quadrant_counts["front"], 
-		"B:", quadrant_counts["back"], 
-		"L:", quadrant_counts["left"], 
-		"R:", quadrant_counts["right"])
+	#print("Facing:", facing, 
+		#" | Counts -> F:", quadrant_counts["front"], 
+		#"B:", quadrant_counts["back"], 
+		#"L:", quadrant_counts["left"], 
+		#"R:", quadrant_counts["right"])
