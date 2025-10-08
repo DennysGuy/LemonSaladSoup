@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://coiyr773xvwd4"]
 
-[ext_resource type="Script" uid="uid://bwknuerc2pbuw" path="res://src/scripts/test_enemy.gd" id="1_q1qra"]
+[ext_resource type="Script" uid="uid://bwknuerc2pbuw" path="res://src/Scripts/test_enemy.gd" id="1_q1qra"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_igj8i"]
 albedo_color = Color(0.87274367, 0.1181984, 0, 1)
@@ -10,8 +10,8 @@ radius = 0.15
 height = 0.5
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_q1qra"]
-radius = 0.15576172
-height = 0.51283264
+radius = 0.1875
+height = 0.5479202
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bltgf"]
 radius = 0.2529297
@@ -30,7 +30,7 @@ radius = 0.09423828
 height = 0.08605957
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0044784546, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.022022247, 0)
 shape = SubResource("CapsuleShape3D_q1qra")
 
 [node name="Area3D" type="Area3D" parent="."]

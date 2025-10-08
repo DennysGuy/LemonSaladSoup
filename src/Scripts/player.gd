@@ -8,6 +8,8 @@ class_name Player extends CharacterBody3D
 @onready var alert_arrow_left: TextureRect = $Crosshair/AlertArrow
 @onready var alert_arrow_right: TextureRect = $Crosshair/AlertArrow2
 @onready var alert_arrow_back: TextureRect = $Crosshair/AlertArrow3
+@onready var alert_arrow_front: TextureRect = $Crosshair/AlertArrow4
+
 
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera
@@ -174,18 +176,23 @@ func look_at_target(target : Marker3D, zoom : float) -> void:
 	target_location = target
 	
 
-func move_camera(_delta : float) -> void:
+func move_camera(_delta: float) -> void:
 	if target_location:
 		var target_pos = target_location.global_transform.origin
 		var my_pos = global_transform.origin
 
-		# --- Smooth yaw (player rotation) ---
+		# --- Determine desired yaw (cardinal) ---
 		var to_target = (target_pos - my_pos).normalized()
 		to_target.y = 0.0
 		var target_yaw = atan2(-to_target.x, -to_target.z)
-		rotation.y = lerp_angle(rotation.y, target_yaw, _delta * rotate_speed)
 
-		# --- Smooth pitch (head/camera tilt) ---
+		# Snap target_yaw to nearest 90° (cardinal direction)
+		var snapped_yaw = round(target_yaw / (PI / 2.0)) * (PI / 2.0)
+
+		# Smoothly rotate player toward snapped direction
+		rotation.y = lerp_angle(rotation.y, snapped_yaw, _delta * rotate_speed)
+
+		# --- Smooth pitch only if you want vertical aim ---
 		var head_to_target = (target_pos - head.global_transform.origin).normalized()
 		var target_pitch = -asin(head_to_target.y)
 		head.rotation.x = lerp_angle(head.rotation.x, target_pitch, _delta * rotate_speed)
@@ -193,21 +200,18 @@ func move_camera(_delta : float) -> void:
 		# --- Smooth zoom ---
 		camera.fov = lerp(camera.fov, zoom_target, _delta * zoom_speed)
 	else:
-		# Ease back out to normal FOV when not facing
+		# Reset back to initial pose if no target
 		rotation.y = lerp_angle(rotation.y, initial_player_rotation.y, _delta * rotate_speed)
 		head.rotation.x = lerp_angle(head.rotation.x, initial_head_rotation.x, _delta * rotate_speed)
 		camera.fov = lerp(camera.fov, initial_fov, _delta * zoom_speed)
 
 
-func _on_timer_timeout() -> void:
-	pass
-
-
 var enemy_alerts: Array = [] 
 
 func notify_enemy(enemy: Node3D) -> void:
-	if enemy not in enemy_alerts:
-		enemy_alerts.append(enemy)
+	print("Enemy spawned in quadrant: ", _get_enemy_quadrant(enemy))
+	#if enemy not in enemy_alerts:
+	enemy_alerts.append(enemy)
 		
 func _get_enemy_quadrant(enemy: Node3D) -> String:
 	var to_enemy = (enemy.global_transform.origin - global_transform.origin).normalized()
@@ -227,15 +231,17 @@ func _get_facing_quadrant() -> String:
 
 
 func _update_arrows() -> void:
-	# Hide all arrows
-	#arrow_front.visible = false
+	# Hide all arrows at start
+	alert_arrow_front.visible = false
 	alert_arrow_back.visible = false
 	alert_arrow_left.visible = false
 	alert_arrow_right.visible = false
 
 	var dir_shown = {"front": false, "back": false, "left": false, "right": false}
+	var quadrant_counts = {"front": 0, "back": 0, "left": 0, "right": 0}
 	var facing = _get_facing_quadrant()
 
+	# Count enemies per quadrant
 	for enemy in enemy_alerts:
 		if not is_instance_valid(enemy):
 			enemy_alerts.erase(enemy)
@@ -243,16 +249,25 @@ func _update_arrows() -> void:
 
 		var q = _get_enemy_quadrant(enemy)
 
-		# If player is facing this quadrant, clear the alert
+		# Remove enemies if player is facing that quadrant
 		if q == facing:
 			enemy_alerts.erase(enemy)
 			continue
 
-		# Otherwise show the arrow once for that quadrant
+		quadrant_counts[q] += 1
+
+		# Show arrow once per quadrant
 		if not dir_shown[q]:
 			match q:
-				"front": pass
+				"front": alert_arrow_front.visible = true
 				"back": alert_arrow_back.visible = true
 				"left": alert_arrow_left.visible = true
 				"right": alert_arrow_right.visible = true
 			dir_shown[q] = true
+
+	# Debug output
+	print("Facing:", facing, 
+		" | Counts -> F:", quadrant_counts["front"], 
+		"B:", quadrant_counts["back"], 
+		"L:", quadrant_counts["left"], 
+		"R:", quadrant_counts["right"])

@@ -7,7 +7,7 @@ var health : int = 2
 func _ready() -> void:
 	player = get_tree().get_first_node_in_group("Player")
 	SignalBus.enemy_spawned.emit(self)
-	SignalBus.ping_enemies.connect(ping_player)
+	#SignalBus.ping_enemies.connect(ping_player)
 
 func _physics_process(delta: float) -> void:
 	var direction : Vector3 = (player.global_transform.origin - global_transform.origin).normalized()
@@ -16,8 +16,8 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	
 func ping_player() -> void:
-	SignalBus.enemy_spawned.emit(self)
-
+	#SignalBus.enemy_spawned.emit(self)
+	pass
 
 func _on_area_3d_body_entered(body: Node3D) -> void:
 	if body is Player:

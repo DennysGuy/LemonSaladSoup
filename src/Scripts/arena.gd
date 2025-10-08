@@ -14,3 +14,4 @@ func _on_spawn_timer_timeout() -> void:
 	enemy.global_transform.origin = chosen_spawn_point.global_transform.origin
 	print("enemy spawned!")
 	add_child(enemy)
+	SignalBus.enemy_spawned.emit(enemy)
