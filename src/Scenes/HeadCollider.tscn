@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyulroyk7t1a5"]
+
+[ext_resource type="Script" uid="uid://p4fml5f7mepr" path="res://src/Scripts/head_collider.gd" id="1_eft65"]
+
+[node name="HeadCollider" type="StaticBody3D"]
+collision_layer = 32
+collision_mask = 32
+script = ExtResource("1_eft65")

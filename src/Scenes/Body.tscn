@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7yuma616e6mu"]
+
+[ext_resource type="Script" uid="uid://do2x6j0wxiavk" path="res://src/Scripts/body_collider.gd" id="1_rjab0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mlvyd"]
+size = Vector3(1.979248, 4.3540955, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D"]
+shape = SubResource("BoxShape3D_mlvyd")
+script = ExtResource("1_rjab0")

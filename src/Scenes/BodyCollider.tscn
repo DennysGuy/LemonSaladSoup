@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbjgbhbibqyfq"]
+
+[ext_resource type="Script" uid="uid://do2x6j0wxiavk" path="res://src/Scripts/body_collider.gd" id="1_efh43"]
+
+[node name="BodyCollider" type="StaticBody3D"]
+collision_layer = 32
+script = ExtResource("1_efh43")

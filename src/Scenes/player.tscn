@@ -53,10 +53,12 @@ albedo_color = Color(0, 0, 0, 1)
 albedo_color = Color(0.72914034, 0.48635185, 0.313854, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_sh265"]
+radius = 1.737
+height = 14.648
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_waosb"]
-radius = 0.20800781
-height = 0.63500977
+radius = 0.7167969
+height = 4.685669
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 script = ExtResource("1_4flbx")
@@ -71,7 +73,7 @@ libraries = {
 }
 
 [node name="Head" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.104676336, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0558505, -0.56598663)
 
 [node name="Camera" type="Camera3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.055753767, 0, 0)
@@ -97,7 +99,7 @@ material_override = SubResource("StandardMaterial3D_f8bxg")
 size = Vector3(0.08564758, 0.07984924, 0.6223526)
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
-transform = Transform3D(0.34652677, 0, 0, 0, 0.31030542, 0, 0, 0, 0.33825758, 0, 0, 0)
+transform = Transform3D(0.34652677, 0, 0, 0, 0.31030542, 0, 0, 0, 0.33825758, 0, 2.3098607, 0)
 mesh = SubResource("CapsuleMesh_sh265")
 
 [node name="Crosshair" type="CanvasLayer" parent="."]
@@ -162,7 +164,7 @@ grow_vertical = 1
 rotation = 1.5707964
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0013427734, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4682698, 0)
 shape = SubResource("CapsuleShape3D_waosb")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

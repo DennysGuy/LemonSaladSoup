@@ -11,10 +11,18 @@ ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
 sky_material = SubResource("ProceduralSkyMaterial_bcb0y")
 
 [sub_resource type="Environment" id="Environment_vbyki"]
-background_mode = 2
+background_mode = 1
+background_energy_multiplier = 1.55
 sky = SubResource("Sky_u45fm")
+ambient_light_source = 2
+ambient_light_color = Color(0.65834004, 0.6583399, 0.6583399, 1)
+ambient_light_energy = 1.35
 tonemap_mode = 2
+tonemap_exposure = 1.56
+tonemap_white = 1.21
 glow_enabled = true
+glow_intensity = 0.84
+glow_bloom = 0.06
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bcb0y"]
 albedo_color = Color(0.2998001, 0.7365796, 0, 1)
@@ -35,41 +43,41 @@ script = ExtResource("1_y77rj")
 environment = SubResource("Environment_vbyki")
 
 [node name="Floor" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.152426, -0.5144441, 0.009479523)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.29449487, -0.5144441, 0.09883499)
 use_collision = true
-size = Vector3(6.9941406, 1, 7.969597)
+size = Vector3(30.490505, 1, 32.452606)
 
 [node name="LookAtPoint1" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10440993, 0.22328722, -3.6724553)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.015076876, 3.2742057, -16.01521)
 material_override = SubResource("StandardMaterial3D_bcb0y")
-size = Vector3(6.829426, 0.39691162, 0.4645996)
+size = Vector3(24.113573, 6.498749, 0.4645996)
 
 [node name="LookAtMarker1" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.667, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.06286, -7.821911)
 
 [node name="LookAtPoint2" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1140416, 0.22328734, 0.0048024654)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.753009, 3.2909906, -0.9534409)
 material_override = SubResource("StandardMaterial3D_u45fm")
-size = Vector3(0.45669556, 0.39691162, 6.5066376)
+size = Vector3(0.45669556, 6.532318, 25.406347)
 
 [node name="LookAtMarker2" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.667, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.476391, 5.282816, 0)
 
 [node name="LookAtPoint3" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.3366482, 0.22328722, 0.007966042)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.784462, 3.2646232, 0.0007991791)
 material_override = SubResource("StandardMaterial3D_iqv8f")
-size = Vector3(0.45669556, 0.39691162, 6.966629)
+size = Vector3(0.45669556, 6.4795837, 25.130848)
 
 [node name="LookAtMarker3" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0.667, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.766642, 4.680338, 0)
 
 [node name="LookAtMarker4" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.667, 2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.368401, 9.165907)
 
 [node name="LookAtPoint4" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11062825, 0.22328722, 3.6857085)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14347625, 3.2302604, 15.947624)
 material_override = SubResource("StandardMaterial3D_vbyki")
-size = Vector3(6.9158726, 0.39691162, 0.4645996)
+size = Vector3(24.610548, 6.410858, 0.4645996)
 
 [node name="Player" parent="." node_paths=PackedStringArray("look_at_point_1", "look_at_point_2", "look_at_point_3", "look_at_point_4", "enemies_root") instance=ExtResource("1_bcb0y")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26049674, 0)
@@ -78,6 +86,9 @@ look_at_point_2 = NodePath("../LookAtMarker2")
 look_at_point_3 = NodePath("../LookAtMarker3")
 look_at_point_4 = NodePath("../LookAtMarker4")
 enemies_root = NodePath("../Enemies")
+
+[node name="Timer" parent="Player" index="0"]
+wait_time = 5.0
 
 [node name="Enemies" type="Node" parent="."]
 
@@ -88,40 +99,40 @@ wait_time = 2.0
 [node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0486939, 0.18035996, -3.312924)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.8373632, 0.18035996, -11.419043)
 
 [node name="SpawnPoint2" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03935522, 0.18035996, -3.3668995)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03935522, 0.18035996, -11.254795)
 
 [node name="SpawnPoint3" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1563785, 0.18035996, -3.3668995)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.308029, 0.18035996, -11.816172)
 
 [node name="SpawnPoint4" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.861596, 0.18035996, -1.1487675)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.235147, 0.18035996, -6.258873)
 
 [node name="SpawnPoint5" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.861596, 0.18035996, 0.016890407)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.235147, 0.18035996, 0.016890407)
 
 [node name="SpawnPoint6" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.861596, 0.18035996, 1.224549)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.235147, 0.18035996, 6.379573)
 
 [node name="SpawnPoint7" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1249886, 0.18035996, 3.3442574)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.714564, 0.18035996, 14.147072)
 
 [node name="SpawnPoint8" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10111332, 0.18035996, 3.3442574)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10111332, 0.18035996, 14.147072)
 
 [node name="SpawnPoint9" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2798201, 0.18035996, 3.3442574)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.956991, 0.18035996, 14.147072)
 
 [node name="SpawnPoint10" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.812883, 0.18035996, 1.5887401)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.26079, 0.18035996, 6.1935673)
 
 [node name="SpawnPoint11" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.812883, 0.18035996, 0.06202531)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.207383, 0.18035996, 0.7112644)
 
 [node name="SpawnPoint12" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.812883, 0.18035996, -1.4018047)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.3409605, 0.18035996, -4.6153936)
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 

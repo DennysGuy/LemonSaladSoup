@@ -94,7 +94,7 @@ func _process(delta: float) -> void:
 		
 		if target_index < 0:
 			target_index = 3
-		print(target_index)
+		#print(target_index)
 		target_location = look_at_positions[target_index]
 	
 	if Input.is_action_just_pressed("rotate_right"):
@@ -139,8 +139,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("shoot"):
 		animation_player.play("shoot_pistol")
 		var collided_object = shoot_ray()
-		if collided_object is TestEnemy:
-			collided_object.damage_enemy()
+		
+		if  collided_object and collided_object.get_parent() is TestEnemy: 
+			var enemy : TestEnemy = collided_object.get_parent()
+			
+			if collided_object is EnemyBodyCollider:
+				enemy.damage_enemy()
+			elif collided_object is EnemyHeadCollider:
+				enemy.head_shot_kill()
 		
 	if event is InputEventMouseMotion:
 		# Move virtual reticle with mouse delta
@@ -155,7 +161,7 @@ func get_aim_ray() -> Vector3:
 
 func shoot_ray() -> Node3D:
 	var mouse_pos = reticle.position
-	var ray_length = 10
+	var ray_length = 2000
 	var from = camera.project_ray_origin(mouse_pos)
 	var to = from + camera.project_ray_normal(mouse_pos) * ray_length
 	var space = camera.get_world_3d().direct_space_state
@@ -166,7 +172,7 @@ func shoot_ray() -> Node3D:
 	var collided_object
 	if raycast_result:
 		collided_object = raycast_result["collider"]
-	print(collided_object)
+
 	return collided_object
 
 	
@@ -199,8 +205,8 @@ func move_camera(_delta: float) -> void:
 		rotation.y += yaw_diff * t
 
 		# Optional: snap instantly if very close to target to avoid tiny jitters
-		if abs(yaw_diff) < deg_to_rad(1.0):
-			rotation.y = snapped_yaw
+		#if abs(yaw_diff) < deg_to_rad(1.0):
+			#rotation.y = snapped_yaw
 
 		# --- Smooth pitch (head tilt) ---
 		var head_to_target = (target_pos - head.global_transform.origin).normalized()
@@ -219,7 +225,7 @@ func move_camera(_delta: float) -> void:
 var enemy_alerts: Array = [] 
 
 func notify_enemy(enemy: Node3D) -> void:
-	print("Enemy spawned in quadrant: ", _get_enemy_quadrant(enemy))
+	#print("Enemy spawned in quadrant: ", _get_enemy_quadrant(enemy))
 	#if enemy not in enemy_alerts:
 	enemy_alerts.append(enemy)
 		
@@ -287,25 +293,11 @@ func _update_arrows() -> void:
 			continue
 
 		var q = _get_enemy_quadrant(enemy)
-		print("Im facing here: " + facing + " Enemy is located here: " + q)
-		
-		#match q:
-			#"front": 
-				#direction_teller.show()
-				#direction_teller.text = "IN FRONT OF YOU!"
-			#"back": 
-				#direction_teller.show()
-				#direction_teller.text = "BEHIND YOU!"
-			#"left": 
-				#direction_teller.show()
-				#direction_teller.text = "ON YOUR LEFT!"
-			#"right": 
-				#direction_teller.show()
-				#direction_teller.text = "ON YOUR RIGHT!"
+		#print("Im facing here: " + facing + " Enemy is located here: " + q)
 		
 		# Remove enemies if player is facing that quadrant
 		if _is_facing_quadrant(q):
-			print("but I dropped in here...")
+			#print("but I dropped in here...")
 			enemy_alerts.erase(enemy)
 			#direction_teller.hide()
 			continue
@@ -313,7 +305,7 @@ func _update_arrows() -> void:
 		quadrant_counts[q] += 1
 
 		# Show arrow once per quadrant
-		print(q)
+		#print(q)
 		match q:
 			"front": 
 				alert_arrow_front.visible = true
