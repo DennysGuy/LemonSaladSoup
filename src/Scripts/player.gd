@@ -19,6 +19,9 @@ class_name Player extends CharacterBody3D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var timer: Timer = $Timer
 
+
+var can_move : bool = false
+var can_shoot : bool = false
 var reticle_offset := Vector2(-90,0)
 const SENSITIVITY := 0.4
 var rotate_speed: float = 5.0  # higher = faster turn
@@ -49,8 +52,10 @@ var mouse_visibilty_toggled : bool = false
 
 func _ready() -> void:
 	#direction_teller.hide()
+	hide_reticle()
 	SignalBus.enemy_spawned.connect(notify_enemy)
-	
+	SignalBus.start_wave.connect(start_wave)
+	SignalBus.stop_wave.connect(stop_wave)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	target_location = look_at_positions[target_index]
@@ -63,7 +68,35 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_update_arrows()
+	if can_move:
+		move_arm()
+		move_player()
+
+func _unhandled_input(event: InputEvent) -> void:
 	
+	if Input.is_action_just_pressed("exit"):
+		pause_game()
+	
+	if Input.is_action_just_pressed("shoot") and can_shoot:
+		var collided_object = shoot_ray()
+		shoot_enemy(collided_object)
+		
+	if event is InputEventMouseMotion:
+		# Move virtual reticle with mouse delta
+		reticle_offset += event.relative * SENSITIVITY
+
+func move_player() -> void:
+	if Input.is_action_just_pressed("rotate_left"):
+		rotate_camera_left()
+
+	if Input.is_action_just_pressed("rotate_right"):
+		rotate_camera_right()
+		
+	if Input.is_action_just_pressed("rotate_opposite"):
+		rotate_camera_opposite()
+	
+
+func move_arm() -> void:
 	var screen_center = get_viewport().get_visible_rect().size * 0.5
 	var mouse_pos = screen_center + reticle_offset
 	# Move the crosshair UI anywhere on the screen
@@ -85,72 +118,56 @@ func _process(delta: float) -> void:
 	gun_arm.look_at(to, Vector3.UP)
 	var x_rot = clamp(gun_arm.rotation.x, deg_to_rad(-80), deg_to_rad(80))
 	gun_arm.rotation = Vector3(x_rot, gun_arm.rotation.y, gun_arm.rotation.z)
-	
-	if Input.is_action_just_pressed("rotate_left"):
-		#SignalBus.ping_enemies.emit()
-		timer.start()
-		#print("hello")
-		target_index -= 1
+
+func pause_game() -> void:
+	mouse_visibilty_toggled = !mouse_visibilty_toggled
 		
-		if target_index < 0:
-			target_index = 3
-		#print(target_index)
-		target_location = look_at_positions[target_index]
-	
-	if Input.is_action_just_pressed("rotate_right"):
-		#SignalBus.ping_enemies.emit()
-		timer.start()
-		#print("bye")
-		target_index += 1
+	if mouse_visibilty_toggled:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func rotate_camera_left() -> void:
+	target_index -= 1
 		
-		if target_index > look_at_positions.size()-1:
+	if target_index < 0:
+		target_index = 3
+			
+	target_location = look_at_positions[target_index]
+
+func rotate_camera_right() -> void:
+	target_index += 1
+		
+	if target_index > look_at_positions.size()-1:
+		target_index = 0
+			
+	target_location = look_at_positions[target_index]
+
+func rotate_camera_opposite() -> void:
+	if target_index == look_at_positions.size()-1:
+		target_index = 1
+	elif target_index == 0:
+		target_index = 2
+	else:
+		target_index += 2
+		if target_index == look_at_positions.size():
 			target_index = 0
 			
-		print(target_index)
-		target_location = look_at_positions[target_index]
-	
-	if Input.is_action_just_pressed("rotate_opposite"):
-		#SignalBus.ping_enemies.emit()
-		timer.start()
-		if target_index == look_at_positions.size()-1:
-			target_index = 1
-		elif target_index == 0:
-			target_index = 2
-		else:
-			target_index += 2
-			if target_index == look_at_positions.size():
-				target_index = 0
-				
-		print(target_index)
-		target_location = look_at_positions[target_index]
-	
-	if Input.is_action_just_pressed("exit"):
-		
-		mouse_visibilty_toggled = !mouse_visibilty_toggled
-		
-		if mouse_visibilty_toggled:
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		else:
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	target_location = look_at_positions[target_index]
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	
-	if Input.is_action_just_pressed("shoot"):
-		animation_player.play("shoot_pistol")
-		var collided_object = shoot_ray()
-		
-		if  collided_object and collided_object.get_parent() is TestEnemy: 
-			var enemy : TestEnemy = collided_object.get_parent()
+func shoot_enemy(enemy_body_part : Node3D):
+	play_shoot_animation()
+	if  enemy_body_part and enemy_body_part.get_parent() is TestEnemy: 
+		var seen_enemy : TestEnemy = enemy_body_part.get_parent()
 			
-			if collided_object is EnemyBodyCollider:
-				enemy.damage_enemy()
-			elif collided_object is EnemyHeadCollider:
-				enemy.head_shot_kill()
-		
-	if event is InputEventMouseMotion:
-		# Move virtual reticle with mouse delta
-		reticle_offset += event.relative * SENSITIVITY
+		if enemy_body_part is EnemyBodyCollider:
+			seen_enemy.damage_enemy()
+		elif enemy_body_part is EnemyHeadCollider:
+			seen_enemy.head_shot_kill()
+
+func play_shoot_animation() -> void:
+	animation_player.play("shoot_pistol")
 
 func get_aim_ray() -> Vector3:
 	var mouse_pos = get_viewport().get_mouse_position()
@@ -177,7 +194,6 @@ func shoot_ray() -> Node3D:
 
 	
 func _physics_process(delta: float) -> void:
-	
 	move_camera(delta)
 	
 	
@@ -273,7 +289,6 @@ func _is_facing_quadrant(enemy_quadrant: String) -> bool:
 	var dot = forward.dot(world_dir)
 	return dot > cos(deg_to_rad(20))  # ~0.94
 
-
 func _update_arrows() -> void:
 	# Hide all arrows at start
 	alert_arrow_front.visible = false
@@ -284,7 +299,7 @@ func _update_arrows() -> void:
 	var dir_shown = {"front": false, "back": false, "left": false, "right": false}
 	var quadrant_counts = {"front": 0, "back": 0, "left": 0, "right": 0}
 	
-	var facing = _get_facing_quadrant()
+	#var facing = _get_facing_quadrant()
 	
 	# Count enemies per quadrant
 	for enemy in enemies_root.get_children():
@@ -309,7 +324,6 @@ func _update_arrows() -> void:
 		match q:
 			"front": 
 				alert_arrow_front.visible = true
-
 			"back": 
 				alert_arrow_back.visible = true
 			"left": 
@@ -319,9 +333,37 @@ func _update_arrows() -> void:
 	
 		dir_shown[q] = true
 
-	# Debug output
-	#print("Facing:", facing, 
-		#" | Counts -> F:", quadrant_counts["front"], 
-		#"B:", quadrant_counts["back"], 
-		#"L:", quadrant_counts["left"], 
-		#"R:", quadrant_counts["right"])
+
+func hide_arm() -> void:
+	animation_player.play("HideArm")
+
+
+func show_arm() -> void:
+	animation_player.play("ShowArm")
+
+
+func show_reticle() -> void:
+	reticle.show()
+
+func hide_reticle() -> void:
+	reticle.hide()
+
+func start_wave() -> void:
+	show_arm()
+
+func disable_movement() -> void:
+	can_move = false
+	can_shoot = false
+	hide_reticle()
+	
+func enable_movement() -> void:
+	can_move = true
+	can_shoot = true
+	show_reticle()
+	
+func stop_wave() -> void:
+
+	disable_movement()
+	target_index = 1
+	target_location = look_at_positions[target_index]
+	hide_arm()

@@ -1,9 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://cwfahle4ha0uq"]
+[gd_scene load_steps=15 format=3 uid="uid://cwfahle4ha0uq"]
 
-[ext_resource type="Script" uid="uid://dwqwn0yq03m0" path="res://src/Scripts/player.gd" id="1_4flbx"]
-[ext_resource type="Texture2D" uid="uid://1qkf0wxayb7f" path="res://CrosshairTest.png" id="2_nuidu"]
-[ext_resource type="Script" uid="uid://el3ur7a8rggo" path="res://src/Scripts/reticle.gd" id="3_f8bxg"]
-[ext_resource type="PackedScene" uid="uid://de75lun6r25ey" path="res://src/Scenes/alert_arrow.tscn" id="4_waosb"]
+[ext_resource type="Script" uid="uid://dwqwn0yq03m0" path="res://src/Scripts/player.gd" id="1_qw5p0"]
+[ext_resource type="Texture2D" uid="uid://1qkf0wxayb7f" path="res://CrosshairTest.png" id="2_t5wo0"]
+[ext_resource type="Script" uid="uid://el3ur7a8rggo" path="res://src/Scripts/reticle.gd" id="3_lxwd3"]
+[ext_resource type="PackedScene" uid="uid://de75lun6r25ey" path="res://src/Scenes/HUD/alert_arrow.tscn" id="4_iqpho"]
 
 [sub_resource type="Animation" id="Animation_waosb"]
 length = 0.001
@@ -18,6 +18,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0.09931809, 0, -0.101154566)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/GunArm:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.5707964, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_f8bxg"]
@@ -37,9 +49,83 @@ tracks/0/keys = {
 "values": [Vector3(0.09931809, 0, -0.101154566), Vector3(0.09931809, 0, 0.14831007), Vector3(0.09931809, 0, -0.101154566)]
 }
 
+[sub_resource type="Animation" id="Animation_vq6xh"]
+resource_name = "HideArm"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/GunArm:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.09931809, 0, -0.101154566)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/GunArm:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-1.5707964, 0, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"disable_movement"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_rtwmi"]
+resource_name = "ShowArm"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Head/GunArm:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-1.5707964, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.46666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"enable_movement"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vhadf"]
 _data = {
+&"HideArm": SubResource("Animation_vq6xh"),
 &"RESET": SubResource("Animation_waosb"),
+&"ShowArm": SubResource("Animation_rtwmi"),
 &"shoot_pistol": SubResource("Animation_f8bxg")
 }
 
@@ -61,7 +147,7 @@ radius = 0.7167969
 height = 4.685669
 
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
-script = ExtResource("1_4flbx")
+script = ExtResource("1_qw5p0")
 
 [node name="Timer" type="Timer" parent="."]
 process_callback = 0
@@ -81,7 +167,7 @@ current = true
 fov = 61.59939
 
 [node name="GunArm" type="Node3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0.09931809, 0, -0.101154566)
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.9999999, 0, -0.9999999, -4.3711385e-08, 0.09931809, 0, -0.101154566)
 
 [node name="Pistol" type="CSGBox3D" parent="Head/GunArm"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.100782424, -0.108855054, -0.4538074)
@@ -116,10 +202,10 @@ offset_right = 32.0
 offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_nuidu")
-script = ExtResource("3_f8bxg")
+texture = ExtResource("2_t5wo0")
+script = ExtResource("3_lxwd3")
 
-[node name="AlertArrow" parent="Crosshair" instance=ExtResource("4_waosb")]
+[node name="AlertArrow" parent="Crosshair" instance=ExtResource("4_iqpho")]
 anchors_preset = 4
 anchor_left = 0.0
 anchor_right = 0.0
@@ -129,7 +215,7 @@ offset_right = 61.0
 offset_bottom = 83.0
 grow_horizontal = 1
 
-[node name="AlertArrow2" parent="Crosshair" instance=ExtResource("4_waosb")]
+[node name="AlertArrow2" parent="Crosshair" instance=ExtResource("4_iqpho")]
 anchors_preset = 6
 anchor_left = 1.0
 anchor_right = 1.0
@@ -140,7 +226,7 @@ offset_bottom = 101.0
 grow_horizontal = 0
 flip_h = true
 
-[node name="AlertArrow3" parent="Crosshair" instance=ExtResource("4_waosb")]
+[node name="AlertArrow3" parent="Crosshair" instance=ExtResource("4_iqpho")]
 anchors_preset = 7
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -152,7 +238,7 @@ grow_vertical = 0
 rotation = 1.5707964
 flip_h = true
 
-[node name="AlertArrow4" parent="Crosshair" instance=ExtResource("4_waosb")]
+[node name="AlertArrow4" parent="Crosshair" instance=ExtResource("4_iqpho")]
 anchors_preset = 5
 anchor_top = 0.0
 anchor_bottom = 0.0

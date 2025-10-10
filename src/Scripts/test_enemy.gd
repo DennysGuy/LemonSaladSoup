@@ -60,11 +60,11 @@ func damage_enemy() -> void:
 func kill_enemy() -> void:
 	if not alive:
 		return
-	
+	SignalBus.increment_kill_count.emit()
 	state_machine.change_state(dead_state)
 
 func head_shot_kill() -> void:
 	if not alive:
 		return
-	
+	SignalBus.increment_kill_count.emit()
 	state_machine.change_state(head_shot_dead)

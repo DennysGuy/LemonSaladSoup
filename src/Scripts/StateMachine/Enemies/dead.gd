@@ -5,11 +5,13 @@ class_name Dead extends State
 @onready var parent_collider: CollisionShape3D = $"../../CollisionShape3D"
 
 func enter() -> void:
+	
 	collision_shape_3d.disabled = true
 	collision_shape_3d_body.disabled = true
 	parent_collider.disabled = true
 	#parent.animation_player.play(animation_name)
 	parent.animation_player.play("die")
+	
 	parent.timer.wait_time = 2.0
 	parent.timer.start()
 	pass

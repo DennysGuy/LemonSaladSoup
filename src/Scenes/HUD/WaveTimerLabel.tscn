@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgr2l1hrv624l"]
+
+[ext_resource type="FontFile" uid="uid://dyx88gwegholf" path="res://Assets/Art/Font/Vampire Zone.ttf" id="1_e7ycd"]
+[ext_resource type="Script" uid="uid://cc00slkqqt0nl" path="res://src/Scripts/HUD/wave_timer_label.gd" id="1_lgvg7"]
+
+[node name="WaveTimerLabel" type="RichTextLabel"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -104.0
+offset_top = -29.25
+offset_right = 104.0
+offset_bottom = 29.25
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("1_e7ycd")
+theme_override_font_sizes/normal_font_size = 52
+bbcode_enabled = true
+text = "100.00"
+fit_content = true
+horizontal_alignment = 1
+script = ExtResource("1_lgvg7")

@@ -1,0 +1,74 @@
+class_name Main extends Node3D
+
+@onready var wave_timer_label: WaveTimerLabel = $HUD/WaveTimerLabel
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
+@onready var score_label: Label = $HUD/ScoreLabel
+@onready var kill_quota_label: Label = $HUD/KillQuotaLabel
+@onready var score_count: Label = $HUD/ScoreCount
+@onready var kill_count: Label = $HUD/KillCount
+
+var kill_quota : int = 0
+var current_kill_count : int = 0
+@onready var timer: Timer = $Timer
+
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	SignalBus.init_count_down.connect(init_count_down)
+	SignalBus.stop_wave.connect(stop_wave)
+	SignalBus.increment_kill_count.connect(update_kill_count)
+	init_count_down()
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func init_count_down() -> void:
+	animation_player.play("WaveStartCountDown")
+
+func set_wave_parameters() -> void:
+	WaveManager.move_to_next_wave()
+	var current_wave : int = WaveManager.current_wave
+	var waves : Dictionary = WaveManager.waves
+	var time : int = waves[current_wave]["time"]
+	wave_timer_label.set_time(time)
+	kill_quota = waves[current_wave]["kill_quota"]
+	current_kill_count = 0
+	kill_count.text = "%s/%s" % [current_kill_count,kill_quota]
+	
+	wave_timer_label.show()
+	score_count.show()
+	score_label.show()
+	kill_quota_label.show()
+	kill_count.show()
+	SignalBus.set_wave_params.emit()
+
+func start_wave() -> void:
+	WaveManager.wave_started = true
+	SignalBus.start_wave.emit()
+
+func update_kill_count() -> void:
+	current_kill_count += 1
+	kill_count.text = "%s/%s" % [current_kill_count,kill_quota]
+	if current_kill_count >= kill_quota:
+		wave_timer_label.stop_timer()
+
+func stop_wave() -> void:
+	score_count.hide()
+	score_label.hide()
+	kill_quota_label.hide()
+	kill_count.hide()
+	
+	#this maybe where I hand starting the next wave?
+	timer.start()
+	pass
+
+func _on_timer_timeout() -> void:
+	var wave : Dictionary = WaveManager.waves[WaveManager.current_wave]
+	if wave["cut_scene"]:
+		#play the cut scene -- this will have the init count play at the end
+		pass
+	else:
+		init_count_down()
