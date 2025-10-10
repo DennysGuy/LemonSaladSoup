@@ -1,16 +1,16 @@
 [gd_scene load_steps=16 format=3 uid="uid://coiyr773xvwd4"]
 
-[ext_resource type="Script" uid="uid://bwknuerc2pbuw" path="res://src/Scripts/test_enemy.gd" id="1_q1qra"]
-[ext_resource type="PackedScene" uid="uid://bgkordvtcm6ye" path="res://Assets/Art/3D Assets/Enemies/RedGrunt/redgrunt.gltf" id="2_bltgf"]
-[ext_resource type="Script" uid="uid://8wtefolfa40m" path="res://src/Scripts/StateMachine/state_machine.gd" id="3_6c4ay"]
-[ext_resource type="PackedScene" uid="uid://cyulroyk7t1a5" path="res://src/Scenes/HeadCollider.tscn" id="3_26ton"]
-[ext_resource type="PackedScene" uid="uid://dbjgbhbibqyfq" path="res://src/Scenes/BodyCollider.tscn" id="3_mlvyd"]
-[ext_resource type="Script" uid="uid://d23mnnw15qtsj" path="res://src/Scripts/StateMachine/Enemies/pursue.gd" id="4_0opyq"]
-[ext_resource type="Script" uid="uid://d3c6nkt06gpm0" path="res://src/Scripts/StateMachine/Enemies/hurt_1.gd" id="5_nlc7f"]
-[ext_resource type="Script" uid="uid://dwl2x4uci3bb5" path="res://src/Scripts/StateMachine/Enemies/hurt_2.gd" id="6_oqn32"]
-[ext_resource type="Script" uid="uid://d1qv6ebucmle" path="res://src/Scripts/StateMachine/Enemies/dead.gd" id="7_3gpk3"]
-[ext_resource type="Script" uid="uid://lpou5y4kcal" path="res://src/Scripts/StateMachine/Enemies/attack.gd" id="8_b3u6r"]
-[ext_resource type="Script" uid="uid://cghm3vhbrium3" path="res://src/Scripts/StateMachine/Enemies/head_shot_dead.gd" id="9_t0wus"]
+[ext_resource type="Script" uid="uid://bwknuerc2pbuw" path="res://src/Scripts/test_enemy.gd" id="1_bkai5"]
+[ext_resource type="PackedScene" uid="uid://bgkordvtcm6ye" path="res://Assets/Art/3D Assets/Enemies/RedGrunt/redgrunt.gltf" id="2_7e4qi"]
+[ext_resource type="Script" uid="uid://8wtefolfa40m" path="res://src/Scripts/StateMachine/state_machine.gd" id="3_4oxah"]
+[ext_resource type="Script" uid="uid://d23mnnw15qtsj" path="res://src/Scripts/StateMachine/Enemies/pursue.gd" id="4_8r56f"]
+[ext_resource type="Script" uid="uid://d3c6nkt06gpm0" path="res://src/Scripts/StateMachine/Enemies/hurt_1.gd" id="5_soi7j"]
+[ext_resource type="Script" uid="uid://dwl2x4uci3bb5" path="res://src/Scripts/StateMachine/Enemies/hurt_2.gd" id="6_rrfw1"]
+[ext_resource type="Script" uid="uid://d1qv6ebucmle" path="res://src/Scripts/StateMachine/Enemies/dead.gd" id="7_k8qcx"]
+[ext_resource type="Script" uid="uid://lpou5y4kcal" path="res://src/Scripts/StateMachine/Enemies/attack.gd" id="8_lqs64"]
+[ext_resource type="Script" uid="uid://cghm3vhbrium3" path="res://src/Scripts/StateMachine/Enemies/head_shot_dead.gd" id="9_ou5fs"]
+[ext_resource type="PackedScene" uid="uid://cyulroyk7t1a5" path="res://src/Scenes/Enemies/HeadCollider.tscn" id="10_mgg57"]
+[ext_resource type="PackedScene" uid="uid://dbjgbhbibqyfq" path="res://src/Scenes/Enemies/BodyCollider.tscn" id="11_tawnh"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_26ton"]
 size = Vector3(1.1786499, 5.1226845, 1.9719238)
@@ -24,13 +24,13 @@ size = Vector3(1.2746887, 5.7628174, 1)
 size = Vector3(1.5906982, 4.5463257, 1)
 
 [node name="TestEnemy" type="CharacterBody3D" node_paths=PackedStringArray("dead_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
-script = ExtResource("1_q1qra")
+script = ExtResource("1_bkai5")
 dead_state = NodePath("StateMachine/Dead")
 hurt_1_state = NodePath("StateMachine/Hurt1")
 hurt_2_state = NodePath("StateMachine/Hurt2")
 head_shot_dead = NodePath("StateMachine/HeadShotDead")
 
-[node name="redgrunt2" parent="." instance=ExtResource("2_bltgf")]
+[node name="redgrunt2" parent="." instance=ExtResource("2_7e4qi")]
 transform = Transform3D(-0.5, 0, 7.54979e-08, 0, 0.5, 0, -7.54979e-08, 0, -0.5, 0, 1.0882335, -1.0078068)
 
 [node name="Skeleton3D" parent="redgrunt2/redgrunt" index="0"]
@@ -68,40 +68,40 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.009979248, 2.6925423, -1.18
 shape = SubResource("BoxShape3D_26ton")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
-script = ExtResource("3_6c4ay")
+script = ExtResource("3_4oxah")
 initial_state = NodePath("Pursue")
 
 [node name="Pursue" type="Node" parent="StateMachine"]
-script = ExtResource("4_0opyq")
+script = ExtResource("4_8r56f")
 
 [node name="Hurt1" type="Node" parent="StateMachine" node_paths=PackedStringArray("pursue_state")]
-script = ExtResource("5_nlc7f")
+script = ExtResource("5_soi7j")
 pursue_state = NodePath("../Pursue")
 
 [node name="Hurt2" type="Node" parent="StateMachine" node_paths=PackedStringArray("pursue_state")]
-script = ExtResource("6_oqn32")
+script = ExtResource("6_rrfw1")
 pursue_state = NodePath("../Pursue")
 
 [node name="Dead" type="Node" parent="StateMachine"]
-script = ExtResource("7_3gpk3")
+script = ExtResource("7_k8qcx")
 
 [node name="Attack" type="Node" parent="StateMachine"]
-script = ExtResource("8_b3u6r")
+script = ExtResource("8_lqs64")
 
 [node name="HeadShotDead" type="Node" parent="StateMachine"]
-script = ExtResource("9_t0wus")
+script = ExtResource("9_ou5fs")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.034469604, 2.3814087, 0)
 shape = SubResource("BoxShape3D_bltgf")
 
-[node name="HeadCollider" parent="." instance=ExtResource("3_26ton")]
+[node name="HeadCollider" parent="." instance=ExtResource("10_mgg57")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.6508393, -1.7134113)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HeadCollider"]
 shape = SubResource("BoxShape3D_6c4ay")
 
-[node name="BodyCollider" parent="." instance=ExtResource("3_mlvyd")]
+[node name="BodyCollider" parent="." instance=ExtResource("11_tawnh")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.51783204, 0, -3.6490285)
 collision_mask = 32
 
