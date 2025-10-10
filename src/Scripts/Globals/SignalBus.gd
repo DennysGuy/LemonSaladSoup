@@ -24,3 +24,6 @@ signal init_count_down
 
 @warning_ignore("unused_signal")
 signal increment_kill_count
+
+@warning_ignore("unused_signal")
+signal decrement_spawn_time

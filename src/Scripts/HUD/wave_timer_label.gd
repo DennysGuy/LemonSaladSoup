@@ -6,6 +6,8 @@ var milliseconds : int = 0
 
 var timer_started : bool
 
+var seconds_tracker : int = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	#set_time(seconds,milliseconds)
@@ -22,7 +24,13 @@ func _physics_process(delta: float) -> void:
 	if timer_started:
 		if milliseconds == 0:
 			seconds -= 1
-			milliseconds = 100	
+			seconds_tracker += 1
+			milliseconds = 100
+				
+			if seconds_tracker >= WaveManager.waves[WaveManager.current_wave]["decrement_interval"]:
+				SignalBus.decrement_spawn_time.emit()
+				seconds_tracker = 0
+				
 		else:
 			milliseconds -= delta
 		
