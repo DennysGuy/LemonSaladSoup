@@ -14,7 +14,7 @@ func _ready() -> void:
 	SignalBus.decrement_spawn_time.connect(decrement_spawn_time)
 
 func _on_spawn_timer_timeout() -> void:
-	var enemy : TestEnemy = preload("uid://coiyr773xvwd4").instantiate()
+	var enemy : Enemy = preload("uid://coiyr773xvwd4").instantiate()
 	var chosen_spawn_point : Marker3D = spawn_points.get_children().pick_random()
 	enemy.global_transform.origin = chosen_spawn_point.global_transform.origin
 	enemies.add_child(enemy)

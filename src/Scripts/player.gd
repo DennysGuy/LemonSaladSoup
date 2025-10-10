@@ -1,4 +1,6 @@
-class_name Player extends CharacterBody3D
+extends CharacterBody3D
+class_name Player 
+
 
 @export var look_at_point_1 : Marker3D
 @export var look_at_point_2 : Marker3D
@@ -10,6 +12,11 @@ class_name Player extends CharacterBody3D
 @onready var alert_arrow_back: TextureRect = $Crosshair/AlertArrow3
 @onready var alert_arrow_front: TextureRect = $Crosshair/AlertArrow4
 
+#@onready var gun_2: Node3D = $Head/GUN2
+@onready var pistol: Pistol = $Head/Pistol
+
+
+
 
 @onready var head: Node3D = $Head
 @onready var camera: Camera3D = $Head/Camera
@@ -17,11 +24,15 @@ class_name Player extends CharacterBody3D
 
 @onready var reticle: TextureRect = $Crosshair/Reticle
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+
+@onready var gun_animation_player: AnimationPlayer = $Head/Pistol/Gun/GUN2/AnimationPlayer
+
+
+
 @onready var timer: Timer = $Timer
 
 
-var can_move : bool = false
-var can_shoot : bool = false
+
 var reticle_offset := Vector2(-90,0)
 const SENSITIVITY := 0.4
 var rotate_speed: float = 5.0  # higher = faster turn
@@ -35,14 +46,17 @@ var initial_fov: float
 @onready var ray_cast_3d: RayCast3D = $RayCast3D
 
 var target_index : int = 1
-
+var shooting : bool = false
+var can_be_hit : bool = true
 var mouse_visibilty_toggled : bool = false
+
+@onready var invincibility_timer: Timer = $InvincibilityTimer
 
 @onready var detector_1: Area3D = $Detector1
 @onready var detector_2: Area3D = $Detector2
 @onready var detector_3: Area3D = $Detector3
 
-@onready var direction_teller: Label = $Crosshair/DirectionTeller
+#@onready var direction_teller: Label = $Crosshair/DirectionTeller
 
 @onready var look_at_positions : Array[Marker3D] = [look_at_point_3, look_at_point_1, look_at_point_2, look_at_point_4]
 
@@ -56,6 +70,9 @@ func _ready() -> void:
 	SignalBus.enemy_spawned.connect(notify_enemy)
 	SignalBus.start_wave.connect(start_wave)
 	SignalBus.stop_wave.connect(stop_wave)
+	SignalBus.enable_movement.connect(enable_movement)
+	SignalBus.disable_movement.connect(disable_movement)
+	SignalBus.enable_shooting.connect(enable_shooting)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	target_location = look_at_positions[target_index]
@@ -63,12 +80,14 @@ func _ready() -> void:
 	initial_player_rotation = rotation
 	initial_head_rotation = head.rotation
 	initial_fov = camera.fov
+@onready var muzzle: Marker3D = $Muzzle
 
 @export var max_arm_offset: Vector2 = Vector2(600, 300) # how far the arm can move on screen
 
 func _process(delta: float) -> void:
+	print(GameManager.can_shoot)
 	_update_arrows()
-	if can_move:
+	if GameManager.can_move:
 		move_arm()
 		move_player()
 
@@ -77,9 +96,11 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("exit"):
 		pause_game()
 	
-	if Input.is_action_just_pressed("shoot") and can_shoot:
+	if Input.is_action_just_pressed("shoot") and GameManager.can_shoot and not shooting:
+		shooting = true
 		var collided_object = shoot_ray()
 		shoot_enemy(collided_object)
+		shooting = false
 		
 	if event is InputEventMouseMotion:
 		# Move virtual reticle with mouse delta
@@ -91,7 +112,11 @@ func move_player() -> void:
 
 	if Input.is_action_just_pressed("rotate_right"):
 		rotate_camera_right()
-		
+	
+	if Input.is_action_just_pressed("reload") and GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL:
+		play_reload_animation()
+		SignalBus.reload_pistol.emit()
+	
 	if Input.is_action_just_pressed("rotate_opposite"):
 		rotate_camera_opposite()
 	
@@ -115,9 +140,9 @@ func move_arm() -> void:
 	var to = from + camera.project_ray_normal(arm_screen_pos) * 1000
 
 	# Make the gun arm look at clamped target
-	gun_arm.look_at(to, Vector3.UP)
-	var x_rot = clamp(gun_arm.rotation.x, deg_to_rad(-80), deg_to_rad(80))
-	gun_arm.rotation = Vector3(x_rot, gun_arm.rotation.y, gun_arm.rotation.z)
+	pistol.look_at(to, Vector3.UP)
+	var x_rot = clamp(pistol.rotation.x, deg_to_rad(-80), deg_to_rad(80))
+	pistol.rotation = Vector3(x_rot, pistol.rotation.y, pistol.rotation.z)
 
 func pause_game() -> void:
 	mouse_visibilty_toggled = !mouse_visibilty_toggled
@@ -158,16 +183,48 @@ func rotate_camera_opposite() -> void:
 
 func shoot_enemy(enemy_body_part : Node3D):
 	play_shoot_animation()
-	if  enemy_body_part and enemy_body_part.get_parent() is TestEnemy: 
-		var seen_enemy : TestEnemy = enemy_body_part.get_parent()
+	if  enemy_body_part and enemy_body_part.get_parent() is Enemy: 
+		var seen_enemy : Enemy = enemy_body_part.get_parent()
 			
 		if enemy_body_part is EnemyBodyCollider:
 			seen_enemy.damage_enemy()
 		elif enemy_body_part is EnemyHeadCollider:
 			seen_enemy.head_shot_kill()
 
+	
+func damage_player() -> void:
+	if can_be_hit:
+		SignalBus.shake_camera.emit(1.0)
+		SignalBus.start_invincibility_overlay.emit()
+		GameManager.player_current_health -= 1
+		SignalBus.update_health_display.emit()
+		if GameManager.player_current_health <= 0:
+			disable_movement()
+			hide_arm()
+			hide_reticle()
+			SignalBus.play_death_fadeout.emit()
+		else:
+			invincibility_timer.start()
+		
+		can_be_hit = false
+		#play overlay animation too
+			#fade out red and go to game over screen
+	
+
+
 func play_shoot_animation() -> void:
-	animation_player.play("shoot_pistol")
+	gun_animation_player.speed_scale = 4
+	GameManager.ammo_count -= 1
+	SignalBus.update_ammo_count.emit()
+	gun_animation_player.play("SHOOT")
+	if GameManager.ammo_count <= 0 and GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL:
+		GameManager.can_shoot = false
+		SignalBus.show_reload_notification.emit()
+	
+
+func play_reload_animation() -> void:
+	gun_animation_player.speed_scale = 1.5
+	gun_animation_player.play("RELOAD")
 
 func get_aim_ray() -> Vector3:
 	var mouse_pos = get_viewport().get_mouse_position()
@@ -175,23 +232,29 @@ func get_aim_ray() -> Vector3:
 	var to = from + camera.project_ray_normal(mouse_pos) * 1000
 	return to
 
-
 func shoot_ray() -> Node3D:
+	# Use the actual reticle position on screen
 	var mouse_pos = reticle.position
-	var ray_length = 2000
+	
+	# Project a ray from the camera through the reticle
 	var from = camera.project_ray_origin(mouse_pos)
-	var to = from + camera.project_ray_normal(mouse_pos) * ray_length
+	var to = from + camera.project_ray_normal(mouse_pos) * 5000
+
 	var space = camera.get_world_3d().direct_space_state
 	var ray_query = PhysicsRayQueryParameters3D.new()
 	ray_query.from = from
 	ray_query.to = to
-	var raycast_result = space.intersect_ray(ray_query)
-	var collided_object
-	if raycast_result:
-		collided_object = raycast_result["collider"]
+	ray_query.exclude = [self]  # prevent hitting player
+	ray_query.collision_mask = 1 << 5 # adjust to hit only desired targets
 
-	return collided_object
+	var result = space.intersect_ray(ray_query)
 
+	if result:
+		print( result["collider"])
+		return result["collider"]
+	else:
+		print("I didn't get shit")
+	return null
 	
 func _physics_process(delta: float) -> void:
 	move_camera(delta)
@@ -236,7 +299,6 @@ func move_camera(_delta: float) -> void:
 		rotation.y = lerp_angle(rotation.y, initial_player_rotation.y, _delta * rotate_speed)
 		head.rotation.x = lerp_angle(head.rotation.x, initial_head_rotation.x, _delta * rotate_speed)
 		camera.fov = lerp(camera.fov, initial_fov, _delta * zoom_speed)
-
 
 var enemy_alerts: Array = [] 
 
@@ -341,6 +403,11 @@ func hide_arm() -> void:
 func show_arm() -> void:
 	animation_player.play("ShowArm")
 
+func enable_shooting() -> void:
+	GameManager.can_shoot =  true
+
+func disable_shooting() -> void:
+	GameManager.can_shoot = false
 
 func show_reticle() -> void:
 	reticle.show()
@@ -352,13 +419,13 @@ func start_wave() -> void:
 	show_arm()
 
 func disable_movement() -> void:
-	can_move = false
-	can_shoot = false
+	GameManager.can_move = false
+	GameManager.can_shoot = false
 	hide_reticle()
 	
 func enable_movement() -> void:
-	can_move = true
-	can_shoot = true
+	GameManager.can_move = true
+	GameManager.can_shoot = true
 	show_reticle()
 	
 func stop_wave() -> void:
@@ -367,3 +434,15 @@ func stop_wave() -> void:
 	target_index = 1
 	target_location = look_at_positions[target_index]
 	hide_arm()
+
+
+func flash_muzzle() -> void:
+	var muzzle_flare = preload("uid://c32dc8g4xyoc3").instantiate()
+	muzzle.add_child(muzzle_flare)
+	await get_tree().create_timer(0.3).timeout
+	muzzle_flare.queue_free()
+	
+
+
+func _on_invincibility_timer_timeout() -> void:
+	can_be_hit = true

@@ -1,0 +1,230 @@
+[gd_scene load_steps=8 format=3 uid="uid://ky1tv07nahro"]
+
+[ext_resource type="PackedScene" uid="uid://cqmipwjw5ygil" path="res://src/Scenes/Arena/Arena.tscn" id="1_kwadw"]
+[ext_resource type="Script" uid="uid://dc8d3py4vg0ax" path="res://src/Scripts/main.gd" id="1_n3v4m"]
+[ext_resource type="PackedScene" uid="uid://cgr2l1hrv624l" path="res://src/Scenes/HUD/WaveTimerLabel.tscn" id="3_tmvmo"]
+[ext_resource type="FontFile" uid="uid://dyx88gwegholf" path="res://Assets/Art/Font/Vampire Zone.ttf" id="4_j4yc3"]
+
+[sub_resource type="Animation" id="Animation_j4yc3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CountDownLabel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CountDownLabel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_xyvdf"]
+resource_name = "WaveStartCountDown"
+length = 7.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CountDownLabel:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.0010458, 2.0020916, 3.0031374, 3.9968765, 5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": ["5", "4", "3", "2", "1", "Survive!"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CountDownLabel:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CountDownLabel:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(5.0293536, 6.9333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CountDownLabel:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 0,
+"values": []
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CountDownLabel:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 6.9333334),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 7),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"set_wave_parameters"
+}, {
+"args": [],
+"method": &"start_wave"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eml7d"]
+_data = {
+&"RESET": SubResource("Animation_j4yc3"),
+&"WaveStartCountDown": SubResource("Animation_xyvdf")
+}
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_n3v4m")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="Arena" parent="CanvasLayer/SubViewportContainer/SubViewport" instance=ExtResource("1_kwadw")]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="WaveTimerLabel" parent="HUD" instance=ExtResource("3_tmvmo")]
+offset_left = -122.0
+offset_top = -277.0
+offset_right = 86.0
+offset_bottom = -218.5
+
+[node name="CountDownLabel" type="Label" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -312.0
+offset_top = -75.0
+offset_right = 318.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_j4yc3")
+theme_override_font_sizes/font_size = 150
+text = "5"
+horizontal_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="HUD"]
+offset_left = 22.0
+offset_top = 22.0
+offset_right = 83.0
+offset_bottom = 45.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_j4yc3")
+theme_override_font_sizes/font_size = 22
+text = "Score"
+
+[node name="KillQuotaLabel" type="Label" parent="HUD"]
+offset_left = 1153.0
+offset_top = 19.0
+offset_right = 1268.0
+offset_bottom = 42.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_j4yc3")
+theme_override_font_sizes/font_size = 22
+text = "Kill Quota"
+
+[node name="ScoreCount" type="Label" parent="HUD"]
+offset_left = 20.0
+offset_top = 50.0
+offset_right = 183.0
+offset_bottom = 83.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_j4yc3")
+theme_override_font_sizes/font_size = 32
+text = "100000"
+
+[node name="KillCount" type="Label" parent="HUD"]
+offset_left = 1156.0
+offset_top = 50.0
+offset_right = 1264.0
+offset_bottom = 83.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_j4yc3")
+theme_override_font_sizes/font_size = 32
+text = "5/30"
+horizontal_alignment = 2
+
+[node name="TotalTimer" type="Label" parent="HUD"]
+offset_left = 596.0
+offset_top = 22.0
+offset_right = 657.0
+offset_bottom = 45.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_j4yc3")
+theme_override_font_sizes/font_size = 22
+text = "05:27"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../HUD")
+libraries = {
+&"": SubResource("AnimationLibrary_eml7d")
+}
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
