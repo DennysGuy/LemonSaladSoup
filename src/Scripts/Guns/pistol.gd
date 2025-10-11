@@ -33,6 +33,10 @@ func play_pistol_shot() -> void:
 	var random_shot : AudioStream = pistol_sfx.pick_random()
 	play_sfx(random_shot)
 
+func play_pistol_reload() -> void:
+	var reload_sfx : AudioStream = AudioManager.PISTOL_RELOAD_EDIT_1
+	play_sfx(reload_sfx)
+
 func play_sfx(audio_stream : AudioStream, volume_db : float = 0.0, randomized_pitch : bool = false) -> void:
 	var asp : AudioStreamPlayer = AudioStreamPlayer.new()
 	asp.stream = audio_stream

@@ -58,3 +58,17 @@ signal start_invincibility_overlay
 signal update_health_display
 @warning_ignore("unused_signal")
 signal play_death_fadeout
+
+#combo stuff
+@warning_ignore("unused_signal")
+signal show_added_score_label(added_amount : int, head_shot : bool)
+@warning_ignore("unused_signal")
+signal show_grade_phrase(grade : int)
+@warning_ignore("unused_signal")
+signal show_combo_meter
+@warning_ignore("unused_signal")
+signal remove_one_kill
+@warning_ignore("unused_signal")
+signal reset_combo_meter
+@warning_ignore("unused_signal")
+signal decrement_wave_time(value : int)

@@ -5,6 +5,7 @@ var seconds : int = 10
 var milliseconds : int = 0
 
 var timer_started : bool
+@onready var marker_2d: Marker2D = $Marker2D
 
 var seconds_tracker : int = 0
 
@@ -12,6 +13,7 @@ var seconds_tracker : int = 0
 func _ready() -> void:
 	#set_time(seconds,milliseconds)
 	SignalBus.start_wave.connect(start_timer)
+	SignalBus.decrement_wave_time.connect(decrement_wait_time)
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -58,6 +60,20 @@ func stop_timer() -> void:
 		WaveManager.wave_started = false
 		
 	timer_started = false
+
+
+func decrement_wait_time(value : int) -> void:
+
+	seconds -= value
+	if seconds < 0:
+		seconds = 0
+	
+	milliseconds = 0
+	
+	var label : TimeDecrementLabel = preload("uid://c1srx6v31xvtu").instantiate()
+	label.time = value
+	label.position = get_parent().marker_2d.position
+	get_parent().add_child(label)
 
 func set_label() -> void:
 	text = ""

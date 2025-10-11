@@ -1,7 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://ky1tv07nahro"]
+[gd_scene load_steps=30 format=3 uid="uid://ky1tv07nahro"]
 
 [ext_resource type="PackedScene" uid="uid://cqmipwjw5ygil" path="res://src/Scenes/Arena/Arena.tscn" id="1_kwadw"]
 [ext_resource type="Script" uid="uid://dc8d3py4vg0ax" path="res://src/Scripts/main.gd" id="1_n3v4m"]
+[ext_resource type="Script" uid="uid://bdjuu4jv34p6k" path="res://src/Scripts/hud.gd" id="3_ohpsy"]
 [ext_resource type="PackedScene" uid="uid://cgr2l1hrv624l" path="res://src/Scenes/HUD/WaveTimerLabel.tscn" id="3_tmvmo"]
 [ext_resource type="FontFile" uid="uid://dyx88gwegholf" path="res://Assets/Art/Font/Vampire Zone.ttf" id="4_j4yc3"]
 [ext_resource type="Texture2D" uid="uid://c1q6vlcb41jc6" path="res://Assets/Art/2D Assets/MagazineUnder.png" id="5_d85jq"]
@@ -282,6 +283,179 @@ _data = {
 &"WaveStartCountDown": SubResource("Animation_xyvdf")
 }
 
+[sub_resource type="Animation" id="Animation_hg6nk"]
+resource_name = "show_added_score"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-280, 97), Vector2(56, 97)]
+}
+
+[sub_resource type="Animation" id="Animation_e4c6v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-237, 97)]
+}
+
+[sub_resource type="Animation" id="Animation_w3s2q"]
+resource_name = "hide_added_score"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(56, 97), Vector2(-289, 97)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_e4c6v"]
+_data = {
+&"RESET": SubResource("Animation_e4c6v"),
+&"hide_added_score": SubResource("Animation_w3s2q"),
+&"show_added_score": SubResource("Animation_hg6nk")
+}
+
+[sub_resource type="Animation" id="Animation_2kg1o"]
+resource_name = "show_combo_meter"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/ComboMeter:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.19941011),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1312, 114), Vector2(996, 114)]
+}
+
+[sub_resource type="Animation" id="Animation_6dq5p"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/ComboMeter:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1312, 114)]
+}
+
+[sub_resource type="Animation" id="Animation_7u8tw"]
+resource_name = "hide_combo_meter"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/ComboMeter:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(996, 114), Vector2(1312, 114)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"set_combo_meter_hidden"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"update_combo_meter_label"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7u8tw"]
+_data = {
+&"RESET": SubResource("Animation_6dq5p"),
+&"hide_combo_meter": SubResource("Animation_7u8tw"),
+&"show_combo_meter": SubResource("Animation_2kg1o")
+}
+
+[sub_resource type="Animation" id="Animation_iaes7"]
+resource_name = "show_grade_phrase"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../HUD/GradePhrase:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13076073, 1.8, 1.9964114),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-249, 169), Vector2(14, 169), Vector2(14, 169), Vector2(-249, 169)]
+}
+
+[sub_resource type="Animation" id="Animation_n0f2q"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../HUD/GradePhrase:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-249, 169)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n0f2q"]
+_data = {
+&"RESET": SubResource("Animation_n0f2q"),
+&"show_grade_phrase": SubResource("Animation_iaes7")
+}
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_n3v4m")
 
@@ -303,6 +477,7 @@ render_target_update_mode = 4
 [node name="Arena" parent="CanvasLayer/SubViewportContainer/SubViewport" instance=ExtResource("1_kwadw")]
 
 [node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("3_ohpsy")
 
 [node name="ColorRect" type="ColorRect" parent="HUD"]
 modulate = Color(1, 1, 1, 0)
@@ -314,10 +489,13 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.574492, 0.08164664, 9.62615e-08, 1)
 
+[node name="Marker2D" type="Marker2D" parent="HUD"]
+position = Vector2(722, 129)
+
 [node name="WaveTimerLabel" parent="HUD" instance=ExtResource("3_tmvmo")]
 offset_left = -122.0
-offset_top = -277.0
-offset_right = 86.0
+offset_top = -271.5
+offset_right = 108.0
 offset_bottom = -218.5
 
 [node name="CountDownLabel" type="Label" parent="HUD"]
@@ -366,16 +544,6 @@ theme_override_fonts/font = ExtResource("4_j4yc3")
 theme_override_font_sizes/font_size = 22
 text = "Score"
 
-[node name="KillQuotaLabel" type="Label" parent="HUD"]
-offset_left = 1153.0
-offset_top = 19.0
-offset_right = 1268.0
-offset_bottom = 42.0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("4_j4yc3")
-theme_override_font_sizes/font_size = 22
-text = "Kill Quota"
-
 [node name="ScoreCount" type="Label" parent="HUD"]
 offset_left = 20.0
 offset_top = 50.0
@@ -383,28 +551,81 @@ offset_right = 183.0
 offset_bottom = 83.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_j4yc3")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 40
 text = "100000"
 
-[node name="KillCount" type="Label" parent="HUD"]
-offset_left = 1156.0
-offset_top = 50.0
-offset_right = 1264.0
-offset_bottom = 83.0
+[node name="AddedScore" type="Label" parent="HUD"]
+offset_left = -237.0
+offset_top = 97.0
+offset_right = -74.0
+offset_bottom = 127.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_j4yc3")
-theme_override_font_sizes/font_size = 32
-text = "5/30"
-horizontal_alignment = 2
+theme_override_font_sizes/font_size = 30
+text = "+500"
+
+[node name="GradePhrase" type="Label" parent="HUD"]
+offset_left = -249.0
+offset_top = 169.0
+offset_right = -79.0
+offset_bottom = 222.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_j4yc3")
+theme_override_font_sizes/font_size = 52
+text = "GREAT!"
+
+[node name="ComboMeter" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 32.0
+offset_top = 114.0
+offset_right = 284.00024
+offset_bottom = 196.0
+grow_horizontal = 0
+
+[node name="ComboCount" type="RichTextLabel" parent="HUD/ComboMeter"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -128.5
+offset_right = 128.5
+offset_bottom = 68.0
+grow_horizontal = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("4_j4yc3")
+theme_override_font_sizes/normal_font_size = 52
+bbcode_enabled = true
+text = "combo X3"
+
+[node name="KillCount" type="HBoxContainer" parent="HUD/ComboMeter"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = 15.0
+offset_right = 38.0
+offset_bottom = 31.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="TotalTimer" type="Label" parent="HUD"]
-offset_left = 596.0
-offset_top = 22.0
-offset_right = 657.0
-offset_bottom = 45.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -72.0
+offset_top = 9.0
+offset_right = -8.0
+offset_bottom = 38.0
+grow_horizontal = 0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_j4yc3")
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 28
 text = "05:27"
 
 [node name="Magazine" type="Control" parent="HUD"]
@@ -520,9 +741,37 @@ libraries = {
 &"": SubResource("AnimationLibrary_eml7d")
 }
 
+[node name="AddedScoreLabelPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../HUD/AddedScore")
+libraries = {
+&"": SubResource("AnimationLibrary_e4c6v")
+}
+
+[node name="ComboMeterAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_7u8tw")
+}
+
+[node name="GradePhrasePlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../ComboMeterTimer")
+libraries = {
+&"": SubResource("AnimationLibrary_n0f2q")
+}
+
 [node name="Timer" type="Timer" parent="."]
 process_callback = 0
 wait_time = 2.0
 one_shot = true
 
+[node name="ComboMeterTimer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+
+[node name="AddedScoreLabelTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 2.0
+one_shot = true
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="ComboMeterTimer" to="." method="_on_combo_meter_timer_timeout"]
+[connection signal="timeout" from="AddedScoreLabelTimer" to="." method="_on_added_score_label_timer_timeout"]

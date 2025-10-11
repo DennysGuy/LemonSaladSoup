@@ -18,10 +18,11 @@ var can_receive_bonus : bool = true
 
 @onready var state_machine : StateMachine = $StateMachine
 @onready var hurt_states : Array[State] = [hurt_1_state, hurt_2_state]
+@onready var bonus_timer: Timer = $BonusTimer
 
-
+const BONUS_WAIT_TIME = 8
 var alive : bool = true
-
+var timer_bonus : int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -35,20 +36,34 @@ func _process(delta: float) -> void:
 func kill_enemy() -> void:
 	if not alive:
 		return
-	SignalBus.increment_kill_count.emit()
+	alive = false
+	
+	if can_receive_bonus:
+		SignalBus.remove_one_kill.emit()
+
+	# lock in bonus here
+	timer_bonus = set_timer_bonus()
+
 	var score = base_score
-	update_score(score)
+	update_score(score, false)
 	state_machine.change_state(dead_state)
+
 
 func head_shot_kill() -> void:
 	if not alive:
 		return
-	SignalBus.increment_kill_count.emit()
+	alive = false
 	
+	if can_receive_bonus:
+		SignalBus.remove_one_kill.emit()
+
+	# lock in bonus here
+	timer_bonus = set_timer_bonus()
+
 	var score : int = int(base_score * GameManager.HEAD_SHOT_BONUS_MULTIPLIER)
-	update_score(score)
-	
+	update_score(score, true)
 	state_machine.change_state(head_shot_dead)
+
 
 func damage_enemy() -> void:
 	if not alive:
@@ -62,11 +77,28 @@ func damage_enemy() -> void:
 		kill_enemy()
 
 
-func update_score(value : int) -> void:
+func update_score(value : int, head_shot : bool) -> void:
 	var added_score = value
 	#handle bonuses
 	if can_receive_bonus:
-		pass
+		added_score *= (10 * timer_bonus)
+		SignalBus.show_grade_phrase.emit(timer_bonus)
+		SignalBus.decrement_wave_time.emit(timer_bonus)
+
+	added_score *= GameManager.current_multiplier
 	
-	GameManager.score += added_score * GameManager.current_multiplier
+	SignalBus.show_added_score_label.emit(added_score,head_shot)
+	
+	GameManager.score += added_score
 	SignalBus.update_score_label.emit()
+
+
+func set_timer_bonus() -> int:
+	var bonus : int = int((bonus_timer.time_left / BONUS_WAIT_TIME) * 100)
+	
+	if bonus >= 70:
+		return GameManager.GRADING_BONUS.PERFECT
+	elif bonus >= 50:
+		return GameManager.GRADING_BONUS.GREAT
+	else:
+		return GameManager.GRADING_BONUS.OKAY

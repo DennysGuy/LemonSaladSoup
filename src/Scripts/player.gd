@@ -85,9 +85,16 @@ func _ready() -> void:
 @export var max_arm_offset: Vector2 = Vector2(600, 300) # how far the arm can move on screen
 
 func _process(delta: float) -> void:
-	print(GameManager.can_shoot)
+	#print(GameManager.can_shoot)
 	_update_arrows()
 	if GameManager.can_move:
+		
+		if Input.is_action_just_pressed("shoot") and GameManager.can_shoot:
+			disable_shooting()
+			var collided_object = shoot_ray()
+			shoot_enemy(collided_object)
+		
+			
 		move_arm()
 		move_player()
 
@@ -96,11 +103,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("exit"):
 		pause_game()
 	
-	if Input.is_action_just_pressed("shoot") and GameManager.can_shoot and not shooting:
-		shooting = true
-		var collided_object = shoot_ray()
-		shoot_enemy(collided_object)
-		shooting = false
+	
 		
 	if event is InputEventMouseMotion:
 		# Move virtual reticle with mouse delta
@@ -182,7 +185,6 @@ func rotate_camera_opposite() -> void:
 
 
 func shoot_enemy(enemy_body_part : Node3D):
-	play_shoot_animation()
 	if  enemy_body_part and enemy_body_part.get_parent() is Enemy: 
 		var seen_enemy : Enemy = enemy_body_part.get_parent()
 			
@@ -190,7 +192,8 @@ func shoot_enemy(enemy_body_part : Node3D):
 			seen_enemy.damage_enemy()
 		elif enemy_body_part is EnemyHeadCollider:
 			seen_enemy.head_shot_kill()
-
+			
+	play_shoot_animation()
 	
 func damage_player() -> void:
 	if can_be_hit:
@@ -198,6 +201,7 @@ func damage_player() -> void:
 		SignalBus.start_invincibility_overlay.emit()
 		GameManager.player_current_health -= 1
 		SignalBus.update_health_display.emit()
+		SignalBus.reset_combo_meter.emit()
 		if GameManager.player_current_health <= 0:
 			disable_movement()
 			hide_arm()
@@ -210,18 +214,19 @@ func damage_player() -> void:
 		#play overlay animation too
 			#fade out red and go to game over screen
 	
-
-
 func play_shoot_animation() -> void:
 	gun_animation_player.speed_scale = 4
 	GameManager.ammo_count -= 1
 	SignalBus.update_ammo_count.emit()
 	gun_animation_player.play("SHOOT")
+	
 	if GameManager.ammo_count <= 0 and GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL:
 		GameManager.can_shoot = false
 		SignalBus.show_reload_notification.emit()
+	else:
+		await get_tree().create_timer(0.2).timeout
+		GameManager.can_shoot = true
 	
-
 func play_reload_animation() -> void:
 	gun_animation_player.speed_scale = 1.5
 	gun_animation_player.play("RELOAD")
@@ -250,10 +255,10 @@ func shoot_ray() -> Node3D:
 	var result = space.intersect_ray(ray_query)
 
 	if result:
-		print( result["collider"])
 		return result["collider"]
 	else:
-		print("I didn't get shit")
+		print("damned")
+		#SignalBus.reset_combo_meter.emit()
 	return null
 	
 func _physics_process(delta: float) -> void:
@@ -365,7 +370,7 @@ func _update_arrows() -> void:
 	
 	# Count enemies per quadrant
 	for enemy in enemies_root.get_children():
-		if not is_instance_valid(enemy):
+		if not is_instance_valid(enemy) or not enemy.alive:
 			enemy_alerts.erase(enemy)
 			continue
 
