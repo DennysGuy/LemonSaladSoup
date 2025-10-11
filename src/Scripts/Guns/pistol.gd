@@ -1,15 +1,19 @@
 class_name Pistol extends Node3D
 
 @onready var muzzle: Marker3D = $Muzzle
-@onready var camera: Camera3D = $Camera3D
+@onready var rifle_muzzle: Marker3D = $RifleMuzzle
+@onready var ar: Node3D = $AR
 
+@onready var camera: Camera3D = $Camera3D
 @onready var pistol_sfx : Array[AudioStream] = [AudioManager.PISTOLDRY_1, AudioManager.PISTOLDRY_2, AudioManager.PISTOLDRY_3]
 @onready var gun: Node3D = $Gun
 var reticle_offset := Vector2(-90,0)
 @export var max_arm_offset: Vector2 = Vector2(600, 300) # how far the arm can move on screen
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	GameManager.equipped_weapon = GameManager.WEAPONS.PISTOL
+	set_weapon_visual()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -21,8 +25,12 @@ func _physics_process(delta: float) -> void:
 
 func apply_muzzle() -> void:
 	var muzzle_flash = preload("uid://c32dc8g4xyoc3").instantiate()
-
-	muzzle.add_child(muzzle_flash)
+	
+	match GameManager.equipped_weapon:
+		GameManager.WEAPONS.PISTOL:
+			muzzle.add_child(muzzle_flash)
+		GameManager.WEAPONS.RIFLE:
+			rifle_muzzle.add_child(muzzle_flash)
 	await get_tree().create_timer(0.05).timeout
 	muzzle_flash.queue_free()
 
@@ -50,6 +58,15 @@ func play_sfx(audio_stream : AudioStream, volume_db : float = 0.0, randomized_pi
 	asp.play()
 	await asp.finished
 	asp.queue_free()
+
+func set_weapon_visual() -> void:
+	match GameManager.equipped_weapon:
+		GameManager.WEAPONS.PISTOL:
+			gun.show()
+			ar.hide()
+		GameManager.WEAPONS.RIFLE:
+			ar.show()
+			gun.hide()
 
 func randomize_pitch() -> float:
 	return randf_range(0.5,0.7)	

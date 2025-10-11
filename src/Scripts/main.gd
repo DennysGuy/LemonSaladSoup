@@ -9,6 +9,7 @@ class_name Main extends Node3D
 @onready var kill_quota_label: Label = $HUD/KillQuotaLabel
 @onready var score_count: Label = $HUD/ScoreCount
 @onready var kill_count: Label = $HUD/KillCount
+@onready var rifle_bullets: VBoxContainer = $HUD/RifleMagazine/RifleBullets
 
 @onready var reload_notification: Label = $HUD/ReloadNotification
 
@@ -19,6 +20,7 @@ var blinking = false
 
 @onready var combo_meter_animation_player: AnimationPlayer = $ComboMeterAnimationPlayer
 @onready var grade_phrase_player: AnimationPlayer = $GradePhrasePlayer
+@onready var rifle_mag_reload_animation_player: AnimationPlayer = $RifleMagReloadAnimationPlayer
 
 
 @onready var added_score: Label = $HUD/AddedScore
@@ -28,8 +30,10 @@ var blinking = false
 @onready var kill_count_box: HBoxContainer = $HUD/ComboMeter/KillCount
 
 @onready var combo_count: RichTextLabel = $HUD/ComboMeter/ComboCount
+@onready var combo_meter_timer: Timer = $ComboMeterTimer
 
-var combo_meter_wait_time : int = 30
+
+var combo_meter_wait_time : int = 6
 
 @onready var magazine_reload_animation_player: AnimationPlayer = $MagazineReloadAnimationPlayer
 @onready var health: HBoxContainer = $HUD/Health
@@ -39,11 +43,13 @@ var combo_meter_wait_time : int = 30
 #all things timers
 @onready var timer: Timer = $Timer
 @onready var added_score_label_timer: Timer = $AddedScoreLabelTimer
+@onready var pistol_mag_ammo_label: Label = $HUD/Magazine/PistolMagAmmoLabel
 
 var combo_meter_showing : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	combo_meter_timer.wait_time = combo_meter_wait_time
 	reload_notification.hide()
 	SignalBus.init_count_down.connect(init_count_down)
 	SignalBus.stop_wave.connect(stop_wave)
@@ -61,6 +67,11 @@ func _ready() -> void:
 	SignalBus.reset_combo_meter.connect(reset_combo_meter)
 	
 	SignalBus.show_grade_phrase.connect(show_grading_phrase)
+	
+	SignalBus.swap_to_pistol.connect(swap_to_pistol)
+	SignalBus.swap_to_rifle.connect(swap_to_rifle)
+	SignalBus.update_rifle_ammo.connect(update_rifle_ammo_count)
+	
 	
 	update_combo_meter_label()
 	update_health()
@@ -110,7 +121,7 @@ func show_added_score_label(score : int, head_shot : bool) -> void:
 	else:
 		added_score.text = "+%s" % [score]
 	added_score_label_player.play("show_added_score")
-	added_score_label_timer.start()
+	#added_score_label_timer.start()
 	
 func stop_wave() -> void:
 	score_count.hide()
@@ -120,6 +131,14 @@ func stop_wave() -> void:
 	#this maybe where I hand starting the next wave?
 	timer.start()
 	pass
+
+func swap_to_pistol():
+	magazine_reload_animation_player.play("show_mag")
+	rifle_mag_reload_animation_player.play("hide_mag")
+
+func swap_to_rifle():
+	magazine_reload_animation_player.play("hide_mag")
+	rifle_mag_reload_animation_player.play("show_mag")
 
 func _on_timer_timeout() -> void:
 	var wave : Dictionary = WaveManager.waves[WaveManager.current_wave]
@@ -141,12 +160,26 @@ func update_ammo_count() -> void:
 		var bullet : TextureRect = TextureRect.new()
 		bullet.texture = preload("uid://bqq433bs811mc")
 		bullets.add_child(bullet)
+	pistol_mag_ammo_label.text = "%s/%s"%[GameManager.ammo_count, GameManager.PISTOL_MAGAZINE_SIZE]
+
+@onready var rifle_mag_ammo_label: Label = $HUD/RifleMagazine/RifleMagAmmoLabel
+
+
+func update_rifle_ammo_count() -> void:
+	clear_box(rifle_bullets)
+	for i in GameManager.rifle_mag_ammo_count:
+		var bullet : TextureRect = TextureRect.new()
+		bullet.texture = preload("uid://b1wsna7q68tru")
+		rifle_bullets.add_child(bullet)
+		
+	rifle_mag_ammo_label.text = "%s/%s"%[GameManager.rifle_mag_ammo_count, GameManager.rifle_ammo_count]
+
 
 func reload_pistol() -> void:
 	GameManager.ammo_count = GameManager.PISTOL_MAGAZINE_SIZE
 	update_ammo_count()
 
-func clear_box(hbox : HBoxContainer) -> void:
+func clear_box(hbox) -> void:
 	for child in hbox.get_children():
 		child.queue_free()
 
@@ -164,7 +197,6 @@ func update_health() -> void:
 		soup.texture = preload("uid://bknkh3ke4u81p")
 		health.add_child(soup)
 		
-@onready var combo_meter_timer: Timer = $ComboMeterTimer
 
 func decrement_combo_meter_kill_count() -> void:
 	

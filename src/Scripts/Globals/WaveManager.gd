@@ -46,3 +46,7 @@ func move_to_next_wave() -> void:
 		return
 	
 	current_wave += 1
+
+func reset() -> void:
+	current_wave = -1
+	wave_started = false

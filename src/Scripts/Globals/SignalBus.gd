@@ -72,3 +72,11 @@ signal remove_one_kill
 signal reset_combo_meter
 @warning_ignore("unused_signal")
 signal decrement_wave_time(value : int)
+
+@warning_ignore("unused_signal")
+signal swap_to_pistol
+@warning_ignore("unused_signal")
+signal swap_to_rifle
+
+@warning_ignore("unused_signal")
+signal update_rifle_ammo

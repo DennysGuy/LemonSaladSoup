@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://ky1tv07nahro"]
+[gd_scene load_steps=37 format=3 uid="uid://ky1tv07nahro"]
 
 [ext_resource type="PackedScene" uid="uid://cqmipwjw5ygil" path="res://src/Scenes/Arena/Arena.tscn" id="1_kwadw"]
 [ext_resource type="Script" uid="uid://dc8d3py4vg0ax" path="res://src/Scripts/main.gd" id="1_n3v4m"]
@@ -7,7 +7,64 @@
 [ext_resource type="FontFile" uid="uid://dyx88gwegholf" path="res://Assets/Art/Font/Vampire Zone.ttf" id="4_j4yc3"]
 [ext_resource type="Texture2D" uid="uid://c1q6vlcb41jc6" path="res://Assets/Art/2D Assets/MagazineUnder.png" id="5_d85jq"]
 [ext_resource type="Texture2D" uid="uid://bqq433bs811mc" path="res://Assets/Art/2D Assets/Bullet.png" id="6_ohpsy"]
+[ext_resource type="Texture2D" uid="uid://bhygu6lgx06jq" path="res://Assets/Art/2D Assets/AR-14_Mag_Bottom.png" id="6_u2m37"]
+[ext_resource type="Texture2D" uid="uid://b1wsna7q68tru" path="res://Assets/Art/2D Assets/AR-14_Bullet.png" id="7_ojnsd"]
 [ext_resource type="Texture2D" uid="uid://c6l2brcd36hkp" path="res://Assets/Art/2D Assets/MagazineOver.png" id="7_p301h"]
+[ext_resource type="Texture2D" uid="uid://bhr7rdlujmmje" path="res://Assets/Art/2D Assets/AR-14_Mag_Top.png" id="8_hg6nk"]
+
+[sub_resource type="Animation" id="Animation_mca2u"]
+resource_name = "hide_mag"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../HUD/RifleMagazine:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1140, 463), Vector2(1366, 463)]
+}
+
+[sub_resource type="Animation" id="Animation_7p1hp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../HUD/RifleMagazine:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1361, 463)]
+}
+
+[sub_resource type="Animation" id="Animation_bsup8"]
+resource_name = "show_mag"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../HUD/RifleMagazine:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1366, 463), Vector2(1140, 463)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bsup8"]
+_data = {
+&"RESET": SubResource("Animation_7p1hp"),
+&"hide_mag": SubResource("Animation_mca2u"),
+&"show_mag": SubResource("Animation_bsup8")
+}
 
 [sub_resource type="Animation" id="Animation_ohpsy"]
 length = 0.001
@@ -95,6 +152,52 @@ _data = {
 &"hide_mag": SubResource("Animation_d85jq"),
 &"reload": SubResource("Animation_3efb3"),
 &"show_mag": SubResource("Animation_p301h")
+}
+
+[sub_resource type="Animation" id="Animation_ojnsd"]
+resource_name = "Dead"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect2:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.9666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2.9666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"transition_to_game_over_screen"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_u2m37"]
+resource_name = "Invincibility"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06666667, 0.3, 0.96666664, 1.7, 2.5, 3.2666667, 4.1, 4.8, 5.2, 5.5333333, 5.8333335, 6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_j4yc3"]
@@ -229,74 +332,12 @@ tracks/5/keys = {
 }]
 }
 
-[sub_resource type="Animation" id="Animation_u2m37"]
-resource_name = "Invincibility"
-length = 6.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.06666667, 0.3, 0.96666664, 1.7, 2.5, 3.2666667, 4.1, 4.8, 5.2, 5.5333333, 5.8333335, 6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_ojnsd"]
-resource_name = "Dead"
-length = 3.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect2:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 2.9666667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("..")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(2.9666667),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"transition_to_game_over_screen"
-}]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eml7d"]
 _data = {
 &"Dead": SubResource("Animation_ojnsd"),
 &"Invincibility": SubResource("Animation_u2m37"),
 &"RESET": SubResource("Animation_j4yc3"),
 &"WaveStartCountDown": SubResource("Animation_xyvdf")
-}
-
-[sub_resource type="Animation" id="Animation_hg6nk"]
-resource_name = "show_added_score"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-280, 97), Vector2(56, 97)]
 }
 
 [sub_resource type="Animation" id="Animation_e4c6v"]
@@ -311,7 +352,19 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-237, 97)]
+"values": [Vector2(7, 97)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_w3s2q"]
@@ -330,27 +383,27 @@ tracks/0/keys = {
 "values": [Vector2(56, 97), Vector2(-289, 97)]
 }
 
+[sub_resource type="Animation" id="Animation_hg6nk"]
+resource_name = "show_added_score"
+length = 2.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 1.6666666, 1.9566666),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_e4c6v"]
 _data = {
 &"RESET": SubResource("Animation_e4c6v"),
 &"hide_added_score": SubResource("Animation_w3s2q"),
 &"show_added_score": SubResource("Animation_hg6nk")
-}
-
-[sub_resource type="Animation" id="Animation_2kg1o"]
-resource_name = "show_combo_meter"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HUD/ComboMeter:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.19941011),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(1312, 114), Vector2(996, 114)]
 }
 
 [sub_resource type="Animation" id="Animation_6dq5p"]
@@ -412,11 +465,42 @@ tracks/2/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_2kg1o"]
+resource_name = "show_combo_meter"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/ComboMeter:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.19941011),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1312, 114), Vector2(996, 114)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7u8tw"]
 _data = {
 &"RESET": SubResource("Animation_6dq5p"),
 &"hide_combo_meter": SubResource("Animation_7u8tw"),
 &"show_combo_meter": SubResource("Animation_2kg1o")
+}
+
+[sub_resource type="Animation" id="Animation_n0f2q"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../HUD/GradePhrase:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-249, 169)]
 }
 
 [sub_resource type="Animation" id="Animation_iaes7"]
@@ -433,21 +517,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-249, 169), Vector2(14, 169), Vector2(14, 169), Vector2(-249, 169)]
-}
-
-[sub_resource type="Animation" id="Animation_n0f2q"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../HUD/GradePhrase:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(-249, 169)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_n0f2q"]
@@ -490,7 +559,7 @@ mouse_filter = 2
 color = Color(0.574492, 0.08164664, 9.62615e-08, 1)
 
 [node name="Marker2D" type="Marker2D" parent="HUD"]
-position = Vector2(722, 129)
+position = Vector2(711, 129)
 
 [node name="WaveTimerLabel" parent="HUD" instance=ExtResource("3_tmvmo")]
 offset_left = -122.0
@@ -555,9 +624,10 @@ theme_override_font_sizes/font_size = 40
 text = "100000"
 
 [node name="AddedScore" type="Label" parent="HUD"]
-offset_left = -237.0
+modulate = Color(1, 1, 1, 0)
+offset_left = 7.0
 offset_top = 97.0
-offset_right = -74.0
+offset_right = 161.0
 offset_bottom = 127.0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_j4yc3")
@@ -627,6 +697,123 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_j4yc3")
 theme_override_font_sizes/font_size = 28
 text = "05:27"
+
+[node name="RifleMagazine" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 81.0
+offset_top = -257.0
+offset_right = 221.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="RifleMagBottom" type="TextureRect" parent="HUD/RifleMagazine"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.5
+offset_top = -111.5
+offset_right = 60.5
+offset_bottom = 111.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_u2m37")
+stretch_mode = 2
+
+[node name="RifleBullets" type="VBoxContainer" parent="HUD/RifleMagazine"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.0
+offset_top = -121.5
+offset_right = 50.0
+offset_bottom = 104.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="HUD/RifleMagazine/RifleBullets"]
+layout_mode = 2
+texture = ExtResource("7_ojnsd")
+
+[node name="TextureRect2" type="TextureRect" parent="HUD/RifleMagazine/RifleBullets"]
+layout_mode = 2
+texture = ExtResource("7_ojnsd")
+
+[node name="TextureRect3" type="TextureRect" parent="HUD/RifleMagazine/RifleBullets"]
+layout_mode = 2
+texture = ExtResource("7_ojnsd")
+
+[node name="TextureRect4" type="TextureRect" parent="HUD/RifleMagazine/RifleBullets"]
+layout_mode = 2
+texture = ExtResource("7_ojnsd")
+
+[node name="TextureRect5" type="TextureRect" parent="HUD/RifleMagazine/RifleBullets"]
+layout_mode = 2
+texture = ExtResource("7_ojnsd")
+
+[node name="TextureRect6" type="TextureRect" parent="HUD/RifleMagazine/RifleBullets"]
+layout_mode = 2
+texture = ExtResource("7_ojnsd")
+
+[node name="TextureRect7" type="TextureRect" parent="HUD/RifleMagazine/RifleBullets"]
+layout_mode = 2
+texture = ExtResource("7_ojnsd")
+
+[node name="TextureRect8" type="TextureRect" parent="HUD/RifleMagazine/RifleBullets"]
+layout_mode = 2
+texture = ExtResource("7_ojnsd")
+
+[node name="TextureRect9" type="TextureRect" parent="HUD/RifleMagazine/RifleBullets"]
+layout_mode = 2
+texture = ExtResource("7_ojnsd")
+
+[node name="TextureRect10" type="TextureRect" parent="HUD/RifleMagazine/RifleBullets"]
+layout_mode = 2
+texture = ExtResource("7_ojnsd")
+
+[node name="RifleMagTop" type="TextureRect" parent="HUD/RifleMagazine"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.5
+offset_top = -111.5
+offset_right = 60.5
+offset_bottom = 111.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("8_hg6nk")
+stretch_mode = 2
+
+[node name="RifleMagAmmoLabel" type="Label" parent="HUD/RifleMagazine"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -43.0
+offset_right = 5.0
+offset_bottom = -18.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 0.5360175, 0.51690453, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_j4yc3")
+theme_override_font_sizes/font_size = 24
+text = "10/60"
+horizontal_alignment = 2
 
 [node name="Magazine" type="Control" parent="HUD"]
 layout_mode = 3
@@ -709,6 +896,18 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("7_p301h")
 
+[node name="PistolMagAmmoLabel" type="Label" parent="HUD/Magazine"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = -31.0
+offset_right = 78.0
+offset_bottom = 2.0
+theme_override_colors/font_color = Color(1.92523e-06, 0.6895765, 0.59614414, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_j4yc3")
+theme_override_font_sizes/font_size = 32
+text = "6/6"
+
 [node name="Health" type="HBoxContainer" parent="HUD"]
 anchors_preset = 2
 anchor_top = 1.0
@@ -728,6 +927,12 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0.574492, 0.08164664, 9.62615e-08, 1)
+
+[node name="RifleMagReloadAnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../MagazineReloadAnimationPlayer")
+libraries = {
+&"": SubResource("AnimationLibrary_bsup8")
+}
 
 [node name="MagazineReloadAnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../AnimationPlayer")
@@ -764,7 +969,7 @@ wait_time = 2.0
 one_shot = true
 
 [node name="ComboMeterTimer" type="Timer" parent="."]
-wait_time = 30.0
+wait_time = 5.0
 one_shot = true
 
 [node name="AddedScoreLabelTimer" type="Timer" parent="."]

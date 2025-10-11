@@ -27,6 +27,7 @@ class_name Player
 
 @onready var gun_animation_player: AnimationPlayer = $Head/Pistol/Gun/GUN2/AnimationPlayer
 
+@onready var ar_animation_player: AnimationPlayer = $Head/Pistol/AR/AnimationPlayer
 
 
 @onready var timer: Timer = $Timer
@@ -89,12 +90,19 @@ func _process(delta: float) -> void:
 	_update_arrows()
 	if GameManager.can_move:
 		
-		if Input.is_action_just_pressed("shoot") and GameManager.can_shoot:
-			disable_shooting()
-			var collided_object = shoot_ray()
-			shoot_enemy(collided_object)
+		match GameManager.equipped_weapon:
+			GameManager.WEAPONS.PISTOL:
+				if Input.is_action_just_pressed("shoot") and GameManager.can_shoot:
+					disable_shooting()
+					var collided_object = shoot_ray()
+					shoot_enemy(collided_object)
+					play_shoot_animation()
+			GameManager.WEAPONS.RIFLE:
+				if Input.is_action_pressed("shoot") and GameManager.can_shoot and not shooting:
+					shooting = true
+					play_rifle_shoot_animation()
 		
-			
+				
 		move_arm()
 		move_player()
 
@@ -116,6 +124,18 @@ func move_player() -> void:
 	if Input.is_action_just_pressed("rotate_right"):
 		rotate_camera_right()
 	
+	if GameManager.can_shoot:
+		if Input.is_action_just_pressed("swap_pistol") and GameManager.equipped_weapon == GameManager.WEAPONS.RIFLE:
+			GameManager.equipped_weapon = GameManager.WEAPONS.PISTOL
+			animation_player.play("SwapWeapons")
+			SignalBus.swap_to_pistol.emit()
+		
+		if Input.is_action_just_pressed("swap_rifle") and GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL and GameManager.rifle_ammo_count > 0:
+			GameManager.equipped_weapon = GameManager.WEAPONS.RIFLE
+			animation_player.play("SwapWeapons")
+			SignalBus.swap_to_rifle.emit()
+		
+			
 	if Input.is_action_just_pressed("reload") and GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL:
 		play_reload_animation()
 		SignalBus.reload_pistol.emit()
@@ -187,13 +207,11 @@ func rotate_camera_opposite() -> void:
 func shoot_enemy(enemy_body_part : Node3D):
 	if  enemy_body_part and enemy_body_part.get_parent() is Enemy: 
 		var seen_enemy : Enemy = enemy_body_part.get_parent()
-			
+
 		if enemy_body_part is EnemyBodyCollider:
 			seen_enemy.damage_enemy()
 		elif enemy_body_part is EnemyHeadCollider:
 			seen_enemy.head_shot_kill()
-			
-	play_shoot_animation()
 	
 func damage_player() -> void:
 	if can_be_hit:
@@ -215,7 +233,7 @@ func damage_player() -> void:
 			#fade out red and go to game over screen
 	
 func play_shoot_animation() -> void:
-	gun_animation_player.speed_scale = 4
+	gun_animation_player.speed_scale = 3.5
 	GameManager.ammo_count -= 1
 	SignalBus.update_ammo_count.emit()
 	gun_animation_player.play("SHOOT")
@@ -226,7 +244,36 @@ func play_shoot_animation() -> void:
 	else:
 		await get_tree().create_timer(0.2).timeout
 		GameManager.can_shoot = true
+
+
+func play_rifle_shoot_animation() -> void:
+	ar_animation_player.speed_scale = 4
+	ar_animation_player.play("ArmatureAction")
+	var body_part = shoot_ray()
+	shoot_enemy(body_part)
+	GameManager.rifle_mag_ammo_count -= 1
 	
+	if GameManager.rifle_mag_ammo_count <= 0 and GameManager.rifle_ammo_count > 0:
+		#reload
+		if GameManager.rifle_ammo_count >= 10:
+			GameManager.rifle_mag_ammo_count = 10
+			GameManager.rifle_ammo_count -= 10
+		else:
+			GameManager.rifle_ammo_count = GameManager.rifle_ammo_count
+			GameManager.rifle_ammo_count = 0
+	
+	SignalBus.update_rifle_ammo.emit()
+	
+	if GameManager.rifle_ammo_count <= 0 and GameManager.rifle_mag_ammo_count <= 0:
+		GameManager.equipped_weapon = GameManager.WEAPONS.PISTOL
+		GameManager.ammo_count = GameManager.PISTOL_MAGAZINE_SIZE
+		SignalBus.swap_to_pistol.emit()
+		animation_player.play("SwapWeapons")
+	
+	
+	await get_tree().create_timer(0.2).timeout
+	shooting = false
+
 func play_reload_animation() -> void:
 	gun_animation_player.speed_scale = 1.5
 	gun_animation_player.play("RELOAD")

@@ -65,6 +65,7 @@ func stop_timer() -> void:
 func decrement_wait_time(value : int) -> void:
 
 	seconds -= value
+	seconds_tracker += value
 	if seconds < 0:
 		seconds = 0
 	

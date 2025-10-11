@@ -6,7 +6,7 @@ var time : int
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	rich_text_label.text = "[font_size=24]%s[/font_size][font_size=16]sec.[/font_size]" % [time]
+	rich_text_label.text = "[font_size=24]-%s[/font_size][font_size=16]sec.[/font_size]" % [time]
 
 	animation_player.play("float")
 

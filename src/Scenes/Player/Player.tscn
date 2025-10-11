@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cwfahle4ha0uq"]
+[gd_scene load_steps=18 format=3 uid="uid://cwfahle4ha0uq"]
 
 [ext_resource type="Script" uid="uid://dwqwn0yq03m0" path="res://src/Scripts/player.gd" id="1_qw5p0"]
 [ext_resource type="Script" uid="uid://crac21w6f0oy2" path="res://src/Scripts/camera.gd" id="2_lxwd3"]
@@ -135,11 +135,84 @@ tracks/0/keys = {
 "values": [Vector3(0.09931809, 0, -0.101154566), Vector3(0.09931809, 0, 0.14831007), Vector3(0.09931809, 0, -0.101154566)]
 }
 
+[sub_resource type="Animation" id="Animation_iqpho"]
+resource_name = "SwapWeapons"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"disable_movement"
+}, {
+"args": [],
+"method": &"enable_movement"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Head/Pistol:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.4, 0.135, -0.6), Vector3(0.7, -0.6, -1), Vector3(0.4, 0.135, -0.6)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Head/Pistol:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(-1.5707964, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"disable_shooting"
+}]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Head/Pistol")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"set_weapon_visual"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vhadf"]
 _data = {
 &"HideArm": SubResource("Animation_lxwd3"),
 &"RESET": SubResource("Animation_waosb"),
 &"ShowArm": SubResource("Animation_t5wo0"),
+&"SwapWeapons": SubResource("Animation_iqpho"),
 &"shoot_pistol": SubResource("Animation_f8bxg")
 }
 
@@ -207,6 +280,13 @@ size = Vector3(0.08564758, 0.07984924, 0.6223526)
 
 [node name="Pistol" parent="Head" instance=ExtResource("5_t5wo0")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 1, -0.5, -0.6)
+
+[node name="Skeleton3D" parent="Head/Pistol/Gun/GUN2/GUN_002" index="0"]
+bones/0/position = Vector3(-1.2199527, -2.3033183, 0.031247579)
+bones/0/rotation = Quaternion(0.62801933, -0.38946187, -0.5061076, -0.44470915)
+bones/1/position = Vector3(0.16566853, -1.834335, 1.844534)
+bones/3/position = Vector3(0.02388667, -0.2677606, 0.37655908)
+bones/3/rotation = Quaternion(0.0003802823, -0.0023242563, 0.007128631, 0.9999718)
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
 transform = Transform3D(0.34652677, 0, 0, 0, 0.31030542, 0, 0, 0, 0.33825758, 0, 2.3098607, -0.530756)
