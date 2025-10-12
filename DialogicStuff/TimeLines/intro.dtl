@@ -1,0 +1,22 @@
+do CutSceneManager.disable_player_movement()
+[wait time="2.0"]
+do CutSceneManager.look_at_boss_man()
+[wait time="1.0"]
+do CutSceneManager.zoom_camera()
+[voice path="res://Assets/Audio/SFX/VOX/Placeholders/HOLDER_VOX_BOSS_Intro.wav" volume="0.0"]
+Bossman: Well, well… a human. How unusual. We don’t often get your kind in these lands.
+Bossman: We'd like to take a closer look at you.. if you don't mind, of course
+do CutSceneManager.look_at_point_1()
+do CutSceneManager.reset_camera_fov()
+[wait time="1.0"]
+do CutSceneManager.spawn_greeter()
+do CutSceneManager.zoom_camera()
+Radioman: That thing right there is a bonafide Walker minion! Aim your weapon and left click to fire. \
+When you run out of ammo press 'R' to reload!
+Radioman: Finally, rotate to one of the four cardinal directions using 'A', 'S', and 'D'.
+Radioman: That's about it. Give the controls a quick test then let 'er rip on that rat bastard in front of you!
+Radioman: Survive at all costs! Good luck.
+do CutSceneManager.enable_player_movement()
+do CutSceneManager.reset_camera_fov()
+[wait time="2.0"]
+[end_timeline]

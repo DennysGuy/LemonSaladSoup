@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://ky1tv07nahro"]
+[gd_scene load_steps=39 format=3 uid="uid://ky1tv07nahro"]
 
 [ext_resource type="PackedScene" uid="uid://cqmipwjw5ygil" path="res://src/Scenes/Arena/Arena.tscn" id="1_kwadw"]
 [ext_resource type="Script" uid="uid://dc8d3py4vg0ax" path="res://src/Scripts/main.gd" id="1_n3v4m"]
@@ -11,6 +11,21 @@
 [ext_resource type="Texture2D" uid="uid://b1wsna7q68tru" path="res://Assets/Art/2D Assets/AR-14_Bullet.png" id="7_ojnsd"]
 [ext_resource type="Texture2D" uid="uid://c6l2brcd36hkp" path="res://Assets/Art/2D Assets/MagazineOver.png" id="7_p301h"]
 [ext_resource type="Texture2D" uid="uid://bhr7rdlujmmje" path="res://Assets/Art/2D Assets/AR-14_Mag_Top.png" id="8_hg6nk"]
+
+[sub_resource type="Animation" id="Animation_7p1hp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../HUD/RifleMagazine:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1361, 463)]
+}
 
 [sub_resource type="Animation" id="Animation_mca2u"]
 resource_name = "hide_mag"
@@ -26,21 +41,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(1140, 463), Vector2(1366, 463)]
-}
-
-[sub_resource type="Animation" id="Animation_7p1hp"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../HUD/RifleMagazine:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1361, 463)]
 }
 
 [sub_resource type="Animation" id="Animation_bsup8"]
@@ -78,7 +78,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1025, 630)]
+"values": [Vector2(1283, 630)]
 }
 
 [sub_resource type="Animation" id="Animation_d85jq"]
@@ -331,6 +331,17 @@ tracks/5/keys = {
 "method": &"start_wave"
 }]
 }
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("ScoreLabel")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"values": []
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eml7d"]
 _data = {
@@ -366,6 +377,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Health:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-346, 624)]
+}
 
 [sub_resource type="Animation" id="Animation_w3s2q"]
 resource_name = "hide_added_score"
@@ -381,6 +404,22 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(56, 97), Vector2(-289, 97)]
+}
+
+[sub_resource type="Animation" id="Animation_qj322"]
+resource_name = "hide_health"
+length = 0.22
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Health:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(39, 624), Vector2(-334, 624)]
 }
 
 [sub_resource type="Animation" id="Animation_hg6nk"]
@@ -399,11 +438,29 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_8358p"]
+resource_name = "show_health"
+length = 0.22
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Health:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-334, 624), Vector2(39, 624)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_e4c6v"]
 _data = {
 &"RESET": SubResource("Animation_e4c6v"),
 &"hide_added_score": SubResource("Animation_w3s2q"),
-&"show_added_score": SubResource("Animation_hg6nk")
+&"hide_health": SubResource("Animation_qj322"),
+&"show_added_score": SubResource("Animation_hg6nk"),
+&"show_health": SubResource("Animation_8358p")
 }
 
 [sub_resource type="Animation" id="Animation_6dq5p"]
@@ -822,8 +879,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -255.0
+offset_left = 3.0
 offset_top = -90.0
+offset_right = 258.0
 grow_horizontal = 0
 grow_vertical = 0
 
@@ -912,9 +970,9 @@ text = "6/6"
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 39.0
+offset_left = -346.0
 offset_top = -96.0
-offset_right = 360.0
+offset_right = -25.0
 offset_bottom = -37.0
 grow_vertical = 0
 

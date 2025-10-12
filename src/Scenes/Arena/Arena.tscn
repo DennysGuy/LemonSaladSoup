@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://cqmipwjw5ygil"]
+[gd_scene load_steps=15 format=3 uid="uid://cqmipwjw5ygil"]
 
 [ext_resource type="PackedScene" uid="uid://cwfahle4ha0uq" path="res://src/Scenes/Player/Player.tscn" id="1_bcb0y"]
 [ext_resource type="Script" uid="uid://cru4sfh1iabsn" path="res://src/Scripts/arena.gd" id="1_y77rj"]
+[ext_resource type="Shader" uid="uid://bwvtys3k70f0v" path="res://src/Scripts/Shaders/posturized.gdshader" id="2_rtywf"]
 [ext_resource type="PackedScene" uid="uid://gm660tssfy3p" path="res://src/Scenes/Arena/spawn_point.tscn" id="3_8vyl5"]
 [ext_resource type="PackedScene" uid="uid://bgng18o8eqlbr" path="res://src/Scenes/Enemies/Bossman/BossMan.tscn" id="3_dyurl"]
-[ext_resource type="PackedScene" uid="uid://chr07c7ormw78" path="res://Assets/Art/3D Assets/Arena/Arena.gltf" id="3_xdt2v"]
+[ext_resource type="PackedScene" uid="uid://bvlludo0cgh" path="res://Assets/Art/3D Assets/Arena/Arena.gltf" id="3_xdt2v"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bcb0y"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -18,14 +19,98 @@ background_mode = 1
 background_energy_multiplier = 1.55
 sky = SubResource("Sky_u45fm")
 ambient_light_source = 2
-ambient_light_color = Color(0.65834004, 0.6583399, 0.6583399, 1)
-ambient_light_energy = 1.35
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 2.37
 tonemap_mode = 2
 tonemap_exposure = 1.56
 tonemap_white = 1.21
 glow_enabled = true
 glow_intensity = 0.84
 glow_bloom = 0.06
+
+[sub_resource type="Animation" id="Animation_rtywf"]
+resource_name = "BossFalls"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(3.5762925, 9.955317, -15.612841), Vector3(3.5762925, -0.5751009, -15.612841)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"boss_fall_shake"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_dyurl"]
+resource_name = "BossJumps"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(3.5762925, 11.261641, -30.963963), Vector3(3.5762925, 29.696177, -30.963963)]
+}
+
+[sub_resource type="Animation" id="Animation_jaoi6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(3.5762925, 11.261641, -30.963963)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jaoi6"]
+_data = {
+&"BossFalls": SubResource("Animation_rtywf"),
+&"BossJumps": SubResource("Animation_dyurl"),
+&"RESET": SubResource("Animation_jaoi6")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rtywf"]
+render_priority = 0
+shader = ExtResource("2_rtywf")
+shader_parameter/TwixelAngle = 15.0000007125
+shader_parameter/PixelSize = 1.30000001425
+shader_parameter/Posterize = true
+shader_parameter/ColorSteps = 27
+shader_parameter/UsePalette = false
+shader_parameter/PaletteSize = 12
+shader_parameter/PaletteColor0 = Color(0.2451118, 0.46786785, 0, 1)
+shader_parameter/PaletteColor1 = Color(0.5950379, 0.3925392, 0.33783975, 1)
+shader_parameter/PaletteColor2 = Color(0.8506885, 0.68643045, 0.5845491, 1)
+shader_parameter/PaletteColor3 = Color(0.9, 0.85, 0.7, 1)
+shader_parameter/Brightness = 1.2190000579025
+shader_parameter/Saturation = 1.1850000562875
+shader_parameter/Contrast = 0.95600004541
 
 [node name="Arena" type="Node3D"]
 script = ExtResource("1_y77rj")
@@ -37,6 +122,17 @@ environment = SubResource("Environment_vbyki")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.29449487, -0.5144441, 0.09883499)
 use_collision = true
 size = Vector3(30.490505, 1, 32.452606)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../BossMan")
+libraries = {
+&"": SubResource("AnimationLibrary_jaoi6")
+}
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(115.6848, 0, 0, 0, 115.6848, 0, 0, 0, 115.6848, 7.3093085, 34.068123, 1.7594947)
+material_override = SubResource("ShaderMaterial_rtywf")
+size = Vector3(2.0561523, 1.5961914, 2.1782837)
 
 [node name="LookAtMarker1" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1657887, 5.06286, -10.046472)
@@ -68,6 +164,22 @@ enemies_root = NodePath("../Enemies")
 [node name="Timer" parent="Player" index="0"]
 wait_time = 5.0
 
+[node name="Skeleton3D" parent="Player/Head/Pistol/Gun/GUN2/GUN_002" index="0"]
+bones/0/position = Vector3(-1.2199528, -2.303318, 0.03124749)
+bones/0/rotation = Quaternion(0.6280193, -0.38946182, -0.50610775, -0.4447092)
+bones/1/position = Vector3(0.16566858, -1.8343352, 1.8445338)
+bones/2/rotation = Quaternion(0.207692, -0.6263513, -0.20353639, 0.723271)
+bones/3/position = Vector3(0.023886656, -0.26776046, 0.37655902)
+bones/3/rotation = Quaternion(0.00038026206, -0.0023242575, 0.007128626, 0.9999718)
+
+[node name="Skeleton3D" parent="Player/Head/Pistol/AR/rifle" index="0"]
+bones/0/position = Vector3(2.7639908e-07, -1.6763806e-08, 1.5053956e-07)
+bones/1/position = Vector3(0.0008740535, 1.5108399, -0.012496926)
+bones/2/rotation = Quaternion(0.27578202, -0.2748954, 0.64472294, 0.65780634)
+bones/3/rotation = Quaternion(0.20439988, 0.30393296, -0.5137682, 0.77581424)
+bones/4/position = Vector3(-0.028186778, -0.55162585, 0.0045692986)
+bones/4/rotation = Quaternion(-0.016315863, 0.008270147, 0.9998327, -0.00013674537)
+
 [node name="Enemies" type="Node" parent="."]
 
 [node name="SpawnTimer" type="Timer" parent="."]
@@ -89,15 +201,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.39034, 0.25113177, -17.679
 direction = 1
 
 [node name="SpawnPoint4" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.688004, 0.087194204, -6.493205)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.688004, -1.5562084, -9.497349)
 direction = 0
 
 [node name="SpawnPoint5" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.688004, 0.087194204, 1.7566061)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.688004, -1.5562084, -1.9247708)
 direction = 0
 
 [node name="SpawnPoint6" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.033154, 0.03154683, 9.653084)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.033154, -1.5113022, 8.589358)
 direction = 0
 
 [node name="SpawnPoint7" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
@@ -125,19 +237,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.404469, 0.03154683, -9.75
 direction = 0
 
 [node name="Arena" parent="." instance=ExtResource("3_xdt2v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1972485, -0.4170103, 0.53443813)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5836096, -0.34568977, -2.8262405)
 
 [node name="eagletribune" parent="Arena" index="0"]
-transform = Transform3D(-1.1313121, 0, 0, 0, 1.1313121, 0, 0, 0, 1.1313121, -17.13766, 2.074502, 0.24186343)
+transform = Transform3D(-1.1313121, 0, 0, 0, 1.1313121, 0, 0, 0, 1.1313121, -19.172285, 2.074502, 0.24186349)
 
 [node name="pakmantribune" parent="Arena" index="3"]
-transform = Transform3D(-1.1313121, 0, 0, 0, 1.1313121, 0, 0, 0, 1.1313121, -22.789068, 2.074502, 4.3989)
+transform = Transform3D(-1.1313121, 0, 0, 0, 1.1313121, 0, 0, 0, 1.1313121, -22.78907, 2.074502, 8.273138)
 
 [node name="purplehattribune" parent="Arena" index="4"]
-transform = Transform3D(-1.1313121, 0, 0, 0, 1.1313121, 0, 0, 0, 1.1313121, -25.474154, 2.074502, 0.24186343)
-
-[node name="groundin" parent="Arena" index="5"]
-transform = Transform3D(3.6950748, 0, -0.6190841, 0, 1, 0, 2.9128869, 0, 0.7853247, -7.6045585, 0.85346603, -23.235619)
+transform = Transform3D(-1.1313121, 0, 0, 0, 1.1313121, 0, 0, 0, 1.1313121, -28.894566, 2.074502, 0.24186349)
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 

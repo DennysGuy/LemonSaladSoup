@@ -11,6 +11,7 @@ class_name WalkerEnemy extends Enemy
 
 
 var player_in_range : bool = false
+var is_greeter : bool = false
 
 func _ready() -> void:
 	super()
@@ -34,6 +35,9 @@ func _on_area_3d_body_entered(body: Node3D) -> void:
 
 func _on_player_sensor_body_entered(body: Node3D) -> void:
 	if body is Player:
+		if is_greeter:
+			state_machine.change_state(dead_state)
+			
 		player_in_range = true
 		state_machine.change_state(attack_state)
 

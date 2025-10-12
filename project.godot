@@ -22,19 +22,29 @@ WaveManager="*res://src/Scripts/Globals/WaveManager.gd"
 GameManager="*res://src/Scripts/Globals/GameManager.gd"
 AudioManager="*res://src/Scripts/Globals/AudioManager.gd"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
+CutSceneManager="*res://src/Scripts/Globals/CutSceneManager.gd"
 
 [dialogic]
 
 directories/dch_directory={
-"Bossman": "res://DialogicStuff/Characters/Bossman.dch"
+"Bossman": "res://DialogicStuff/Characters/Bossman.dch",
+"Radioman": "res://DialogicStuff/Characters/Radioman.dch"
 }
-directories/dtl_directory={}
-layout/style_directory={}
-layout/style_list=["res://DialogicStuff/Characters/PremadeStyle1.tres"]
-layout/default_style="res://DialogicStuff/Characters/PremadeStyle1.tres"
+directories/dtl_directory={
+"BossFight": "res://DialogicStuff/TimeLines/BossFight.dtl",
+"Fight_Commencement": "res://DialogicStuff/TimeLines/Fight_Commencement.dtl",
+"intro": "res://DialogicStuff/TimeLines/intro.dtl"
+}
+layout/style_directory={
+"": "res://DialogicStuff/Characters/RadiomanBox.tres",
+"BossmanStyle": "res://DialogicStuff/Characters/BossmanStyle.tres",
+"RadiomanBox": "res://DialogicStuff/Characters/RadiomanBox.tres"
+}
+layout/style_list=["res://DialogicStuff/Characters/BossmanStyle.tres", "res://DialogicStuff/Characters/RadiomanBox.tres"]
+layout/default_style="res://DialogicStuff/Characters/RadiomanBox.tres"
 glossary/default_case_sensitive=true
 extensions_folder="res://addons/dialogic_additions"
-text/letter_speed=0.01
+text/letter_speed=0.06
 text/initial_text_reveal_skippable=true
 text/text_reveal_skip_delay=0.1
 text/advance_delay=0.1

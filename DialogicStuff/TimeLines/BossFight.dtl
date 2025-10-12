@@ -1,0 +1,20 @@
+do CutSceneManager.disable_player_movement()
+do CutSceneManager.look_at_boss_man()
+[wait time="1.0"]
+do CutSceneManager.zoom_camera()
+[voice path="res://Assets/Audio/SFX/VOX/Placeholders/Impressive_PlaceHolder.wav" volume="0.0"]
+Bossman: Impressive… You’ve proven yourself a worthy opponent. As reward, I grant you the honor of facing me in battle.
+[wait time="1.0"]
+do CutSceneManager.make_boss_jump()
+[wait time="1.3"]
+do CutSceneManager.look_at_point_1()
+do CutSceneManager.reset_camera_fov()
+[wait time="2.0"]
+do CutSceneManager.make_boss_fall()
+[wait time="3.0"]
+do CutSceneManager.zoom_camera()
+[wait time="1.0"]
+[voice path="res://Assets/Audio/SFX/VOX/Placeholders/MeetFate_PlaceHolder.wav" volume="0.0"]
+Bossman: Come, and meet your fate.
+do CutSceneManager.reset_camera_fov()
+[end_timeline]

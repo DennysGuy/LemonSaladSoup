@@ -11,6 +11,7 @@ var seconds_tracker : int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	hide()
 	#set_time(seconds,milliseconds)
 	SignalBus.start_wave.connect(start_timer)
 	SignalBus.decrement_wave_time.connect(decrement_wait_time)

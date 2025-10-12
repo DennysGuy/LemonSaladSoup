@@ -31,6 +31,7 @@ var blinking = false
 
 @onready var combo_count: RichTextLabel = $HUD/ComboMeter/ComboCount
 @onready var combo_meter_timer: Timer = $ComboMeterTimer
+@onready var total_timer: Label = $HUD/TotalTimer
 
 
 var combo_meter_wait_time : int = 6
@@ -44,6 +45,10 @@ var combo_meter_wait_time : int = 6
 @onready var timer: Timer = $Timer
 @onready var added_score_label_timer: Timer = $AddedScoreLabelTimer
 @onready var pistol_mag_ammo_label: Label = $HUD/Magazine/PistolMagAmmoLabel
+@onready var count_down_label: Label = $HUD/CountDownLabel
+
+var rifle_mag_showing : bool = false
+var pistol_mag_showing : bool = true
 
 var combo_meter_showing : bool = false
 
@@ -72,11 +77,17 @@ func _ready() -> void:
 	SignalBus.swap_to_rifle.connect(swap_to_rifle)
 	SignalBus.update_rifle_ammo.connect(update_rifle_ammo_count)
 	
+	SignalBus.initialize_countdown.connect(init_count_down)
 	
 	update_combo_meter_label()
 	update_health()
 	update_score()
-	init_count_down()
+	score_count.hide()
+	score_label.hide()
+	count_down_label.hide()
+	total_timer.hide()
+	CutSceneManager.play_intro_cutscene()
+	#init_count_down() #this here is the start of the round we'll replace this with intro cutscene stuff
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 @warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
@@ -101,11 +112,13 @@ func start_invincibility_overlay() -> void:
 
 func set_wave_parameters() -> void:
 	WaveManager.move_to_next_wave()
+	GameManager.ammo_count = GameManager.PISTOL_MAGAZINE_SIZE
+	update_ammo_count()
 	var current_wave : int = WaveManager.current_wave
 	var waves : Dictionary = WaveManager.waves
 	var time : int = waves[current_wave]["time"]
 	wave_timer_label.set_time(time)
-	
+
 	wave_timer_label.show()
 	score_count.show()
 	score_label.show()
@@ -113,6 +126,13 @@ func set_wave_parameters() -> void:
 
 func start_wave() -> void:
 	WaveManager.wave_started = true
+	#health shower animation player here
+	added_score_label_player.play("show_health")
+	if pistol_mag_showing:
+		magazine_reload_animation_player.play("show_mag")
+	elif rifle_mag_showing:
+		rifle_mag_reload_animation_player.play("show_mag")
+	
 	SignalBus.start_wave.emit()
 
 func show_added_score_label(score : int, head_shot : bool) -> void:
@@ -126,30 +146,42 @@ func show_added_score_label(score : int, head_shot : bool) -> void:
 func stop_wave() -> void:
 	score_count.hide()
 	score_label.hide()
+	added_score_label_player.play("hide_health")
+	if pistol_mag_showing:
+		magazine_reload_animation_player.play("hide_mag") #don't actually set var false so we can show the appropriate mag when next round starts
+	
+	elif rifle_mag_showing:
+		rifle_mag_reload_animation_player.play("hide_mag")
+	
 	
 	reset_combo_meter()
-	#this maybe where I hand starting the next wave?
+	#this maybe where I handle starting the next wave?
 	timer.start()
 	pass
 
 func swap_to_pistol():
 	magazine_reload_animation_player.play("show_mag")
 	rifle_mag_reload_animation_player.play("hide_mag")
+	pistol_mag_showing = true
+	rifle_mag_showing = false
 
 func swap_to_rifle():
 	magazine_reload_animation_player.play("hide_mag")
 	rifle_mag_reload_animation_player.play("show_mag")
+	pistol_mag_showing = false
+	rifle_mag_showing = true
 
 func _on_timer_timeout() -> void:
 	var wave : Dictionary = WaveManager.waves[WaveManager.current_wave]
 	if wave["cut_scene"]:
 		#play the cut scene -- this will have the init count play at the end
-		pass
+		Dialogic.start(wave["cut_scene"])
 	else:
 		init_count_down()
 
 func update_score() -> void:
 	score_count.text = str(GameManager.score)
+
 
 func play_game_over_fade() -> void:
 	animation_player.play("Dead")

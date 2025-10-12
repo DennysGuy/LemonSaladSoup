@@ -5,6 +5,10 @@ class_name Arena extends Node3D
 @onready var spawn_points: Node = $SpawnPoints
 @onready var enemies: Node = $Enemies
 
+@onready var spawn_point_2: SpawnPoint = $SpawnPoints/SpawnPoint2
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
+
 enum SPAWN_POINT_DIR{ADJACENT,FORWARD}
 
 var spawn_time : int = 8
@@ -14,6 +18,9 @@ func _ready() -> void:
 	SignalBus.stop_wave.connect(end_wave)
 	SignalBus.set_wave_params.connect(init_wave_spawn_time)
 	SignalBus.decrement_spawn_time.connect(decrement_spawn_time)
+	SignalBus.spawn_single_enemy_in_front.connect(spawn_greeter_at_point_2)
+	SignalBus.make_boss_fall.connect(make_boss_fall)
+	SignalBus.make_boss_jump.connect(make_boss_jump)
 
 func _on_spawn_timer_timeout() -> void:
 	var enemy : Enemy = WaveManager.get_weighted_enemy().instantiate()
@@ -60,6 +67,23 @@ func end_wave() -> void:
 	stop_spawn_timer()
 	clear_enemies()
 
+func make_boss_jump() -> void:
+	animation_player.play("BossJumps")
+
+func make_boss_fall() -> void:
+	animation_player.play("BossFalls")
+
+
+func boss_fall_shake() -> void:
+	SignalBus.shake_camera.emit(3)
+
 func clear_enemies() -> void:
 	for enemy in enemies.get_children():
 		enemy.queue_free()
+
+func spawn_greeter_at_point_2():
+	var greeter : WalkerEnemy = preload("uid://coiyr773xvwd4").instantiate()
+	
+	greeter.is_greeter = true
+	greeter.global_transform.origin = spawn_point_2.global_transform.origin
+	enemies.add_child(greeter)

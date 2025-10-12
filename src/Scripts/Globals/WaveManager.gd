@@ -9,23 +9,23 @@ const MAX_WAVE :int = 2
 @onready var waves : Dictionary = {
 	
 	0 : {
-		"time": 60,
+		"time": 10,
 		"decrement_interval": 20,
 		"decrement_amount": 1,
 		"kill_quota":30,
-		"spawn_time":7, #in seconds
+		"spawn_time":12, #in seconds
 		"enemies": [
-			{"scene": walker, "weight": 80},
+			{"scene": walker, "weight": 100},
 		],
 		"cut_scene": null #this plays at the end of the wave?
 	},
 	
 	1 : {
-		"time": 90,
+		"time": 10,
 		"decrement_interval": 20,
 		"decrement_around": 0.5,
 		"kill_quota":60,
-		"spawn_time":8, #in seconds
+		"spawn_time":12, #in seconds
 		"enemies": [
 			{"scene": walker, "weight": 75},
 			{"scene": sprinter, "weight": 50}
@@ -34,17 +34,17 @@ const MAX_WAVE :int = 2
 	},
 	
 	2 : {
-		"time": 180,
+		"time": 10,
 		"decrement_interval":9,
 		"kill_quota":200,
-		"spawn_time":7, #in seconds
+		"spawn_time":12, #in seconds
 		"decrement_around": 0.5,
 		"enemies": [
 			{"scene": walker, "weight": 75},
 			{"scene": sprinter, "weight": 50},
 			{"scene": shooter, "weight": 40}
 		],
-		"cut_scene": null,
+		"cut_scene": "BossFight",
 	}
 	
 }
@@ -76,6 +76,10 @@ func move_to_next_wave() -> void:
 		return
 	
 	current_wave += 1
+
+func start_wave() -> void:
+	SignalBus.initialize_countdown.emit()
+
 
 func reset() -> void:
 	current_wave = -1

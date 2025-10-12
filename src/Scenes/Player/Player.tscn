@@ -256,7 +256,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0558505, -0.56598663)
 [node name="Camera" type="Camera3D" parent="Head"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.055753767, 0, 0)
 current = true
-fov = 61.59939
+fov = 50.0
 script = ExtResource("2_lxwd3")
 
 [node name="GunArm" type="Node3D" parent="Head"]

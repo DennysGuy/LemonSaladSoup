@@ -8,6 +8,16 @@ class_name Player
 @export var look_at_point_4 : Marker3D
 @export var look_at_point_5 : Marker3D
 
+@onready var look_at_points : Dictionary[String,Marker3D] = {
+	"point 1" : look_at_point_1,
+	"point 2" : look_at_point_2,
+	"point 3" : look_at_point_3,
+	"point 4" : look_at_point_4,
+	"point 5" : look_at_point_5
+	
+}
+
+
 @onready var alert_arrow_left: TextureRect = $Crosshair/AlertArrow
 @onready var alert_arrow_right: TextureRect = $Crosshair/AlertArrow2
 @onready var alert_arrow_back: TextureRect = $Crosshair/AlertArrow3
@@ -75,6 +85,12 @@ func _ready() -> void:
 	SignalBus.enable_movement.connect(enable_movement)
 	SignalBus.disable_movement.connect(disable_movement)
 	SignalBus.enable_shooting.connect(enable_shooting)
+	SignalBus.reset_camera_fov.connect(reset_camera_fov)
+	SignalBus.zoom_camera.connect(zoom_camera)
+	SignalBus.look_at_point.connect(look_at_point)
+	SignalBus.show_gun.connect(show_arm)
+	SignalBus.hide_gun.connect(hide_arm)
+	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	target_location = look_at_positions[target_index]
@@ -86,6 +102,7 @@ func _ready() -> void:
 
 @export var max_arm_offset: Vector2 = Vector2(600, 300) # how far the arm can move on screen
 
+@warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	#print(GameManager.can_shoot)
 	_update_arrows()
@@ -143,7 +160,8 @@ func move_player() -> void:
 	
 	if Input.is_action_just_pressed("rotate_opposite"):
 		rotate_camera_opposite()
-	
+
+
 
 func move_arm() -> void:
 	var screen_center = get_viewport().get_visible_rect().size * 0.5
@@ -234,15 +252,17 @@ func damage_player() -> void:
 			#fade out red and go to game over screen
 	
 func play_shoot_animation() -> void:
+	
 	gun_animation_player.speed_scale = 3.5
 	GameManager.ammo_count -= 1
 	SignalBus.update_ammo_count.emit()
 	gun_animation_player.play("SHOOT")
-	
+	SignalBus.shake_camera.emit(0.4)
 	if GameManager.ammo_count <= 0 and GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL:
 		GameManager.can_shoot = false
 		SignalBus.show_reload_notification.emit()
 	else:
+		
 		await get_tree().create_timer(0.2).timeout
 		GameManager.can_shoot = true
 
@@ -253,7 +273,7 @@ func play_rifle_shoot_animation() -> void:
 	var body_part = shoot_ray()
 	shoot_enemy(body_part)
 	GameManager.rifle_mag_ammo_count -= 1
-	
+	SignalBus.shake_camera.emit(0.5)
 	if GameManager.rifle_mag_ammo_count <= 0 and GameManager.rifle_ammo_count > 0:
 		#reload
 		if GameManager.rifle_ammo_count >= 10:
@@ -474,8 +494,9 @@ func start_wave() -> void:
 func disable_movement() -> void:
 	GameManager.can_move = false
 	GameManager.can_shoot = false
+	#hide_arm()
 	hide_reticle()
-	
+
 func enable_movement() -> void:
 	GameManager.can_move = true
 	GameManager.can_shoot = true
@@ -495,7 +516,16 @@ func flash_muzzle() -> void:
 	await get_tree().create_timer(0.3).timeout
 	muzzle_flare.queue_free()
 	
-
-
+	
 func _on_invincibility_timer_timeout() -> void:
 	can_be_hit = true
+
+#cutscene stuff
+func look_at_point(point : String) -> void:
+	target_location = look_at_points[point]
+
+func zoom_camera(fov : float) -> void:
+	zoom_target = fov
+
+func reset_camera_fov() -> void:
+	zoom_target = 50
