@@ -1,0 +1,16 @@
+[remap]
+
+importer="dialogue_manager"
+importer_version=15
+type="Resource"
+uid="uid://ccm1trxr347dr"
+path="res://.godot/imported/test.dialogue-70372791167665bb61bab70f30ce915e.tres"
+
+[deps]
+
+source_file="res://DialogicStuff/TimeLines/test.dialogue"
+dest_files=["res://.godot/imported/test.dialogue-70372791167665bb61bab70f30ce915e.tres"]
+
+[params]
+
+defaults=true

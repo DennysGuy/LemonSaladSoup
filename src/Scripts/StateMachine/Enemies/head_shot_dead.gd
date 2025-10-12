@@ -10,7 +10,7 @@ func enter() -> void:
 	parent_collider.disabled = true
 	#parent.animation_player.play(animation_name)
 	parent.animation_player.play("HEADSHOTdeath")
-	parent.timer.wait_time = 2.0
+	parent.timer.wait_time = 3.0
 	parent.timer.start()
 	pass
 

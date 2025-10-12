@@ -559,13 +559,13 @@ mouse_filter = 2
 color = Color(0.574492, 0.08164664, 9.62615e-08, 1)
 
 [node name="Marker2D" type="Marker2D" parent="HUD"]
-position = Vector2(711, 129)
+position = Vector2(702, 64)
 
 [node name="WaveTimerLabel" parent="HUD" instance=ExtResource("3_tmvmo")]
 offset_left = -122.0
-offset_top = -271.5
+offset_top = -336.5
 offset_right = 108.0
-offset_bottom = -218.5
+offset_bottom = -283.5
 
 [node name="CountDownLabel" type="Label" parent="HUD"]
 anchors_preset = 8

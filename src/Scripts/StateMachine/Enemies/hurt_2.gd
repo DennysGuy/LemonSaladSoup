@@ -5,7 +5,7 @@ class_name Hurt2 extends State
 
 func enter() -> void:
 	parent.animation_player.play("hurt2")
-	parent.timer.wait_time =  0.8
+	parent.timer.wait_time =  0.6
 	parent.timer.start()
 	pass
 

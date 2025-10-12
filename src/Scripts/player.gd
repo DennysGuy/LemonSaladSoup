@@ -6,6 +6,7 @@ class_name Player
 @export var look_at_point_2 : Marker3D
 @export var look_at_point_3 : Marker3D
 @export var look_at_point_4 : Marker3D
+@export var look_at_point_5 : Marker3D
 
 @onready var alert_arrow_left: TextureRect = $Crosshair/AlertArrow
 @onready var alert_arrow_right: TextureRect = $Crosshair/AlertArrow2
@@ -290,7 +291,7 @@ func shoot_ray() -> Node3D:
 	
 	# Project a ray from the camera through the reticle
 	var from = camera.project_ray_origin(mouse_pos)
-	var to = from + camera.project_ray_normal(mouse_pos) * 5000
+	var to = from + camera.project_ray_normal(mouse_pos) * 9000
 
 	var space = camera.get_world_3d().direct_space_state
 	var ray_query = PhysicsRayQueryParameters3D.new()

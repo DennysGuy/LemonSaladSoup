@@ -14,7 +14,6 @@ func enter() -> void:
 	
 	parent.timer.wait_time = 2.0
 	parent.timer.start()
-	pass
 
 func exit() -> void:
 	pass

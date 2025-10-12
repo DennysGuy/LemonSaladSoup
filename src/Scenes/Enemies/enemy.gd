@@ -20,22 +20,28 @@ var can_receive_bonus : bool = true
 @onready var hurt_states : Array[State] = [hurt_1_state, hurt_2_state]
 @onready var bonus_timer: Timer = $BonusTimer
 
-const BONUS_WAIT_TIME = 8
+@export var bonus_wait_time : int = 8
+
 var alive : bool = true
 var timer_bonus : int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
+	player = get_tree().get_first_node_in_group("Player")
+	bonus_timer.start()
+	bonus_timer.wait_time = bonus_wait_time
+	bonus_timer.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
-
+	if can_receive_bonus:
+		set_timer_bonus()
+	else:
+		timer_bonus = 0
 
 func kill_enemy() -> void:
 	if not alive:
 		return
+		
 	alive = false
 	
 	if can_receive_bonus:
@@ -52,6 +58,7 @@ func kill_enemy() -> void:
 func head_shot_kill() -> void:
 	if not alive:
 		return
+		
 	alive = false
 	
 	if can_receive_bonus:
@@ -94,7 +101,7 @@ func update_score(value : int, head_shot : bool) -> void:
 
 
 func set_timer_bonus() -> int:
-	var bonus : int = int((bonus_timer.time_left / BONUS_WAIT_TIME) * 100)
+	var bonus : int = int((bonus_timer.time_left / bonus_wait_time) * 100)
 	
 	if bonus >= 70:
 		return GameManager.GRADING_BONUS.PERFECT

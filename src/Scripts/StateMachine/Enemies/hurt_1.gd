@@ -5,7 +5,7 @@ class_name Hurt1 extends State
 
 func enter() -> void:
 	parent.animation_player.play("hurt1")
-	parent.timer.wait_time = 0.8
+	parent.timer.wait_time = 0.6
 	parent.timer.start()
 	#parent.animation_player.play(animation_name)
 	pass
@@ -20,7 +20,7 @@ func process_frame(_delta: float) -> State:
 func process_physics(_delta: float) -> State:
 	
 	if parent.timer.time_left <= 0:
-		if parent.player_in_range:
+		if parent.player_in_range or parent is ShooterEnemy:
 			return attack_state
 		return pursue_state
 	

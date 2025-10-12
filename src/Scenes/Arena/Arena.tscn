@@ -1,7 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://cqmipwjw5ygil"]
+[gd_scene load_steps=9 format=3 uid="uid://cqmipwjw5ygil"]
 
 [ext_resource type="PackedScene" uid="uid://cwfahle4ha0uq" path="res://src/Scenes/Player/Player.tscn" id="1_bcb0y"]
 [ext_resource type="Script" uid="uid://cru4sfh1iabsn" path="res://src/Scripts/arena.gd" id="1_y77rj"]
+[ext_resource type="PackedScene" uid="uid://gm660tssfy3p" path="res://src/Scenes/Arena/spawn_point.tscn" id="3_8vyl5"]
+[ext_resource type="PackedScene" uid="uid://bgng18o8eqlbr" path="res://src/Scenes/Enemies/Bossman/BossMan.tscn" id="3_dyurl"]
+[ext_resource type="PackedScene" uid="uid://chr07c7ormw78" path="res://Assets/Art/3D Assets/Arena/Arena.gltf" id="3_xdt2v"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bcb0y"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -24,18 +27,6 @@ glow_enabled = true
 glow_intensity = 0.84
 glow_bloom = 0.06
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bcb0y"]
-albedo_color = Color(0.2998001, 0.7365796, 0, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u45fm"]
-albedo_color = Color(5.0055983e-06, 0.70066935, 0.7896899, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_iqv8f"]
-albedo_color = Color(1, 0, 1, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vbyki"]
-albedo_color = Color(0.97487015, 0.44784027, 0, 1)
-
 [node name="Arena" type="Node3D"]
 script = ExtResource("1_y77rj")
 
@@ -47,44 +38,31 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.29449487, -0.5144441, 0.09
 use_collision = true
 size = Vector3(30.490505, 1, 32.452606)
 
-[node name="LookAtPoint1" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.015076876, 3.2742057, -16.01521)
-material_override = SubResource("StandardMaterial3D_bcb0y")
-size = Vector3(24.113573, 6.498749, 0.4645996)
-
 [node name="LookAtMarker1" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.06286, -7.821911)
-
-[node name="LookAtPoint2" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.753009, 3.2909906, -0.9534409)
-material_override = SubResource("StandardMaterial3D_u45fm")
-size = Vector3(0.45669556, 6.532318, 25.406347)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1657887, 5.06286, -10.046472)
 
 [node name="LookAtMarker2" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.476391, 5.282816, 0)
-
-[node name="LookAtPoint3" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.784462, 3.2646232, 0.0007991791)
-material_override = SubResource("StandardMaterial3D_iqv8f")
-size = Vector3(0.45669556, 6.4795837, 25.130848)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.493327, 5.027676, 1.5202048)
 
 [node name="LookAtMarker3" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.766642, 4.680338, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.766642, 5.053264, 0)
 
 [node name="LookAtMarker4" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.368401, 9.165907)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0672512, 4.954662, 9.165907)
 
-[node name="LookAtPoint4" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14347625, 3.2302604, 15.947624)
-material_override = SubResource("StandardMaterial3D_vbyki")
-size = Vector3(24.610548, 6.410858, 0.4645996)
+[node name="LookAtMarker5" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2095776, -4.5918007, -30.512026)
 
-[node name="Player" parent="." node_paths=PackedStringArray("look_at_point_1", "look_at_point_2", "look_at_point_3", "look_at_point_4", "enemies_root") instance=ExtResource("1_bcb0y")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26049674, 0)
+[node name="BossMan" parent="." instance=ExtResource("3_dyurl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5762925, 11.261641, -30.963963)
+
+[node name="Player" parent="." node_paths=PackedStringArray("look_at_point_1", "look_at_point_2", "look_at_point_3", "look_at_point_4", "look_at_point_5", "enemies_root") instance=ExtResource("1_bcb0y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4126601, 0.26049674, 0)
 look_at_point_1 = NodePath("../LookAtMarker1")
 look_at_point_2 = NodePath("../LookAtMarker2")
 look_at_point_3 = NodePath("../LookAtMarker3")
 look_at_point_4 = NodePath("../LookAtMarker4")
+look_at_point_5 = NodePath("../LookAtMarker5")
 enemies_root = NodePath("../Enemies")
 
 [node name="Timer" parent="Player" index="0"]
@@ -98,42 +76,71 @@ wait_time = 2.0
 
 [node name="SpawnPoints" type="Node" parent="."]
 
-[node name="SpawnPoint" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.8373632, 0.18035996, -11.419043)
+[node name="SpawnPoint" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6723742, -0.025663018, -18.66822)
+direction = 1
 
-[node name="SpawnPoint2" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03935522, 0.18035996, -11.254795)
+[node name="SpawnPoint2" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.88273, 0.18035996, -17.10144)
+direction = 1
 
-[node name="SpawnPoint3" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.308029, 0.18035996, -11.816172)
+[node name="SpawnPoint3" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.39034, 0.25113177, -17.679783)
+direction = 1
 
-[node name="SpawnPoint4" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.235147, 0.18035996, -6.258873)
+[node name="SpawnPoint4" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.688004, 0.087194204, -6.493205)
+direction = 0
 
-[node name="SpawnPoint5" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.235147, 0.18035996, 0.016890407)
+[node name="SpawnPoint5" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.688004, 0.087194204, 1.7566061)
+direction = 0
 
-[node name="SpawnPoint6" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.235147, 0.18035996, 6.379573)
+[node name="SpawnPoint6" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.033154, 0.03154683, 9.653084)
+direction = 0
 
-[node name="SpawnPoint7" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.714564, 0.18035996, 14.147072)
+[node name="SpawnPoint7" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.700747, 0.23619938, 18.266758)
+direction = 1
 
-[node name="SpawnPoint8" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10111332, 0.18035996, 14.147072)
+[node name="SpawnPoint8" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0511355, 0.23619938, 17.040344)
+direction = 1
 
-[node name="SpawnPoint9" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.956991, 0.18035996, 14.147072)
+[node name="SpawnPoint9" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.3704948, 0.23619938, 18.529615)
+direction = 1
 
-[node name="SpawnPoint10" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.26079, 0.18035996, 6.1935673)
+[node name="SpawnPoint10" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.953999, 0.03154683, 9.62997)
+direction = 0
 
-[node name="SpawnPoint11" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.207383, 0.18035996, 0.7112644)
+[node name="SpawnPoint11" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.831499, 0.03154683, 0.60872936)
+direction = 0
 
-[node name="SpawnPoint12" type="Marker3D" parent="SpawnPoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.3409605, 0.18035996, -4.6153936)
+[node name="SpawnPoint12" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.404469, 0.03154683, -9.755968)
+direction = 0
+
+[node name="Arena" parent="." instance=ExtResource("3_xdt2v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1972485, -0.4170103, 0.53443813)
+
+[node name="eagletribune" parent="Arena" index="0"]
+transform = Transform3D(-1.1313121, 0, 0, 0, 1.1313121, 0, 0, 0, 1.1313121, -17.13766, 2.074502, 0.24186343)
+
+[node name="pakmantribune" parent="Arena" index="3"]
+transform = Transform3D(-1.1313121, 0, 0, 0, 1.1313121, 0, 0, 0, 1.1313121, -22.789068, 2.074502, 4.3989)
+
+[node name="purplehattribune" parent="Arena" index="4"]
+transform = Transform3D(-1.1313121, 0, 0, 0, 1.1313121, 0, 0, 0, 1.1313121, -25.474154, 2.074502, 0.24186343)
+
+[node name="groundin" parent="Arena" index="5"]
+transform = Transform3D(3.6950748, 0, -0.6190841, 0, 1, 0, 2.9128869, 0, 0.7853247, -7.6045585, 0.85346603, -23.235619)
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 
 [editable path="Player"]
+[editable path="Player/Head/Pistol"]
+[editable path="Arena"]

@@ -5,6 +5,8 @@ class_name Arena extends Node3D
 @onready var spawn_points: Node = $SpawnPoints
 @onready var enemies: Node = $Enemies
 
+enum SPAWN_POINT_DIR{ADJACENT,FORWARD}
+
 var spawn_time : int = 8
 
 func _ready() -> void:
@@ -14,9 +16,18 @@ func _ready() -> void:
 	SignalBus.decrement_spawn_time.connect(decrement_spawn_time)
 
 func _on_spawn_timer_timeout() -> void:
-	var enemy : Enemy = preload("uid://coiyr773xvwd4").instantiate()
-	var chosen_spawn_point : Marker3D = spawn_points.get_children().pick_random()
-	enemy.global_transform.origin = chosen_spawn_point.global_transform.origin
+	var enemy : Enemy = WaveManager.get_weighted_enemy().instantiate()
+	var chosen_spawn_point : SpawnPoint = spawn_points.get_children().pick_random()
+	var offset : Vector3 
+	match chosen_spawn_point.direction:
+		SPAWN_POINT_DIR.ADJACENT:
+			offset = Vector3(randi_range(0,-1),0,randi_range(-5,5))
+			if enemy is ShooterEnemy:
+				enemy.is_adjacent = true
+		SPAWN_POINT_DIR.FORWARD:
+			offset = Vector3(randi_range(-5,5),0,randi_range(0,-1))
+		
+	enemy.global_transform.origin = chosen_spawn_point.global_transform.origin + offset
 	enemies.add_child(enemy)
 	
 	var random_time : float = max(0.3, randi_range(spawn_time-2, spawn_time))
