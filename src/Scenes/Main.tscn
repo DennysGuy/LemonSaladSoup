@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://ky1tv07nahro"]
+[gd_scene load_steps=44 format=3 uid="uid://ky1tv07nahro"]
 
 [ext_resource type="PackedScene" uid="uid://cqmipwjw5ygil" path="res://src/Scenes/Arena/Arena.tscn" id="1_kwadw"]
 [ext_resource type="Script" uid="uid://dc8d3py4vg0ax" path="res://src/Scripts/main.gd" id="1_n3v4m"]
@@ -183,6 +183,18 @@ tracks/1/keys = {
 "method": &"transition_to_game_over_screen"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ColorRect2:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.574492, 0.08164664, 9.62615e-08, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_u2m37"]
 resource_name = "Invincibility"
@@ -249,6 +261,18 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ColorRect2:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.574492, 0.08164664, 9.62615e-08, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_xyvdf"]
@@ -343,12 +367,60 @@ tracks/6/keys = {
 "values": []
 }
 
+[sub_resource type="Animation" id="Animation_h0xvo"]
+resource_name = "new_animation"
+
+[sub_resource type="Animation" id="Animation_m1gvt"]
+resource_name = "Win"
+length = 2.0
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect2:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.99),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.99),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"go_to_win_screen"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eml7d"]
 _data = {
 &"Dead": SubResource("Animation_ojnsd"),
 &"Invincibility": SubResource("Animation_u2m37"),
 &"RESET": SubResource("Animation_j4yc3"),
-&"WaveStartCountDown": SubResource("Animation_xyvdf")
+&"WaveStartCountDown": SubResource("Animation_xyvdf"),
+&"Win": SubResource("Animation_m1gvt"),
+&"new_animation": SubResource("Animation_h0xvo")
 }
 
 [sub_resource type="Animation" id="Animation_e4c6v"]
@@ -582,6 +654,81 @@ _data = {
 &"show_grade_phrase": SubResource("Animation_iaes7")
 }
 
+[sub_resource type="Animation" id="Animation_1whra"]
+resource_name = "show_boss_hp"
+length = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/BossHP:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HUD/Label:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"fill_boss_hp"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_47f0w"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/BossHP:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HUD/Label:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h0xvo"]
+_data = {
+&"RESET": SubResource("Animation_47f0w"),
+&"show_boss_hp": SubResource("Animation_1whra")
+}
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_n3v4m")
 
@@ -596,7 +743,9 @@ grow_vertical = 2
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/SubViewportContainer"]
+transparent_bg = true
 handle_input_locally = false
+canvas_item_default_texture_filter = 0
 size = Vector2i(1280, 720)
 render_target_update_mode = 4
 
@@ -976,6 +1125,27 @@ offset_right = -25.0
 offset_bottom = -37.0
 grow_vertical = 0
 
+[node name="Label" type="Label" parent="HUD"]
+visible = false
+offset_left = 124.0
+offset_top = -1.0
+offset_right = 199.0
+offset_bottom = 22.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+text = "Boss Man"
+
+[node name="BossHP" type="ProgressBar" parent="HUD"]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -518.0
+offset_top = 24.0
+offset_right = 518.0
+offset_bottom = 48.0
+grow_horizontal = 2
+show_percentage = false
+
 [node name="ColorRect2" type="ColorRect" parent="HUD"]
 modulate = Color(1, 1, 1, 0)
 anchors_preset = 15
@@ -1034,6 +1204,11 @@ one_shot = true
 process_callback = 0
 wait_time = 2.0
 one_shot = true
+
+[node name="BossHealthBarPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_h0xvo")
+}
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="ComboMeterTimer" to="." method="_on_combo_meter_timer_timeout"]

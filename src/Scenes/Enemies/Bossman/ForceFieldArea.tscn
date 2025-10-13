@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://ce6vfuveeoya8"]
+
+[ext_resource type="Script" uid="uid://cirjhars6r783" path="res://src/Scenes/Enemies/Bossman/force_field_area.gd" id="1_ocqyh"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4pnfd"]
+size = Vector3(5.7897644, 6.610779, 1)
+
+[node name="ForceFieldArea" type="StaticBody3D"]
+collision_layer = 32
+collision_mask = 32
+script = ExtResource("1_ocqyh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.11054993, 2.8053894, 0)
+shape = SubResource("BoxShape3D_4pnfd")

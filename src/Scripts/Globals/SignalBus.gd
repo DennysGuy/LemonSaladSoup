@@ -109,3 +109,15 @@ signal hide_gun
 signal make_boss_jump
 @warning_ignore("unused_signal")
 signal make_boss_fall
+@warning_ignore("unused_signal")
+signal show_boss_hp
+@warning_ignore("unused_signal")
+signal reflect_bullet
+@warning_ignore("unused_signal")
+signal end_game
+@warning_ignore("unused_signal")
+signal disable_force_field
+@warning_ignore("unused_signal")
+signal show_hud
+@warning_ignore("unused_signal")
+signal update_boss_hp

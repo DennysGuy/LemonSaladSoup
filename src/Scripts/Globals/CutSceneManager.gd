@@ -7,6 +7,9 @@ func _ready() -> void:
 func look_at_boss_man():
 	SignalBus.look_at_point.emit("point 5")
 
+func look_at_point_6():
+	SignalBus.look_at_point.emit("point 6")
+
 func look_at_point_1():
 	SignalBus.look_at_point.emit("point 1")
 
@@ -45,8 +48,17 @@ func disable_player_movement() -> void:
 func play_intro_cutscene() -> void:
 	Dialogic.start("intro")
 
+func show_boss_hp() -> void:
+	SignalBus.show_boss_hp.emit()
+
 func shake_camera() -> void:
 	SignalBus.shake_camera.emit(2.0)
 
 func play_fight_commencement_scene() -> void:
 	Dialogic.start("Fight_Commencement")
+
+func disable_force_field() -> void:
+	SignalBus.disable_force_field.emit()
+
+func show_hude() -> void:
+	SignalBus.show_hud.emit()

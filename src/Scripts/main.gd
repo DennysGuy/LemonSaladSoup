@@ -18,6 +18,8 @@ class_name Main extends Node3D
 var should_blink = true
 var blinking = false
 
+@onready var boss_hp: ProgressBar = $HUD/BossHP
+
 @onready var combo_meter_animation_player: AnimationPlayer = $ComboMeterAnimationPlayer
 @onready var grade_phrase_player: AnimationPlayer = $GradePhrasePlayer
 @onready var rifle_mag_reload_animation_player: AnimationPlayer = $RifleMagReloadAnimationPlayer
@@ -78,7 +80,11 @@ func _ready() -> void:
 	SignalBus.update_rifle_ammo.connect(update_rifle_ammo_count)
 	
 	SignalBus.initialize_countdown.connect(init_count_down)
+	SignalBus.end_game.connect(fade_to_win)
+	SignalBus.show_boss_hp.connect(show_boss_hp)
 	
+	SignalBus.show_hud.connect(show_hud)
+	SignalBus.update_boss_hp.connect(update_boss_hp)
 	update_combo_meter_label()
 	update_health()
 	update_score()
@@ -181,7 +187,20 @@ func _on_timer_timeout() -> void:
 
 func update_score() -> void:
 	score_count.text = str(GameManager.score)
+	
+@onready var boss_health_bar_player: AnimationPlayer = $BossHealthBarPlayer
 
+func show_boss_hp() -> void:
+	boss_health_bar_player.play("show_boss_hp")
+
+func fill_boss_hp() -> void:
+	while boss_hp.value < boss_hp.max_value:
+		boss_hp.value += 1
+		await get_tree().create_timer(0.02).timeout
+	
+	boss_hp.max_value = GameManager.boss_health
+	boss_hp.value = boss_hp.max_value	
+	
 
 func play_game_over_fade() -> void:
 	animation_player.play("Dead")
@@ -275,6 +294,28 @@ func _on_added_score_label_timer_timeout() -> void:
 
 func _on_combo_meter_timer_timeout() -> void:
 	reset_combo_meter()
+
+func fade_to_win() -> void:
+	animation_player.play("Win")
+
+func go_to_win_screen() -> void:
+	#TO BE REPLACE WITH ENDING CUTSCENE!!!!
+	print("UMM??")
+	get_tree().change_scene_to_file("res://src/Scenes/Menus/GameWinScreen.tscn")
+
+
+func show_hud() -> void:
+	score_label.show()
+	score_count.show()
+	total_timer.show()
+	added_score_label_player.play("show_health")
+	if GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL:
+		magazine_reload_animation_player.play("show_mag")
+	else:
+		rifle_mag_reload_animation_player.play("show_mag")
+
+func update_boss_hp() -> void:
+	boss_hp.value = GameManager.boss_health
 
 func show_grading_phrase(bonus: int) -> void:
 	match bonus:

@@ -18,6 +18,7 @@ var ammo_count : int = PISTOL_MAGAZINE_SIZE
 var rifle_ammo_count : int = 50
 var rifle_mag_ammo_count : int = 10
 
+var boss_health : int = 3
 
 var equipped_weapon : int = WEAPONS.PISTOL
 

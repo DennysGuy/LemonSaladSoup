@@ -9,11 +9,11 @@ const MAX_WAVE :int = 2
 @onready var waves : Dictionary = {
 	
 	0 : {
-		"time": 10,
+		"time": 30,
 		"decrement_interval": 20,
 		"decrement_amount": 1,
 		"kill_quota":30,
-		"spawn_time":12, #in seconds
+		"spawn_time":5, #in seconds
 		"enemies": [
 			{"scene": walker, "weight": 100},
 		],
@@ -21,11 +21,11 @@ const MAX_WAVE :int = 2
 	},
 	
 	1 : {
-		"time": 10,
+		"time": 40,
 		"decrement_interval": 20,
 		"decrement_around": 0.5,
 		"kill_quota":60,
-		"spawn_time":12, #in seconds
+		"spawn_time":5, #in seconds
 		"enemies": [
 			{"scene": walker, "weight": 75},
 			{"scene": sprinter, "weight": 50}
@@ -34,10 +34,10 @@ const MAX_WAVE :int = 2
 	},
 	
 	2 : {
-		"time": 10,
+		"time": 50,
 		"decrement_interval":9,
 		"kill_quota":200,
-		"spawn_time":12, #in seconds
+		"spawn_time":5, #in seconds
 		"decrement_around": 0.5,
 		"enemies": [
 			{"scene": walker, "weight": 75},

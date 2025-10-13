@@ -1523,10 +1523,10 @@ _data = {
 size = Vector3(0.96308136, 3.4168777, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6c4ay"]
-size = Vector3(1.4772174, 1.0061722, 1)
+size = Vector3(1.332847, 0.6559181, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_mlvyd"]
-size = Vector3(1.9436853, 3.7470965, 1.8095703)
+size = Vector3(1.9436853, 2.6761508, 1.8095703)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rgxcw"]
 size = Vector3(1, 1, 1.9604492)
@@ -1541,7 +1541,7 @@ hurt_2_state = NodePath("StateMachine/Hurt2")
 head_shot_dead = NodePath("StateMachine/HeadShotDead")
 
 [node name="redgrunt2" type="Node3D" parent="."]
-transform = Transform3D(-0.7, 0, 1.0569706e-07, 0, 0.7, 0, -1.0569706e-07, 0, -0.7, 0, -0.025972724, -0.34533262)
+transform = Transform3D(-0.5, 0, 7.54979e-08, 0, 0.5, 0, -7.54979e-08, 0, -0.5, 0, -0.21143794, -0.34533262)
 
 [node name="redgrunt" type="Node3D" parent="redgrunt2"]
 transform = Transform3D(0.9997222, -0.00048738858, 0.023565844, 0.005682031, 0.97528553, -0.22087517, -0.022875775, 0.22094771, 0.97501737, 0, 4.4663167, -0.88858163)
@@ -1749,21 +1749,19 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00038528442, 2.064457, 0)
 shape = SubResource("BoxShape3D_bltgf")
 
 [node name="HeadCollider" parent="." instance=ExtResource("10_sqskc")]
-transform = Transform3D(0.99999994, 0, 1.8626451e-09, 0, 0.9999999, 1.4901161e-08, 1.8626451e-09, 1.4901161e-08, 1, 0.17420785, 4.9438863, -1.7134112)
+transform = Transform3D(0.99999994, 0, 1.8626451e-09, 0, 0.9999999, 1.4901161e-08, 1.8626451e-09, 1.4901161e-08, 1, 0.12534826, 3.087216, -1.7134112)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HeadCollider"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.13087094, -0.45454454, 0)
 shape = SubResource("BoxShape3D_6c4ay")
 
 [node name="BodyCollider" parent="." instance=ExtResource("11_dwuo6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4761045, 0.29177594, -3.6490285)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.01193738, 1.3911202, -3.6490285)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BodyCollider"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.50437605, 1.9246805, 1.7324119)
 shape = SubResource("BoxShape3D_mlvyd")
 
 [node name="PlayerSensor" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6216636, -3.4659004)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.803263, -3.4659004)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerSensor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.4802246)

@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bvlludo0cgh"
+uid="uid://ciowhj5oh2768"
 path="res://.godot/imported/Arena.gltf-a2549fb7d50841e85a80185f06349e1e.scn"
 
 [deps]
@@ -35,7 +35,7 @@ animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
 materials/extract=0
-materials/extract_format=0
+materials/extract_format=2
 materials/extract_path=""
 _subresources={}
 gltf/naming_version=2

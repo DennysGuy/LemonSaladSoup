@@ -1,9 +1,16 @@
-[gd_scene load_steps=26 format=4 uid="uid://bgng18o8eqlbr"]
+[gd_scene load_steps=38 format=4 uid="uid://bgng18o8eqlbr"]
 
 [ext_resource type="Script" uid="uid://ul15qip4sekq" path="res://src/Scripts/boss_man.gd" id="1_h1to1"]
 [ext_resource type="Texture2D" uid="uid://bbjb1ilx5yua4" path="res://src/Scenes/Enemies/Bossman/the boss.png" id="1_o38e3"]
 [ext_resource type="Script" uid="uid://8wtefolfa40m" path="res://src/Scripts/StateMachine/state_machine.gd" id="3_0nyyy"]
+[ext_resource type="Script" uid="uid://decldva6mr8qq" path="res://src/Scripts/stand.gd" id="4_0yxx0"]
 [ext_resource type="Script" uid="uid://c5dd5eju5rwlp" path="res://src/Scripts/idle.gd" id="4_qr336"]
+[ext_resource type="Script" uid="uid://2aq1vkx4qcr3" path="res://src/Scenes/Enemies/Bossman/boss_hurt_1.gd" id="6_0yxx0"]
+[ext_resource type="Script" uid="uid://cboaw4w1yuibf" path="res://src/Scenes/Enemies/Bossman/boss_hurt_2.gd" id="7_0fe25"]
+[ext_resource type="Script" uid="uid://xt18wpp4h4u8" path="res://src/Scenes/Enemies/Bossman/boss_dead.gd" id="8_cn8pk"]
+[ext_resource type="PackedScene" uid="uid://dbjgbhbibqyfq" path="res://src/Scenes/Enemies/BodyCollider.tscn" id="11_fux1f"]
+[ext_resource type="PackedScene" uid="uid://ce6vfuveeoya8" path="res://src/Scenes/Enemies/Bossman/ForceFieldArea.tscn" id="12_hoi2c"]
+[ext_resource type="PackedScene" uid="uid://cyulroyk7t1a5" path="res://src/Scenes/Enemies/HeadCollider.tscn" id="12_jyc31"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n2aus"]
 resource_name = "boss"
@@ -786,9 +793,32 @@ _data = {
 [sub_resource type="SphereShape3D" id="SphereShape3D_h1to1"]
 radius = 2.2830253
 
-[node name="BossMan" type="CharacterBody3D"]
+[sub_resource type="Animation" id="Animation_4ghyt"]
+resource_name = "react"
+length = 0.5
+
+[sub_resource type="Animation" id="Animation_kgghi"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fux1f"]
+_data = {
+&"RESET": SubResource("Animation_kgghi"),
+&"react": SubResource("Animation_4ghyt")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jyc31"]
+size = Vector3(3.7601166, 4.114189, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hoi2c"]
+size = Vector3(2.618103, 2.1132202, 1)
+
+[node name="BossMan" type="CharacterBody3D" node_paths=PackedStringArray("dead_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
 script = ExtResource("1_h1to1")
-base_score = 1000
+base_score = 5000
+dead_state = NodePath("StateMachine/Dead")
+hurt_1_state = NodePath("StateMachine/Hurt1")
+hurt_2_state = NodePath("StateMachine/Hurt2")
+head_shot_dead = NodePath("StateMachine/Dead")
 
 [node name="boss" type="Node3D" parent="."]
 
@@ -967,11 +997,47 @@ libraries = {
 script = ExtResource("3_0nyyy")
 initial_state = NodePath("Idle")
 
+[node name="Stand" type="Node" parent="StateMachine"]
+script = ExtResource("4_0yxx0")
+
 [node name="Idle" type="Node" parent="StateMachine"]
 script = ExtResource("4_qr336")
+
+[node name="Hurt1" type="Node" parent="StateMachine"]
+script = ExtResource("6_0yxx0")
+
+[node name="Hurt2" type="Node" parent="StateMachine"]
+script = ExtResource("7_0fe25")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("8_cn8pk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.151082, 0)
 shape = SubResource("SphereShape3D_h1to1")
 
 [node name="BonusTimer" type="Timer" parent="."]
+
+[node name="ForceFieldPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_fux1f")
+}
+
+[node name="BodyCollider" parent="." instance=ExtResource("11_fux1f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.027955055, 0, 2.6654024)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BodyCollider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.039390564, 1.5570946, 0)
+shape = SubResource("BoxShape3D_jyc31")
+
+[node name="HeadCollider" parent="." instance=ExtResource("12_jyc31")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.020795703, 4.29437, 2.3955746)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HeadCollider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05960083, 0.41201782, 0)
+shape = SubResource("BoxShape3D_hoi2c")
+
+[node name="ForceFieldArea" parent="." instance=ExtResource("12_hoi2c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.9940536)
+
+[editable path="ForceFieldArea"]

@@ -7,14 +7,15 @@ class_name Player
 @export var look_at_point_3 : Marker3D
 @export var look_at_point_4 : Marker3D
 @export var look_at_point_5 : Marker3D
+@export var look_at_point_6 : Marker3D
 
 @onready var look_at_points : Dictionary[String,Marker3D] = {
 	"point 1" : look_at_point_1,
 	"point 2" : look_at_point_2,
 	"point 3" : look_at_point_3,
 	"point 4" : look_at_point_4,
-	"point 5" : look_at_point_5
-	
+	"point 5" : look_at_point_5,
+	"point 6" : look_at_point_6,	
 }
 
 
@@ -231,6 +232,11 @@ func shoot_enemy(enemy_body_part : Node3D):
 			seen_enemy.damage_enemy()
 		elif enemy_body_part is EnemyHeadCollider:
 			seen_enemy.head_shot_kill()
+		elif seen_enemy is BossMan and enemy_body_part is ForceFieldArea:
+			print("in here babyyy")
+			seen_enemy.play_reflection()
+		
+		print("HELLO?")
 	
 func damage_player() -> void:
 	if can_be_hit:
@@ -321,7 +327,7 @@ func shoot_ray() -> Node3D:
 	ray_query.collision_mask = 1 << 5 # adjust to hit only desired targets
 
 	var result = space.intersect_ray(ray_query)
-
+	print(result)
 	if result:
 		return result["collider"]
 	else:

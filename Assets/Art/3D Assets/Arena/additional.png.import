@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cg048u3mwgqmi"
-path.s3tc="res://.godot/imported/land.png-f69ff1738cceed7df92f7198e3b5fabb.s3tc.ctex"
+uid="uid://ce7rorlkpixgi"
+path.s3tc="res://.godot/imported/additional.png-ebf72eab91f476fc9a9a82346c93acbb.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Art/3D Assets/Arena/land.png"
-dest_files=["res://.godot/imported/land.png-f69ff1738cceed7df92f7198e3b5fabb.s3tc.ctex"]
+source_file="res://Assets/Art/3D Assets/Arena/additional.png"
+dest_files=["res://.godot/imported/additional.png-ebf72eab91f476fc9a9a82346c93acbb.s3tc.ctex"]
 
 [params]
 

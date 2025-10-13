@@ -1,7 +1,7 @@
 class_name Enemy extends CharacterBody3D
 
 var player : Player
-
+var prev_state : State
 @export_group("Enemy Stats")
 @export var move_speed  : float = 40
 @export var health : int = 3
@@ -13,8 +13,11 @@ var player : Player
 @export var hurt_1_state : State
 @export var hurt_2_state : State
 @export var head_shot_dead : State
+@export var reflect_state : State
 
 var can_receive_bonus : bool = true
+
+var is_boss : bool = false
 
 @onready var state_machine : StateMachine = $StateMachine
 @onready var hurt_states : Array[State] = [hurt_1_state, hurt_2_state]
@@ -26,6 +29,7 @@ var alive : bool = true
 var timer_bonus : int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	
 	player = get_tree().get_first_node_in_group("Player")
 	bonus_timer.start()
 	bonus_timer.wait_time = bonus_wait_time
@@ -58,7 +62,11 @@ func kill_enemy() -> void:
 func head_shot_kill() -> void:
 	if not alive:
 		return
-		
+	
+	if is_boss:
+		GameManager.boss_health = 0
+		SignalBus.update_boss_hp.emit()
+	
 	alive = false
 	
 	if can_receive_bonus:
@@ -73,8 +81,12 @@ func head_shot_kill() -> void:
 
 
 func damage_enemy() -> void:
-	if not alive:
+	if not alive:	
 		return
+	
+	if is_boss:
+		GameManager.boss_health -= 1
+		SignalBus.update_boss_hp.emit()
 	
 	var chosen_state : State = hurt_states.pick_random()
 	state_machine.change_state(chosen_state)

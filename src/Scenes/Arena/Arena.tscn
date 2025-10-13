@@ -1,11 +1,15 @@
-[gd_scene load_steps=15 format=3 uid="uid://cqmipwjw5ygil"]
+[gd_scene load_steps=26 format=3 uid="uid://cqmipwjw5ygil"]
 
 [ext_resource type="PackedScene" uid="uid://cwfahle4ha0uq" path="res://src/Scenes/Player/Player.tscn" id="1_bcb0y"]
 [ext_resource type="Script" uid="uid://cru4sfh1iabsn" path="res://src/Scripts/arena.gd" id="1_y77rj"]
 [ext_resource type="Shader" uid="uid://bwvtys3k70f0v" path="res://src/Scripts/Shaders/posturized.gdshader" id="2_rtywf"]
 [ext_resource type="PackedScene" uid="uid://gm660tssfy3p" path="res://src/Scenes/Arena/spawn_point.tscn" id="3_8vyl5"]
 [ext_resource type="PackedScene" uid="uid://bgng18o8eqlbr" path="res://src/Scenes/Enemies/Bossman/BossMan.tscn" id="3_dyurl"]
-[ext_resource type="PackedScene" uid="uid://bvlludo0cgh" path="res://Assets/Art/3D Assets/Arena/Arena.gltf" id="3_xdt2v"]
+[ext_resource type="PackedScene" uid="uid://dp8uwe0ukirn6" path="res://src/Scenes/Arena/CrowdSection.tscn" id="3_rtywf"]
+[ext_resource type="PackedScene" uid="uid://ciowhj5oh2768" path="res://Assets/Art/3D Assets/Arena/Arena.gltf" id="3_xdt2v"]
+[ext_resource type="Script" uid="uid://bjmk5fm8aq68w" path="res://src/Scripts/crowd_section.gd" id="4_kxm4e"]
+[ext_resource type="Texture2D" uid="uid://dtd8lfpr4peg7" path="res://Assets/Art/2D Assets/crowd/ceowd2.png" id="5_2q4a7"]
+[ext_resource type="Texture2D" uid="uid://dfgawr1cq1sdh" path="res://Assets/Art/2D Assets/crowd/crowd4.png" id="6_2q4a7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bcb0y"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -16,62 +20,20 @@ sky_material = SubResource("ProceduralSkyMaterial_bcb0y")
 
 [sub_resource type="Environment" id="Environment_vbyki"]
 background_mode = 1
-background_energy_multiplier = 1.55
+background_energy_multiplier = 1.2
 sky = SubResource("Sky_u45fm")
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_energy = 2.37
+ambient_light_energy = 0.25
 tonemap_mode = 2
-tonemap_exposure = 1.56
-tonemap_white = 1.21
-glow_enabled = true
+tonemap_exposure = 0.6
+tonemap_white = 0.78
 glow_intensity = 0.84
 glow_bloom = 0.06
-
-[sub_resource type="Animation" id="Animation_rtywf"]
-resource_name = "BossFalls"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(3.5762925, 9.955317, -15.612841), Vector3(3.5762925, -0.5751009, -15.612841)]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("..")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.2),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"boss_fall_shake"
-}]
-}
-
-[sub_resource type="Animation" id="Animation_dyurl"]
-resource_name = "BossJumps"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(3.5762925, 11.261641, -30.963963), Vector3(3.5762925, 29.696177, -30.963963)]
-}
+adjustment_enabled = true
+adjustment_brightness = 1.81
+adjustment_contrast = 1.2
+adjustment_saturation = 1.2
 
 [sub_resource type="Animation" id="Animation_jaoi6"]
 length = 0.001
@@ -85,32 +47,164 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(3.5762925, 11.261641, -30.963963)]
+"values": [Vector3(3.5762925, 11.240027, -39.211594)]
+}
+
+[sub_resource type="Animation" id="Animation_2q4a7"]
+resource_name = "BossJump"
+length = 0.21
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(3.5762925, 11.240027, -39.211594), Vector3(3.5762925, 24.823017, -39.211594)]
+}
+
+[sub_resource type="Animation" id="Animation_7btvj"]
+resource_name = "BossFall"
+length = 0.25
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(3.5762925, 23.066269, -26.76021), Vector3(3.5762925, 6.5914745, -26.76021)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.25),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"boss_fall_shake"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jaoi6"]
 _data = {
-&"BossFalls": SubResource("Animation_rtywf"),
-&"BossJumps": SubResource("Animation_dyurl"),
+&"BossFall": SubResource("Animation_7btvj"),
+&"BossJump": SubResource("Animation_2q4a7"),
 &"RESET": SubResource("Animation_jaoi6")
 }
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_rtywf"]
 render_priority = 0
 shader = ExtResource("2_rtywf")
-shader_parameter/TwixelAngle = 15.0000007125
-shader_parameter/PixelSize = 1.30000001425
+shader_parameter/TwixelAngle = 5.1050002424875
+shader_parameter/PixelSize = 2.1110000527725
 shader_parameter/Posterize = true
-shader_parameter/ColorSteps = 27
+shader_parameter/ColorSteps = 21
 shader_parameter/UsePalette = false
 shader_parameter/PaletteSize = 12
 shader_parameter/PaletteColor0 = Color(0.2451118, 0.46786785, 0, 1)
 shader_parameter/PaletteColor1 = Color(0.5950379, 0.3925392, 0.33783975, 1)
 shader_parameter/PaletteColor2 = Color(0.8506885, 0.68643045, 0.5845491, 1)
 shader_parameter/PaletteColor3 = Color(0.9, 0.85, 0.7, 1)
-shader_parameter/Brightness = 1.2190000579025
+shader_parameter/Brightness = 0.8790000417525
 shader_parameter/Saturation = 1.1850000562875
-shader_parameter/Contrast = 0.95600004541
+shader_parameter/Contrast = 0.7830000371925
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7btvj"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("5_2q4a7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r2r13"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("5_2q4a7")
+
+[sub_resource type="Animation" id="Animation_o0t3u"]
+resource_name = "Shuffle1"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Crowd:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.38, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector3(-1.6757538, -1.1419258, 0), Vector3(-1.6757538, -0.77780163, 0), Vector3(-1.6757538, -1.1419258, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Crowd2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.53),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector3(1.6295896, -1.1419258, 0.07423401), Vector3(1.6295896, -1.4492267, 0.07423401), Vector3(1.6295896, -1.1419258, 0.07423401)]
+}
+
+[sub_resource type="Animation" id="Animation_ubcel"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Crowd:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.6757538, -1.1419258, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Crowd2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.6295896, -1.1419258, 0.07423401)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y1ij3"]
+_data = {
+&"RESET": SubResource("Animation_ubcel"),
+&"Shuffle1": SubResource("Animation_o0t3u")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_petva"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("6_2q4a7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2q4a7"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("6_2q4a7")
 
 [node name="Arena" type="Node3D"]
 script = ExtResource("1_y77rj")
@@ -119,7 +213,7 @@ script = ExtResource("1_y77rj")
 environment = SubResource("Environment_vbyki")
 
 [node name="Floor" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.29449487, -0.5144441, 0.09883499)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.29449487, 5.057624, -11.227515)
 use_collision = true
 size = Vector3(30.490505, 1, 32.452606)
 
@@ -134,51 +228,511 @@ transform = Transform3D(115.6848, 0, 0, 0, 115.6848, 0, 0, 0, 115.6848, 7.309308
 material_override = SubResource("ShaderMaterial_rtywf")
 size = Vector3(2.0561523, 1.5961914, 2.1782837)
 
+[node name="CrowdSectors" type="Node3D" parent="."]
+
+[node name="CrowdSection12" parent="CrowdSectors" instance=ExtResource("3_rtywf")]
+transform = Transform3D(-0.002234024, 0, -0.9999975, 0, 1, 0, 0.9999975, 0, -0.002234024, 29.842129, 12.92313, -12.855797)
+
+[node name="CrowdSection14" parent="CrowdSectors" instance=ExtResource("3_rtywf")]
+transform = Transform3D(-0.6317452, 0, -0.7751761, 0, 1, 0, 0.7751761, 0, -0.6317452, 31.916119, 12.92313, -18.666706)
+
+[node name="CrowdSection13" parent="CrowdSectors" instance=ExtResource("3_rtywf")]
+transform = Transform3D(0.57791454, 0, -0.81609714, 0, 1, 0, 0.81609714, 0, 0.57791454, 31.477318, 12.92313, -6.9889336)
+
+[node name="CrowdSection24" parent="CrowdSectors" instance=ExtResource("3_rtywf")]
+transform = Transform3D(-0.005567629, 0, 0.99998444, 0, 1, 0, -0.99998444, 0, -0.005567629, -24.064896, 16.665018, -12.828141)
+
+[node name="CrowdSection25" parent="CrowdSectors" instance=ExtResource("3_rtywf")]
+transform = Transform3D(0.62567836, 0, 0.78008115, 0, 1, 0, -0.78008115, 0, 0.62567836, -26.093487, 16.665018, -7.0012283)
+
+[node name="CrowdSection26" parent="CrowdSectors" instance=ExtResource("3_rtywf")]
+transform = Transform3D(-0.58426374, 0, 0.81156355, 0, 1, 0, -0.81156355, 0, -0.58426374, -25.745804, 16.665018, -18.682068)
+
+[node name="CrowdSection" parent="CrowdSectors" instance=ExtResource("3_rtywf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.372229, 10.206361, -33.457314)
+
+[node name="CrowdSection3" parent="CrowdSectors" instance=ExtResource("3_rtywf")]
+transform = Transform3D(0.82163703, 0, 0.5700111, 0, 1, 0, -0.5700111, 0, 0.82163703, 9.154591, 10.206361, -35.193428)
+
+[node name="CrowdSection2" parent="CrowdSectors" instance=ExtResource("3_rtywf")]
+transform = Transform3D(0.7843868, 0, -0.620272, 0, 1, 0, 0.620272, 0, 0.7843868, -2.2325335, 10.1778145, -35.53398)
+
+[node name="CrowdSection27" parent="CrowdSectors" instance=ExtResource("3_rtywf")]
+transform = Transform3D(-0.99967444, 0, 0.025513893, 0, 1, 0, -0.025513893, 0, -0.99967444, 3.8213594, 10.102824, 11.382498)
+
+[node name="CrowdSection28" parent="CrowdSectors" instance=ExtResource("3_rtywf")]
+transform = Transform3D(-0.8359127, 0, -0.5488624, 0, 1, 0, 0.5488624, 0, -0.8359127, -2.0034149, 10.102824, 12.970518)
+
+[node name="CrowdSection29" parent="CrowdSectors" instance=ExtResource("3_rtywf")]
+transform = Transform3D(-0.7683059, 0, 0.6400828, 0, 1, 0, -0.6400828, 0, -0.7683059, 9.371313, 10.074278, 13.601492)
+
+[node name="CrowdSection4" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(0.7843868, 0, -0.620272, 0, 1, 0, 0.620272, 0, 0.7843868, -2.4632235, 12.874541, -38.267082)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_7btvj")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_r2r13")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection4"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection7" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(0.7843868, 0, -0.620272, 0, 1, 0, 0.620272, 0, 0.7843868, -4.0852647, 16.571491, -41.521812)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_petva")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_2q4a7")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection7"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection15" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(-0.021762485, 0, -0.99976313, 0, 1, 0, 0.99976313, 0, -0.021762485, 32.32871, 16.571491, -12.771433)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection15"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_petva")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection15"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_2q4a7")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection15"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection17" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(-0.5973732, 0, -0.80196345, 0, 1, 0, 0.80196345, 0, -0.5973732, 34.181084, 16.50618, -18.728415)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection17"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_petva")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection17"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_2q4a7")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection17"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection16" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(0.5639585, 0, -0.8258031, 0, 1, 0, 0.8258031, 0, 0.5639585, 34.428215, 16.349842, -6.404115)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection16"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_petva")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection16"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_2q4a7")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection16"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection18" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(0.023490041, 0, 0.9997241, 0, 1, 0, -0.9997241, 0, 0.023490041, -22.225702, 12.577885, -12.836152)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection18"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_petva")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection18"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_2q4a7")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection18"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection19" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(0.59875804, 0, 0.8009299, 0, 1, 0, -0.8009299, 0, 0.59875804, -24.08837, 12.512573, -6.8823795)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection19"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_petva")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection19"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_2q4a7")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection19"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection20" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(-0.56253064, 0, 0.8267764, 0, 1, 0, -0.8267764, 0, -0.56253064, -24.314203, 12.3562355, -19.207088)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection20"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_petva")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection20"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_2q4a7")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection20"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection33" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(-0.9992987, 0, -0.03744591, 0, 1, 0, 0.03744591, 0, -0.9992987, 3.4143648, 16.311932, 16.86315)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection33"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_petva")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection33"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_2q4a7")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection33"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection34" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(-0.83591264, 0, 0.54886246, 0, 1, 0, -0.54886246, 0, -0.83591264, 9.470536, 16.24662, 18.359718)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection34"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_petva")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection34"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_2q4a7")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection34"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection35" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(-0.7909781, 0, -0.6118444, 0, 1, 0, 0.6118444, 0, -0.7909781, -2.8175344, 16.090282, 19.335821)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection35"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_petva")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection35"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_2q4a7")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection35"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection8" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(0.7984989, 0, 0.6019963, 0, 1, 0, -0.6019963, 0, 0.7984989, 10.259064, 16.571491, -41.171913)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_petva")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_2q4a7")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection8"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection5" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4232092, 12.49171, -35.97135)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_7btvj")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_r2r13")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection5"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection9" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(0.0120424265, 0, -0.99992746, 0, 1, 0, 0.99992746, 0, 0.0120424265, 26.8817, 9.836549, -12.844014)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_7btvj")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_r2r13")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection9"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection11" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(-0.56192464, 0, -0.8271886, 0, 1, 0, 0.8271886, 0, -0.56192464, 29.007204, 9.836549, -18.242645)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_7btvj")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_r2r13")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection11"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection10" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(0.59332055, 0, -0.80496645, 0, 1, 0, 0.80496645, 0, 0.59332055, 28.829456, 9.836549, -7.140438)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_7btvj")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_r2r13")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection10"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection21" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(-0.02162299, 0, 0.9997663, 0, 1, 0, -0.9997663, 0, -0.02162299, -18.487106, 9.836549, -13.099882)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection21"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_7btvj")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection21"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_r2r13")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection21"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection22" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(0.5539729, 0, 0.832535, 0, 1, 0, -0.832535, 0, 0.5539729, -20.560783, 9.836549, -7.681132)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection22"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_7btvj")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection22"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_r2r13")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection22"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection23" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(-0.6010063, 0, 0.7992444, 0, 1, 0, -0.7992444, 0, -0.6010063, -20.489424, 9.836549, -18.784533)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection23"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_7btvj")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection23"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_r2r13")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection23"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection6" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(0.79889804, 0, 0.6014665, 0, 1, 0, -0.6014665, 0, 0.79889804, 9.184355, 12.522444, -38.153564)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_7btvj")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_r2r13")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection6"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection30" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(-0.8219949, 0, 0.5694947, 0, 1, 0, -0.5694947, 0, -0.8219949, 9.267896, 13.553763, 15.924162)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection30"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_7btvj")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection30"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_r2r13")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection30"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection31" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(-0.99800366, 0, -0.06315623, 0, 1, 0, 0.06315623, 0, -0.99800366, 3.2482252, 13.170932, 14.00478)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection31"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_7btvj")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection31"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_r2r13")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection31"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
+[node name="CrowdSection32" type="Node3D" parent="CrowdSectors"]
+transform = Transform3D(-0.7593168, 0, -0.6507211, 0, 1, 0, 0.6507211, 0, -0.7593168, -2.3635979, 13.201666, 16.546488)
+script = ExtResource("4_kxm4e")
+
+[node name="Crowd" type="CSGBox3D" parent="CrowdSectors/CrowdSection32"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_7btvj")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="CrowdSectors/CrowdSection32"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_r2r13")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CrowdSectors/CrowdSection32"]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}
+
 [node name="LookAtMarker1" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1657887, 5.06286, -10.046472)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1657887, 10.358492, -27.660816)
+
+[node name="LookAtMarker6" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1657887, 8.704174, -27.660816)
 
 [node name="LookAtMarker2" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.493327, 5.027676, 1.5202048)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.289864, 10.627652, -11.847483)
 
 [node name="LookAtMarker3" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.766642, 5.053264, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.914546, 10.569751, -13.961649)
 
 [node name="LookAtMarker4" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.0672512, 4.954662, 9.165907)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2274227, 10.425607, 3.1084652)
 
 [node name="LookAtMarker5" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2095776, -4.5918007, -30.512026)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9367542, 5.0822, -35.437717)
 
 [node name="BossMan" parent="." instance=ExtResource("3_dyurl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5762925, 11.261641, -30.963963)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5762925, 11.240027, -39.211594)
 
-[node name="Player" parent="." node_paths=PackedStringArray("look_at_point_1", "look_at_point_2", "look_at_point_3", "look_at_point_4", "look_at_point_5", "enemies_root") instance=ExtResource("1_bcb0y")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.4126601, 0.26049674, 0)
+[node name="Player" parent="." node_paths=PackedStringArray("look_at_point_1", "look_at_point_2", "look_at_point_3", "look_at_point_4", "look_at_point_5", "look_at_point_6", "enemies_root") instance=ExtResource("1_bcb0y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.979807, 6.210661, -10.167667)
 look_at_point_1 = NodePath("../LookAtMarker1")
 look_at_point_2 = NodePath("../LookAtMarker2")
 look_at_point_3 = NodePath("../LookAtMarker3")
 look_at_point_4 = NodePath("../LookAtMarker4")
 look_at_point_5 = NodePath("../LookAtMarker5")
+look_at_point_6 = NodePath("../LookAtMarker6")
 enemies_root = NodePath("../Enemies")
-
-[node name="Timer" parent="Player" index="0"]
-wait_time = 5.0
-
-[node name="Skeleton3D" parent="Player/Head/Pistol/Gun/GUN2/GUN_002" index="0"]
-bones/0/position = Vector3(-1.2199528, -2.303318, 0.03124749)
-bones/0/rotation = Quaternion(0.6280193, -0.38946182, -0.50610775, -0.4447092)
-bones/1/position = Vector3(0.16566858, -1.8343352, 1.8445338)
-bones/2/rotation = Quaternion(0.207692, -0.6263513, -0.20353639, 0.723271)
-bones/3/position = Vector3(0.023886656, -0.26776046, 0.37655902)
-bones/3/rotation = Quaternion(0.00038026206, -0.0023242575, 0.007128626, 0.9999718)
-
-[node name="Skeleton3D" parent="Player/Head/Pistol/AR/rifle" index="0"]
-bones/0/position = Vector3(2.7639908e-07, -1.6763806e-08, 1.5053956e-07)
-bones/1/position = Vector3(0.0008740535, 1.5108399, -0.012496926)
-bones/2/rotation = Quaternion(0.27578202, -0.2748954, 0.64472294, 0.65780634)
-bones/3/rotation = Quaternion(0.20439988, 0.30393296, -0.5137682, 0.77581424)
-bones/4/position = Vector3(-0.028186778, -0.55162585, 0.0045692986)
-bones/4/rotation = Quaternion(-0.016315863, 0.008270147, 0.9998327, -0.00013674537)
 
 [node name="Enemies" type="Node" parent="."]
 
@@ -189,67 +743,73 @@ wait_time = 2.0
 [node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.6723742, -0.025663018, -18.66822)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.90521765, 5.618756, -31.674753)
 direction = 1
 
 [node name="SpawnPoint2" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.88273, 0.18035996, -17.10144)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5835376, 5.618756, -31.674753)
 direction = 1
 
 [node name="SpawnPoint3" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.39034, 0.25113177, -17.679783)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.945776, 5.618756, -31.674753)
 direction = 1
 
 [node name="SpawnPoint4" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.688004, -1.5562084, -9.497349)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.20461, 5.9058194, -17.534433)
 direction = 0
 
 [node name="SpawnPoint5" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.688004, -1.5562084, -1.9247708)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.20461, 5.9058194, -13.10219)
 direction = 0
 
 [node name="SpawnPoint6" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.033154, -1.5113022, 8.589358)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 22.695127, 5.9058194, -8.152197)
 direction = 0
 
 [node name="SpawnPoint7" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.700747, 0.23619938, 18.266758)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.205397, 6.005754, 7.099272)
 direction = 1
 
 [node name="SpawnPoint8" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0511355, 0.23619938, 17.040344)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5231857, 6.005754, 7.099272)
 direction = 1
 
 [node name="SpawnPoint9" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.3704948, 0.23619938, 18.529615)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.450447, 6.005754, 7.099272)
 direction = 1
 
 [node name="SpawnPoint10" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.953999, 0.03154683, 9.62997)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.079094, 5.5273447, -7.3664846)
 direction = 0
 
 [node name="SpawnPoint11" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.831499, 0.03154683, 0.60872936)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.079094, 5.5273447, -13.124186)
 direction = 0
 
 [node name="SpawnPoint12" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.404469, 0.03154683, -9.755968)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.079094, 5.5273447, -18.849094)
 direction = 0
 
 [node name="Arena" parent="." instance=ExtResource("3_xdt2v")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5836096, -0.34568977, -2.8262405)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.6253042, 10.975401, -30.463898)
 
 [node name="eagletribune" parent="Arena" index="0"]
-transform = Transform3D(-1.1313121, 0, 0, 0, 1.1313121, 0, 0, 0, 1.1313121, -19.172285, 2.074502, 0.24186349)
+transform = Transform3D(-0.7192141, 0, 0, 0, 0.7192141, 0, 0, 0, 0.7192141, 25.454853, -3.553031, 17.603401)
 
 [node name="pakmantribune" parent="Arena" index="3"]
-transform = Transform3D(-1.1313121, 0, 0, 0, 1.1313121, 0, 0, 0, 1.1313121, -22.78907, 2.074502, 8.273138)
+transform = Transform3D(-0.7192141, 0, 0, 0, 0.7192141, 0, 0, 0, 0.7192141, 0.22942162, -3.553031, 43.86715)
 
 [node name="purplehattribune" parent="Arena" index="4"]
-transform = Transform3D(-1.1313121, 0, 0, 0, 1.1313121, 0, 0, 0, 1.1313121, -28.894566, 2.074502, 0.24186349)
+transform = Transform3D(-0.7192141, 0, 0, 0, 0.7192141, 0, 0, 0, 0.7192141, -24.460217, -3.553031, 17.353952)
+
+[node name="groundin" parent="Arena" index="5"]
+transform = Transform3D(2.3490865, 0, -0.39357314, 0, 0.6357345, 0, 1.8518227, 0, 0.499258, -0.3494873, 0.30780506, -7.3765793)
+
+[node name="pillow" parent="Arena" index="6"]
+transform = Transform3D(2.1280172, 0, 0, 0, 0.6357345, 0, 0, 0, 1.1487328, -0.36760592, 1.1347857, -10.4114685)
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 
-[editable path="Player"]
-[editable path="Player/Head/Pistol"]
+[editable path="BossMan"]
+[editable path="BossMan/ForceFieldArea"]
 [editable path="Arena"]

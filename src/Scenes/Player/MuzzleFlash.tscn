@@ -1,25 +1,38 @@
-[gd_scene load_steps=2 format=3 uid="uid://c32dc8g4xyoc3"]
+[gd_scene load_steps=3 format=3 uid="uid://c32dc8g4xyoc3"]
 
 [ext_resource type="Texture2D" uid="uid://dnrtgriiqh6fl" path="res://Assets/Art/2D Assets/MuzzleFlare.png" id="1_dy38f"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dy38f"]
+transparency = 2
+alpha_scissor_threshold = 0.469
+alpha_antialiasing_mode = 1
+alpha_antialiasing_edge = 0.17
+shading_mode = 2
+albedo_texture = ExtResource("1_dy38f")
+
 [node name="MuzzleFlash" type="Node3D"]
 
-[node name="Sprite3D2" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.91940325, 0.39331618, 0, -0.39331618, 0.91940325, 0, 0, 0)
-texture = ExtResource("1_dy38f")
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(-0.99042875, -0.04068998, -0.13189144, -0.048996802, 0.9969733, 0.060360253, 0.1290362, 0.06624472, -0.9894247, -0.43505535, -0.0939899, -0.051219456)
+material_override = SubResource("StandardMaterial3D_dy38f")
+size = Vector3(1.9812012, 1.4037476, 0.001)
 
-[node name="Sprite3D3" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.7456736, -0.66631114, 0, 0.66631114, 0.7456736, 0, 0, 0)
-texture = ExtResource("1_dy38f")
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(-0.99042875, -0.04068998, -0.13189144, -0.12851079, -0.076785564, 0.9887309, -0.050358836, 0.99621683, 0.07082158, -0.14025499, 0.05145038, -0.011361361)
+material_override = SubResource("StandardMaterial3D_dy38f")
+size = Vector3(1.9812012, 1.3569946, 0.001)
 
-[node name="Sprite3D4" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.8734072, -0.486991, 0, 0.486991, 0.8734072, 0, 0, 0)
-texture = ExtResource("1_dy38f")
+[node name="CSGBox3D3" type="CSGBox3D" parent="."]
+transform = Transform3D(-0.99042875, -0.040689982, -0.13189146, -0.020702897, -0.9009535, 0.43342113, -0.13646403, 0.4320033, 0.89148784, 0.08066265, -0.037867345, 0.072018)
+material_override = SubResource("StandardMaterial3D_dy38f")
+size = Vector3(2.439331, 1.6496887, 0.001)
 
-[node name="Sprite3D5" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.06421885, -0.99793595, 0, 0.99793595, 0.06421885, 0, 0, 0)
-texture = ExtResource("1_dy38f")
+[node name="CSGBox3D4" type="CSGBox3D" parent="."]
+transform = Transform3D(-0.99042875, -0.040689994, -0.13189146, -0.11041807, 0.8069354, 0.58022684, 0.08281848, 0.58923626, -0.8037048, 0.016913597, 0.03076629, -0.014317019)
+material_override = SubResource("StandardMaterial3D_dy38f")
+size = Vector3(2.439331, 1.8299637, 0.001)
 
-[node name="Sprite3D6" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.53588575, 0.8442905, 0, -0.8442905, 0.53588575, 0, 0, 0)
-texture = ExtResource("1_dy38f")
+[node name="CSGBox3D5" type="CSGBox3D" parent="."]
+transform = Transform3D(-0.99042875, -0.040689986, -0.13189146, -0.13716334, 0.18351659, 0.97340006, -0.01540342, 0.98217404, -0.18734106, 0.016913597, 0.03076629, -0.014317019)
+material_override = SubResource("StandardMaterial3D_dy38f")
+size = Vector3(2.439331, 1.8299637, 0.001)

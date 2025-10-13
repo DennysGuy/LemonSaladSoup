@@ -1,0 +1,89 @@
+[gd_scene load_steps=7 format=3 uid="uid://dp8uwe0ukirn6"]
+
+[ext_resource type="Texture2D" uid="uid://b0bfferp6spax" path="res://Assets/Art/2D Assets/crowd/crowd1.png" id="1_5gr45"]
+[ext_resource type="Script" uid="uid://bjmk5fm8aq68w" path="res://src/Scripts/crowd_section.gd" id="1_ubcel"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_phvvt"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("1_5gr45")
+
+[sub_resource type="Animation" id="Animation_o0t3u"]
+resource_name = "Shuffle1"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Crowd:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.38, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector3(-1.6757538, -1.1419258, 0), Vector3(-1.6757538, -0.77780163, 0), Vector3(-1.6757538, -1.1419258, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Crowd2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.53),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector3(1.6295896, -1.1419258, 0.07423401), Vector3(1.6295896, -1.4492267, 0.07423401), Vector3(1.6295896, -1.1419258, 0.07423401)]
+}
+
+[sub_resource type="Animation" id="Animation_ubcel"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Crowd:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.6757538, -1.1419258, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Crowd2:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.6295896, -1.1419258, 0.07423401)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y1ij3"]
+_data = {
+&"RESET": SubResource("Animation_ubcel"),
+&"Shuffle1": SubResource("Animation_o0t3u")
+}
+
+[node name="CrowdSection" type="Node3D"]
+script = ExtResource("1_ubcel")
+
+[node name="Crowd" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6757538, -1.1419258, 0)
+material_override = SubResource("StandardMaterial3D_phvvt")
+size = Vector3(3.300232, 2.7006836, 0.001)
+
+[node name="Crowd2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6295896, -1.1419258, 0.07423401)
+material_override = SubResource("StandardMaterial3D_phvvt")
+size = Vector3(3.3709106, 2.7006836, 0.001)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_y1ij3")
+}

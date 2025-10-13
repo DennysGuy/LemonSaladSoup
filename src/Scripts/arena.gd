@@ -8,6 +8,7 @@ class_name Arena extends Node3D
 @onready var spawn_point_2: SpawnPoint = $SpawnPoints/SpawnPoint2
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
+@onready var boss_animation_player: AnimationPlayer = $BossMan/boss/AnimationPlayer
 
 enum SPAWN_POINT_DIR{ADJACENT,FORWARD}
 
@@ -68,11 +69,13 @@ func end_wave() -> void:
 	clear_enemies()
 
 func make_boss_jump() -> void:
-	animation_player.play("BossJumps")
+	animation_player.play("BossJump")
 
 func make_boss_fall() -> void:
-	animation_player.play("BossFalls")
+	animation_player.play("BossFall")
 
+func play_boss_idle() -> void:
+	boss_animation_player.play("justchillin")
 
 func boss_fall_shake() -> void:
 	SignalBus.shake_camera.emit(3)
