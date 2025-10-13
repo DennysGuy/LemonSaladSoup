@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://b20vdx34yrxs7"]
+
+[ext_resource type="AudioStream" uid="uid://g6hygnwxcdja" path="res://Assets/Audio/SFX/headshot1.wav" id="1_jv2x2"]
+
+[node name="HeadShotSFXPlayer" type="AudioStreamPlayer3D"]
+stream = ExtResource("1_jv2x2")
+attenuation_model = 3
+unit_size = 100.0
+playback_type = 1
+attenuation_filter_cutoff_hz = 20500.0

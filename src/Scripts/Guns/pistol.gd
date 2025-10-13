@@ -39,25 +39,30 @@ func enable_shooting():
 
 func play_pistol_shot() -> void:
 	var random_shot : AudioStream = pistol_sfx.pick_random()
-	play_sfx(random_shot)
+	AudioManager.play_sfx(random_shot)
 
 func play_pistol_reload() -> void:
 	var reload_sfx : AudioStream = AudioManager.PISTOL_RELOAD_EDIT_1
-	play_sfx(reload_sfx)
+	AudioManager.play_sfx(reload_sfx)
 
-func play_sfx(audio_stream : AudioStream, volume_db : float = 0.0, randomized_pitch : bool = false) -> void:
-	var asp : AudioStreamPlayer = AudioStreamPlayer.new()
-	asp.stream = audio_stream
-	asp.volume_db = volume_db
+func play_weapon_holster() -> void:
+	var sfx : AudioStream 
+	if GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL:
+		sfx = AudioManager.PISTOLHOLSTERDRY
+	else:
+		sfx = AudioManager.RIFLEHOLSTERDRY
 	
-	if randomized_pitch:
-		asp.pitch_scale = randomize_pitch()
-		
-	asp.bus = "SFX"
-	add_child(asp)
-	asp.play()
-	await asp.finished
-	asp.queue_free()
+	AudioManager.play_sfx(sfx)
+	
+func play_weapon_draw() -> void:
+	var sfx : AudioStream 
+	if GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL:
+		sfx = AudioManager.PISTOLDRAWDRY
+	else:
+		sfx = AudioManager.RIFLEDRAWDRY
+	AudioManager.play_sfx(sfx)
+
+
 
 func set_weapon_visual() -> void:
 	match GameManager.equipped_weapon:
@@ -67,9 +72,6 @@ func set_weapon_visual() -> void:
 		GameManager.WEAPONS.RIFLE:
 			ar.show()
 			gun.hide()
-
-func randomize_pitch() -> float:
-	return randf_range(0.5,0.7)	
 
 func enable_movement() -> void:
 	SignalBus.enable_movement.emit()

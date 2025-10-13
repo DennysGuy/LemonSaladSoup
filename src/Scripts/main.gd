@@ -259,12 +259,15 @@ func decrement_combo_meter_kill_count() -> void:
 		GameManager.kills_left = GameManager.KILLS_NEEDED
 		GameManager.current_multiplier += 1
 		if GameManager.current_multiplier == 2:
+			AudioManager.play_sfx(AudioManager.COMBOSTART)
 			combo_meter_showing = true
 			combo_meter_animation_player.play("show_combo_meter")
 	
 	update_combo_meter_label()
 
 func reset_combo_meter() -> void:
+	if combo_meter_showing:
+		AudioManager.play_sfx(AudioManager.COMBOEND)
 	GameManager.current_multiplier = 1
 	GameManager.kills_left = 4
 	combo_meter_timer.stop()
@@ -320,10 +323,17 @@ func update_boss_hp() -> void:
 func show_grading_phrase(bonus: int) -> void:
 	match bonus:
 		3:
-			grade_phrase.text = "PERFECT!"
+			grade_phrase.text = "GOOD JOB!"
+			AudioManager.play_sfx(AudioManager.HOLDER_VOX_RADIO_PRAISE_01)
 		2:
 			grade_phrase.text = "GREAT!"
+			AudioManager.play_sfx(AudioManager.HOLDER_VOX_RADIO_PRAISE_02)
 		1:
 			grade_phrase.text = "NOT BAD!"
+			AudioManager.play_sfx(AudioManager.HOLDER_VOX_RADIO_PRAISE_03)
 	
 	grade_phrase_player.play("show_grade_phrase")
+
+
+func play_round_start_sfx() -> void:
+	AudioManager.play_sfx(AudioManager.ROUNDSTART)

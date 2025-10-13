@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxc2uqlrjosx"]
+
+[ext_resource type="AudioStream" uid="uid://bl3swwquit2y7" path="res://Assets/Audio/SFX/VOX/Placeholders/HOLDER_VOX_ENE_Grunt.wav" id="1_yavjr"]
+
+[node name="GrunSFXPlayer" type="AudioStreamPlayer3D"]
+stream = ExtResource("1_yavjr")
+attenuation_model = 3
+unit_size = 100.0
+playback_type = 2
+attenuation_filter_cutoff_hz = 20500.0

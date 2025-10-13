@@ -79,6 +79,7 @@ var mouse_visibilty_toggled : bool = false
 
 func _ready() -> void:
 	#direction_teller.hide()
+	camera.make_current()
 	hide_reticle()
 	SignalBus.enemy_spawned.connect(notify_enemy)
 	SignalBus.start_wave.connect(start_wave)
@@ -138,9 +139,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func move_player() -> void:
 	if Input.is_action_just_pressed("rotate_left"):
+		AudioManager.play_sfx(AudioManager.LOOKLEFT)
 		rotate_camera_left()
 
 	if Input.is_action_just_pressed("rotate_right"):
+		AudioManager.play_sfx(AudioManager.LOOKRIGHT)
 		rotate_camera_right()
 	
 	if GameManager.can_shoot:
@@ -160,8 +163,8 @@ func move_player() -> void:
 		SignalBus.reload_pistol.emit()
 	
 	if Input.is_action_just_pressed("rotate_opposite"):
+		AudioManager.play_sfx(AudioManager.LOOKLEFT)
 		rotate_camera_opposite()
-
 
 
 func move_arm() -> void:

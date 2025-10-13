@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=4 uid="uid://bgng18o8eqlbr"]
+[gd_scene load_steps=41 format=4 uid="uid://bgng18o8eqlbr"]
 
 [ext_resource type="Script" uid="uid://ul15qip4sekq" path="res://src/Scripts/boss_man.gd" id="1_h1to1"]
 [ext_resource type="Texture2D" uid="uid://bbjb1ilx5yua4" path="res://src/Scenes/Enemies/Bossman/the boss.png" id="1_o38e3"]
@@ -9,8 +9,11 @@
 [ext_resource type="Script" uid="uid://cboaw4w1yuibf" path="res://src/Scenes/Enemies/Bossman/boss_hurt_2.gd" id="7_0fe25"]
 [ext_resource type="Script" uid="uid://xt18wpp4h4u8" path="res://src/Scenes/Enemies/Bossman/boss_dead.gd" id="8_cn8pk"]
 [ext_resource type="PackedScene" uid="uid://dbjgbhbibqyfq" path="res://src/Scenes/Enemies/BodyCollider.tscn" id="11_fux1f"]
+[ext_resource type="PackedScene" uid="uid://d11g0kua0row" path="res://src/Scenes/Enemies/Walker/death_sfx_player.tscn" id="12_4pnfd"]
 [ext_resource type="PackedScene" uid="uid://ce6vfuveeoya8" path="res://src/Scenes/Enemies/Bossman/ForceFieldArea.tscn" id="12_hoi2c"]
 [ext_resource type="PackedScene" uid="uid://cyulroyk7t1a5" path="res://src/Scenes/Enemies/HeadCollider.tscn" id="12_jyc31"]
+[ext_resource type="PackedScene" uid="uid://b20vdx34yrxs7" path="res://src/Scenes/Enemies/Walker/head_shot_sfx_player.tscn" id="13_lnymk"]
+[ext_resource type="PackedScene" uid="uid://bxc2uqlrjosx" path="res://src/Scenes/Enemies/Walker/grun_sfx_player.tscn" id="14_x34ah"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n2aus"]
 resource_name = "boss"
@@ -793,12 +796,12 @@ _data = {
 [sub_resource type="SphereShape3D" id="SphereShape3D_h1to1"]
 radius = 2.2830253
 
+[sub_resource type="Animation" id="Animation_kgghi"]
+length = 0.001
+
 [sub_resource type="Animation" id="Animation_4ghyt"]
 resource_name = "react"
 length = 0.5
-
-[sub_resource type="Animation" id="Animation_kgghi"]
-length = 0.001
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fux1f"]
 _data = {
@@ -812,8 +815,11 @@ size = Vector3(3.7601166, 4.114189, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_hoi2c"]
 size = Vector3(2.618103, 2.1132202, 1)
 
-[node name="BossMan" type="CharacterBody3D" node_paths=PackedStringArray("dead_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
+[node name="BossMan" type="CharacterBody3D" node_paths=PackedStringArray("death_sfx_player", "head_shot_sfx_player", "grunt_sfx_player", "dead_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
 script = ExtResource("1_h1to1")
+death_sfx_player = NodePath("DeathSFXPlayer")
+head_shot_sfx_player = NodePath("HeadShotSFXPlayer")
+grunt_sfx_player = NodePath("GrunSFXPlayer")
 base_score = 5000
 dead_state = NodePath("StateMachine/Dead")
 hurt_1_state = NodePath("StateMachine/Hurt1")
@@ -1039,5 +1045,23 @@ shape = SubResource("BoxShape3D_hoi2c")
 
 [node name="ForceFieldArea" parent="." instance=ExtResource("12_hoi2c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.9940536)
+
+[node name="DeathSFXPlayer" parent="." instance=ExtResource("12_4pnfd")]
+volume_db = 3.0
+unit_size = 100.0
+max_distance = 804.21
+playback_type = 1
+
+[node name="HeadShotSFXPlayer" parent="." instance=ExtResource("13_lnymk")]
+volume_db = 3.0
+unit_size = 100.0
+max_distance = 600.0
+playback_type = 1
+
+[node name="GrunSFXPlayer" parent="." instance=ExtResource("14_x34ah")]
+volume_db = 3.0
+unit_size = 100.0
+max_distance = 60.0
+playback_type = 1
 
 [editable path="ForceFieldArea"]

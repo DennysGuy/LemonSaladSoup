@@ -2,10 +2,17 @@ class_name Enemy extends CharacterBody3D
 
 var player : Player
 var prev_state : State
+
+@export var death_sfx_player: AudioStreamPlayer3D
+@export var head_shot_sfx_player: AudioStreamPlayer3D
+@export var grunt_sfx_player: AudioStreamPlayer3D
+
+
 @export_group("Enemy Stats")
 @export var move_speed  : float = 40
 @export var health : int = 3
 @export var base_score : int
+@export var grunt_death_pitch : float
 
 @export_group("Damage States")
 @export var dead_state : State
@@ -14,6 +21,11 @@ var prev_state : State
 @export var hurt_2_state : State
 @export var head_shot_dead : State
 @export var reflect_state : State
+
+#@export_group("Sounds")
+#@export var head_shot_effect : AudioStream
+#@export var scream_effect : AudioStream
+#@export var grunt_effect : AudioStream
 
 var can_receive_bonus : bool = true
 
@@ -29,6 +41,9 @@ var alive : bool = true
 var timer_bonus : int = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	#death_sfx_player.stream = scream_effect
+	#head_shot_sfx_player.stream = head_shot_effect
+	#grunt_sfx_player.stream = grunt_effect
 	
 	player = get_tree().get_first_node_in_group("Player")
 	bonus_timer.start()
@@ -50,10 +65,12 @@ func kill_enemy() -> void:
 	
 	if can_receive_bonus:
 		SignalBus.remove_one_kill.emit()
-
+	
+	AudioManager.play_sfx(AudioManager.HOLDER_VOX_ENE_DEAD)
 	# lock in bonus here
 	timer_bonus = set_timer_bonus()
-
+	death_sfx_player.pitch_scale = grunt_death_pitch
+	death_sfx_player.play()
 	var score = base_score
 	update_score(score, false)
 	state_machine.change_state(dead_state)
@@ -68,6 +85,9 @@ func head_shot_kill() -> void:
 		SignalBus.update_boss_hp.emit()
 	
 	alive = false
+	
+	AudioManager.play_sfx(AudioManager.HEADSHOT_2,2,true)
+	AudioManager.play_sfx(AudioManager.HOLDER_VOX_ENE_DEAD,2,true)
 	
 	if can_receive_bonus:
 		SignalBus.remove_one_kill.emit()
@@ -87,6 +107,13 @@ func damage_enemy() -> void:
 	if is_boss:
 		GameManager.boss_health -= 1
 		SignalBus.update_boss_hp.emit()
+	
+	AudioManager.play_sfx(AudioManager.HEADSHOT_1,2,true)
+	
+	grunt_sfx_player.pitch_scale = grunt_death_pitch
+	grunt_sfx_player.play()
+	if grunt_sfx_player.playing:
+		print("HEY BFDS PRINADF")
 	
 	var chosen_state : State = hurt_states.pick_random()
 	state_machine.change_state(chosen_state)

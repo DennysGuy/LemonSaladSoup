@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=4 uid="uid://caus2ij86avcu"]
+[gd_scene load_steps=41 format=4 uid="uid://caus2ij86avcu"]
 
 [ext_resource type="Texture2D" uid="uid://cf1731fshf11q" path="res://Assets/Art/3D Assets/Enemies/YellowRunner(Sprinter)/Yellowgrunt.png" id="1_8fjtm"]
 [ext_resource type="Script" uid="uid://b4qlan877cb1v" path="res://src/Scripts/sprinter_enemy.gd" id="1_w3rvj"]
@@ -10,6 +10,9 @@
 [ext_resource type="Script" uid="uid://dwl2x4uci3bb5" path="res://src/Scripts/StateMachine/Enemies/hurt_2.gd" id="6_sh007"]
 [ext_resource type="Script" uid="uid://lpou5y4kcal" path="res://src/Scripts/StateMachine/Enemies/attack.gd" id="7_sh007"]
 [ext_resource type="Script" uid="uid://d1qv6ebucmle" path="res://src/Scripts/StateMachine/Enemies/dead.gd" id="8_nbb01"]
+[ext_resource type="PackedScene" uid="uid://bxc2uqlrjosx" path="res://src/Scenes/Enemies/Walker/grun_sfx_player.tscn" id="14_oc7dw"]
+[ext_resource type="PackedScene" uid="uid://b20vdx34yrxs7" path="res://src/Scenes/Enemies/Walker/head_shot_sfx_player.tscn" id="15_ftya8"]
+[ext_resource type="PackedScene" uid="uid://d11g0kua0row" path="res://src/Scenes/Enemies/Walker/death_sfx_player.tscn" id="16_j2qx0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8sa1v"]
 resource_name = "sprinter"
@@ -1553,11 +1556,15 @@ size = Vector3(2.8965912, 0.9161377, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_bfmj3"]
 size = Vector3(1.2197266, 0.58288574, 1)
 
-[node name="Sprinter" type="CharacterBody3D" node_paths=PackedStringArray("dead_state", "attack_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
+[node name="Sprinter" type="CharacterBody3D" node_paths=PackedStringArray("death_sfx_player", "head_shot_sfx_player", "grunt_sfx_player", "dead_state", "attack_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
 script = ExtResource("1_w3rvj")
+death_sfx_player = NodePath("DeathSFXPlayer")
+head_shot_sfx_player = NodePath("HeadShotSFXPlayer")
+grunt_sfx_player = NodePath("GrunSFXPlayer")
 move_speed = 200.0
 health = 2
 base_score = 200
+grunt_death_pitch = 1.2
 dead_state = NodePath("StateMachine/Dead")
 attack_state = NodePath("StateMachine/Attack")
 hurt_1_state = NodePath("StateMachine/Hurt1")
@@ -1861,6 +1868,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15100598, 1.4086905, -0.644
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HeadCollider"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10986328, -0.20855713, 0)
 shape = SubResource("BoxShape3D_bfmj3")
+
+[node name="GrunSFXPlayer" parent="." instance=ExtResource("14_oc7dw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.08580053, 0)
+
+[node name="HeadShotSFXPlayer" parent="." instance=ExtResource("15_ftya8")]
+
+[node name="DeathSFXPlayer" parent="." instance=ExtResource("16_j2qx0")]
 
 [connection signal="timeout" from="BonusTimer" to="." method="_on_bonus_timer_timeout"]
 [connection signal="body_entered" from="PlayerSensor" to="." method="_on_player_sensor_body_entered"]

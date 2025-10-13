@@ -1,9 +1,12 @@
-[gd_scene load_steps=48 format=4 uid="uid://coiyr773xvwd4"]
+[gd_scene load_steps=51 format=4 uid="uid://coiyr773xvwd4"]
 
 [ext_resource type="Script" uid="uid://bwknuerc2pbuw" path="res://src/Scripts/test_enemy.gd" id="1_rgxcw"]
+[ext_resource type="AudioStream" uid="uid://g6hygnwxcdja" path="res://Assets/Audio/SFX/headshot1.wav" id="2_fiedb"]
 [ext_resource type="Texture2D" uid="uid://bx5p3ywfppeyi" path="res://Assets/Art/3D Assets/Enemies/RedGrunt/RedGrunt.png" id="2_rgxcw"]
 [ext_resource type="Script" uid="uid://8wtefolfa40m" path="res://src/Scripts/StateMachine/state_machine.gd" id="3_fiedb"]
+[ext_resource type="AudioStream" uid="uid://bblicsf453abd" path="res://Assets/Audio/SFX/VOX/Placeholders/HOLDER_VOX_ENE_Dead.wav" id="3_p35q7"]
 [ext_resource type="Script" uid="uid://d23mnnw15qtsj" path="res://src/Scripts/StateMachine/Enemies/pursue.gd" id="4_p35q7"]
+[ext_resource type="AudioStream" uid="uid://bl3swwquit2y7" path="res://Assets/Audio/SFX/VOX/Placeholders/HOLDER_VOX_ENE_Grunt.wav" id="4_pafg8"]
 [ext_resource type="Script" uid="uid://d3c6nkt06gpm0" path="res://src/Scripts/StateMachine/Enemies/hurt_1.gd" id="5_pafg8"]
 [ext_resource type="Script" uid="uid://dwl2x4uci3bb5" path="res://src/Scripts/StateMachine/Enemies/hurt_2.gd" id="6_1e5rm"]
 [ext_resource type="Script" uid="uid://d1qv6ebucmle" path="res://src/Scripts/StateMachine/Enemies/dead.gd" id="7_8rmeb"]
@@ -1531,9 +1534,13 @@ size = Vector3(1.9436853, 2.6761508, 1.8095703)
 [sub_resource type="BoxShape3D" id="BoxShape3D_rgxcw"]
 size = Vector3(1, 1, 1.9604492)
 
-[node name="WalkerEnemy" type="CharacterBody3D" node_paths=PackedStringArray("dead_state", "attack_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
+[node name="WalkerEnemy" type="CharacterBody3D" node_paths=PackedStringArray("death_sfx_player", "head_shot_sfx_player", "grunt_sfx_player", "dead_state", "attack_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
 script = ExtResource("1_rgxcw")
+death_sfx_player = NodePath("AudioStreamPlayer3D2")
+head_shot_sfx_player = NodePath("AudioStreamPlayer3D")
+grunt_sfx_player = NodePath("AudioStreamPlayer3D3")
 base_score = 100
+grunt_death_pitch = 1.0
 dead_state = NodePath("StateMachine/Dead")
 attack_state = NodePath("StateMachine/Attack")
 hurt_1_state = NodePath("StateMachine/Hurt1")
@@ -1766,6 +1773,27 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.803263, -3.4659004)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerSensor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.4802246)
 shape = SubResource("BoxShape3D_rgxcw")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -11.339237)
+stream = ExtResource("4_pafg8")
+volume_db = 10.0
+unit_size = 100.0
+playback_type = 2
+
+[node name="AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9.616688)
+stream = ExtResource("3_p35q7")
+volume_db = 10.0
+unit_size = 100.0
+playback_type = 2
+
+[node name="AudioStreamPlayer3D3" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -13.669157)
+stream = ExtResource("2_fiedb")
+volume_db = 20.0
+unit_size = 100.0
+playback_type = 2
 
 [connection signal="timeout" from="BonusTimer" to="." method="_on_bonus_timer_timeout"]
 [connection signal="body_entered" from="PlayerSensor" to="." method="_on_player_sensor_body_entered"]

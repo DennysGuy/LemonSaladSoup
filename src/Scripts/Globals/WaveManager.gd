@@ -9,11 +9,11 @@ const MAX_WAVE :int = 2
 @onready var waves : Dictionary = {
 	
 	0 : {
-		"time": 30,
+		"time": 90,
 		"decrement_interval": 20,
 		"decrement_amount": 1,
 		"kill_quota":30,
-		"spawn_time":5, #in seconds
+		"spawn_time":6, #in seconds
 		"enemies": [
 			{"scene": walker, "weight": 100},
 		],
