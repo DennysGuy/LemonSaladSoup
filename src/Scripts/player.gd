@@ -44,11 +44,14 @@ class_name Player
 
 @onready var timer: Timer = $Timer
 
+var enemy_list : Array[Enemy] = []
+
+@onready var magnet_point: Marker3D = $MagnetPoint
 
 
 var reticle_offset := Vector2(-90,0)
 const SENSITIVITY := 0.4
-var rotate_speed: float = 5.0  # higher = faster turn
+var rotate_speed: float = 10.0  # higher = faster turn
 var target_location : Marker3D
 var zoom_target: float = 60.0  # smaller FOV = zoom in
 var zoom_speed: float = 5.0    # how fast zoom eases
@@ -92,6 +95,8 @@ func _ready() -> void:
 	SignalBus.look_at_point.connect(look_at_point)
 	SignalBus.show_gun.connect(show_arm)
 	SignalBus.hide_gun.connect(hide_arm)
+	SignalBus.add_enemy_to_list.connect(add_enemy_to_list)
+	SignalBus.swap_to_rifle_first_time.connect(swap_to_rifle)
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
@@ -100,6 +105,9 @@ func _ready() -> void:
 	initial_player_rotation = rotation
 	initial_head_rotation = head.rotation
 	initial_fov = camera.fov
+
+
+
 @onready var muzzle: Marker3D = $Muzzle
 
 @export var max_arm_offset: Vector2 = Vector2(600, 300) # how far the arm can move on screen
@@ -131,7 +139,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("exit"):
 		pause_game()
 	
-	
 		
 	if event is InputEventMouseMotion:
 		# Move virtual reticle with mouse delta
@@ -148,14 +155,11 @@ func move_player() -> void:
 	
 	if GameManager.can_shoot:
 		if Input.is_action_just_pressed("swap_pistol") and GameManager.equipped_weapon == GameManager.WEAPONS.RIFLE:
-			GameManager.equipped_weapon = GameManager.WEAPONS.PISTOL
-			animation_player.play("SwapWeapons")
-			SignalBus.swap_to_pistol.emit()
+			swap_to_pistol()
 		
-		if Input.is_action_just_pressed("swap_rifle") and GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL and GameManager.rifle_ammo_count > 0:
-			GameManager.equipped_weapon = GameManager.WEAPONS.RIFLE
-			animation_player.play("SwapWeapons")
-			SignalBus.swap_to_rifle.emit()
+		if Input.is_action_just_pressed("swap_rifle") and GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL\
+			and GameManager.rifle_ammo_count > 0 and GameManager.rifle_unlocked:
+				swap_to_rifle()
 		
 			
 	if Input.is_action_just_pressed("reload") and GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL:
@@ -166,6 +170,16 @@ func move_player() -> void:
 		AudioManager.play_sfx(AudioManager.LOOKLEFT)
 		rotate_camera_opposite()
 
+
+func swap_to_pistol() -> void:
+	GameManager.equipped_weapon = GameManager.WEAPONS.PISTOL
+	animation_player.play("SwapWeapons")
+	SignalBus.swap_to_pistol.emit()
+
+func swap_to_rifle() -> void:
+	GameManager.equipped_weapon = GameManager.WEAPONS.RIFLE
+	animation_player.play("SwapWeapons")
+	SignalBus.swap_to_rifle.emit()
 
 func move_arm() -> void:
 	var screen_center = get_viewport().get_visible_rect().size * 0.5
@@ -259,7 +273,10 @@ func damage_player() -> void:
 		can_be_hit = false
 		#play overlay animation too
 			#fade out red and go to game over screen
-	
+
+func add_enemy_to_list(enemy : Enemy) -> void:
+	enemy_list.append(enemy)
+
 func play_shoot_animation() -> void:
 	
 	gun_animation_player.speed_scale = 3.5
@@ -446,7 +463,7 @@ func _update_arrows() -> void:
 	#var facing = _get_facing_quadrant()
 	
 	# Count enemies per quadrant
-	for enemy in enemies_root.get_children():
+	for enemy in enemy_list:
 		if not is_instance_valid(enemy) or not enemy.alive:
 			enemy_alerts.erase(enemy)
 			continue

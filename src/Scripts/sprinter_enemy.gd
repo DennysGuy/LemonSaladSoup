@@ -7,6 +7,7 @@ var player_in_range : bool = false
 
 func _ready() -> void:
 	super()
+	SignalBus.add_enemy_to_list.emit(self)
 	SignalBus.enemy_spawned.emit(self)
 	state_machine.init(self)
 

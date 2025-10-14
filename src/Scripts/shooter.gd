@@ -16,6 +16,7 @@ var is_adjacent : bool = false
 
 func _ready() -> void:
 	super()
+	SignalBus.add_enemy_to_list.emit(self)
 	SignalBus.enemy_spawned.emit(self)
 	state_machine.init(self)
 
@@ -47,3 +48,5 @@ func attack_player() -> void:
 func _on_bonus_timer_timeout() -> void:
 	timer_bonus = 0
 	can_receive_bonus = false
+
+	

@@ -51,6 +51,7 @@ const COMBOSTART = preload("uid://daodj3c1e4i2e")
 const LOOKLEFT = preload("uid://cii8dkaey6eju")
 const LOOKRIGHT = preload("uid://m5f4tqm3hfv5")
 
+const POINTINCREASE = preload("uid://t1normcgnmqr")
 
 
 const ROUNDSTART = preload("uid://bl8vq57n8287y")

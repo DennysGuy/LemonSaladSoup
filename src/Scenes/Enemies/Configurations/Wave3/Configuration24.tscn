@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://dsblk2jlovthf"]
+
+[ext_resource type="Script" uid="uid://bje1qloomtdps" path="res://src/Scenes/Enemies/Configurations/configuration.gd" id="1_3w0sr"]
+[ext_resource type="PackedScene" uid="uid://coiyr773xvwd4" path="res://src/Scenes/Enemies/Walker/WalkerEnemy.tscn" id="2_heend"]
+[ext_resource type="PackedScene" uid="uid://bqbj7je120a8g" path="res://src/Scenes/Enemies/Shooter/shooter.tscn" id="3_ahhrj"]
+[ext_resource type="PackedScene" uid="uid://caus2ij86avcu" path="res://src/Scenes/Enemies/Sprinter/Sprinter.tscn" id="4_heend"]
+
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("enemies")]
+script = ExtResource("1_3w0sr")
+enemies = NodePath("Enemies")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.87, 0, 0)
+size = Vector3(12, 0.001, 12)
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="WalkerEnemy" parent="Enemies" instance=ExtResource("2_heend")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0913901, 0, 0.62731934)
+
+[node name="WalkerEnemy2" parent="Enemies" instance=ExtResource("2_heend")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2556357, 0, -2.1046143)
+
+[node name="WalkerEnemy3" parent="Enemies" instance=ExtResource("2_heend")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.9778237, 0, -2.1046143)
+
+[node name="Shooter" parent="Enemies" instance=ExtResource("3_ahhrj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4111328, 0, 1.9644775)
+
+[node name="Sprinter" parent="Enemies" instance=ExtResource("4_heend")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.6948853)

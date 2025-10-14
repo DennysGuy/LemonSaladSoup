@@ -27,6 +27,8 @@ var can_shoot : bool = false
 
 var rifle_unlocked = false
 
+var max_config_amount : int = 0
+
 enum WEAPONS  {
 	PISTOL,
 	RIFLE

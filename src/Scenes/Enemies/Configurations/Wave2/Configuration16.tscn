@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dofk5vo0fyveh"]
+
+[ext_resource type="Script" uid="uid://bje1qloomtdps" path="res://src/Scenes/Enemies/Configurations/configuration.gd" id="1_4dbi1"]
+[ext_resource type="PackedScene" uid="uid://bqbj7je120a8g" path="res://src/Scenes/Enemies/Shooter/shooter.tscn" id="4_3lc25"]
+
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("enemies")]
+script = ExtResource("1_4dbi1")
+enemies = NodePath("Enemies")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.87, 0, 0)
+size = Vector3(12, 0.001, 12)
+
+[node name="Enemies" type="Node3D" parent="."]
+
+[node name="Shooter" parent="Enemies" instance=ExtResource("4_3lc25")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.015389919, 0.34120083, 0.69831777)

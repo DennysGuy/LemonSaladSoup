@@ -1,23 +1,17 @@
-[gd_scene load_steps=45 format=4 uid="uid://bqbj7je120a8g"]
+[gd_scene load_steps=39 format=4 uid="uid://bqbj7je120a8g"]
 
 [ext_resource type="Script" uid="uid://w03ulhutc6ro" path="res://src/Scripts/shooter.gd" id="1_g57k7"]
 [ext_resource type="Texture2D" uid="uid://cexevvkkj2r7y" path="res://Assets/Art/3D Assets/Enemies/BlueGrunt(Shoota)/Bluegrunt.png" id="1_y8es4"]
-[ext_resource type="AudioStream" uid="uid://bblicsf453abd" path="res://Assets/Audio/SFX/VOX/Placeholders/HOLDER_VOX_ENE_Dead.wav" id="2_0udtw"]
-[ext_resource type="AudioStream" uid="uid://dmm0kj77faaw8" path="res://Assets/Audio/SFX/headshot3.wav" id="2_62qcs"]
 [ext_resource type="Script" uid="uid://8wtefolfa40m" path="res://src/Scripts/StateMachine/state_machine.gd" id="3_4jjmk"]
-[ext_resource type="AudioStream" uid="uid://bl3swwquit2y7" path="res://Assets/Audio/SFX/VOX/Placeholders/HOLDER_VOX_ENE_Grunt.wav" id="3_62qcs"]
 [ext_resource type="Script" uid="uid://c0vlrc3fkkgc" path="res://src/Scripts/timed_pursue.gd" id="4_8jmp1"]
 [ext_resource type="Script" uid="uid://3lmjhh1asnm" path="res://src/Scripts/strafe.gd" id="5_wwjuu"]
 [ext_resource type="Script" uid="uid://d3c6nkt06gpm0" path="res://src/Scripts/StateMachine/Enemies/hurt_1.gd" id="6_fxyn3"]
 [ext_resource type="Script" uid="uid://dwl2x4uci3bb5" path="res://src/Scripts/StateMachine/Enemies/hurt_2.gd" id="7_rabi7"]
 [ext_resource type="Script" uid="uid://btiv35dyrdbug" path="res://src/Scripts/shoot_attack.gd" id="8_rabi7"]
-[ext_resource type="Script" uid="uid://d1qv6ebucmle" path="res://src/Scripts/StateMachine/Enemies/dead.gd" id="9_x13u6"]
-[ext_resource type="Script" uid="uid://cghm3vhbrium3" path="res://src/Scripts/StateMachine/Enemies/head_shot_dead.gd" id="10_b0xcq"]
+[ext_resource type="Script" uid="uid://bhwrmpssvnx6w" path="res://src/Scripts/shooter_dead.gd" id="9_f6ayb"]
+[ext_resource type="Script" uid="uid://cp5cxfsa4e2me" path="res://src/Scenes/Enemies/Shooter/shooter_head_shot_dead.gd" id="10_f6ayb"]
 [ext_resource type="PackedScene" uid="uid://dbjgbhbibqyfq" path="res://src/Scenes/Enemies/BodyCollider.tscn" id="11_gopj7"]
 [ext_resource type="PackedScene" uid="uid://cyulroyk7t1a5" path="res://src/Scenes/Enemies/HeadCollider.tscn" id="12_f6ayb"]
-[ext_resource type="PackedScene" uid="uid://d11g0kua0row" path="res://src/Scenes/Enemies/Walker/death_sfx_player.tscn" id="16_ra4mm"]
-[ext_resource type="PackedScene" uid="uid://bxc2uqlrjosx" path="res://src/Scenes/Enemies/Walker/grun_sfx_player.tscn" id="17_mhd27"]
-[ext_resource type="PackedScene" uid="uid://b20vdx34yrxs7" path="res://src/Scenes/Enemies/Walker/head_shot_sfx_player.tscn" id="18_wxp5e"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5sd6k"]
 resource_name = "Material"
@@ -1340,11 +1334,8 @@ size = Vector3(1.7457275, 2.8033957, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_124i2"]
 size = Vector3(1.8158264, 0.8385315, 1)
 
-[node name="Shooter" type="CharacterBody3D" node_paths=PackedStringArray("death_sfx_player", "head_shot_sfx_player", "grunt_sfx_player", "dead_state", "attack_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
+[node name="Shooter" type="CharacterBody3D" node_paths=PackedStringArray("dead_state", "attack_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
 script = ExtResource("1_g57k7")
-death_sfx_player = NodePath("DeathSFXPlayer")
-head_shot_sfx_player = NodePath("HeadShotSFXPlayer")
-grunt_sfx_player = NodePath("GrunSFXPlayer")
 health = 4
 base_score = 300
 grunt_death_pitch = 0.6
@@ -1353,9 +1344,6 @@ attack_state = NodePath("StateMachine/Attack")
 hurt_1_state = NodePath("StateMachine/Hurt1")
 hurt_2_state = NodePath("StateMachine/Hurt2")
 head_shot_dead = NodePath("StateMachine/HeadShotDead")
-head_shot_effect = ExtResource("2_62qcs")
-scream_effect = ExtResource("2_0udtw")
-grunt_effect = ExtResource("3_62qcs")
 
 [node name="bluegrunt" type="Node3D" parent="."]
 transform = Transform3D(-0.8, 0, -1.2079664e-07, 0, 0.8, 0, 1.2079664e-07, 0, -0.8, 0, -0.435982, 0)
@@ -1566,10 +1554,10 @@ script = ExtResource("8_rabi7")
 strafe_state = NodePath("../Strafe")
 
 [node name="Dead" type="Node" parent="StateMachine"]
-script = ExtResource("9_x13u6")
+script = ExtResource("9_f6ayb")
 
 [node name="HeadShotDead" type="Node" parent="StateMachine"]
-script = ExtResource("10_b0xcq")
+script = ExtResource("10_f6ayb")
 
 [node name="BonusTimer" type="Timer" parent="."]
 process_callback = 0
@@ -1600,11 +1588,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03424579, 3.48591, -2.2358
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HeadCollider"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1421051, -0.2028656, 0)
 shape = SubResource("BoxShape3D_124i2")
-
-[node name="DeathSFXPlayer" parent="." instance=ExtResource("16_ra4mm")]
-
-[node name="GrunSFXPlayer" parent="." instance=ExtResource("17_mhd27")]
-
-[node name="HeadShotSFXPlayer" parent="." instance=ExtResource("18_wxp5e")]
 
 [connection signal="timeout" from="BonusTimer" to="." method="_on_bonus_timer_timeout"]

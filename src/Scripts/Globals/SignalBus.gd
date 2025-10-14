@@ -121,3 +121,9 @@ signal disable_force_field
 signal show_hud
 @warning_ignore("unused_signal")
 signal update_boss_hp
+@warning_ignore("unused_signal")
+signal add_enemy_to_list(enemy : Enemy)
+@warning_ignore("unused_signal")
+signal decrement_config_count
+@warning_ignore("unused_signal")
+signal swap_to_rifle_first_time

@@ -16,6 +16,7 @@ var is_greeter : bool = false
 func _ready() -> void:
 	super()
 	#shader_mat.set_shader_parameter("fire_color", Color(0.0, 0.3, 1.0))
+	SignalBus.add_enemy_to_list.emit(self)
 	SignalBus.enemy_spawned.emit(self)
 	state_machine.init(self)
 

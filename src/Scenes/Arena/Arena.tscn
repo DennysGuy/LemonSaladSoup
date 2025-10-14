@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=4 uid="uid://cqmipwjw5ygil"]
+[gd_scene load_steps=78 format=4 uid="uid://cqmipwjw5ygil"]
 
 [ext_resource type="PackedScene" uid="uid://cwfahle4ha0uq" path="res://src/Scenes/Player/Player.tscn" id="1_bcb0y"]
 [ext_resource type="Script" uid="uid://cru4sfh1iabsn" path="res://src/Scripts/arena.gd" id="1_y77rj"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://bjmk5fm8aq68w" path="res://src/Scripts/crowd_section.gd" id="4_kxm4e"]
 [ext_resource type="Texture2D" uid="uid://dtd8lfpr4peg7" path="res://Assets/Art/2D Assets/crowd/ceowd2.png" id="5_2q4a7"]
 [ext_resource type="Texture2D" uid="uid://dfgawr1cq1sdh" path="res://Assets/Art/2D Assets/crowd/crowd4.png" id="6_2q4a7"]
+[ext_resource type="Script" uid="uid://bo4nkb2dolm" path="res://src/Scripts/enemy_configurations.gd" id="6_4x7h6"]
 [ext_resource type="Texture2D" uid="uid://cg048u3mwgqmi" path="res://Assets/Art/3D Assets/Arena/land.png" id="6_s8hxu"]
 [ext_resource type="Texture2D" uid="uid://tpj3rvrdjpos" path="res://Assets/Art/3D Assets/Arena/Bumpy_Sky-Sunset_03-1024x512.png" id="11_4x7h6"]
 [ext_resource type="Texture2D" uid="uid://c3iouo5dhp016" path="res://Assets/Art/3D Assets/Arena/centre.png" id="12_tp8ty"]
@@ -992,97 +993,68 @@ libraries = {
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(115.6848, 0, 0, 0, 115.6848, 0, 0, 0, 115.6848, 7.3093085, 34.068123, 1.7594947)
-visible = false
 material_override = SubResource("ShaderMaterial_rtywf")
 size = Vector3(2.0561523, 1.5961914, 2.1782837)
 
 [node name="CrowdSectors" type="Node3D" parent="."]
 
 [node name="LookAtMarker1" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1657887, 10.358492, -27.660816)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.7834053, 9.319163, -27.660816)
 
 [node name="LookAtMarker6" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1657887, 8.704174, -27.660816)
 
 [node name="LookAtMarker2" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.289864, 10.627652, -11.847483)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.289864, 9.473873, -12.117367)
 
 [node name="LookAtMarker3" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.914546, 10.569751, -13.961649)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.914546, 9.433293, -13.961649)
 
 [node name="LookAtMarker4" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2274227, 10.425607, 3.1084652)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2274227, 9.5379, 3.1084652)
 
 [node name="LookAtMarker5" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9367542, 5.0822, -35.437717)
+
+[node name="SpawnPoint2" parent="." instance=ExtResource("3_8vyl5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5835376, 5.618756, -28.593964)
+direction = 1
 
 [node name="BossMan" parent="." instance=ExtResource("3_dyurl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5762925, 11.240027, -39.211594)
 
 [node name="Player" parent="." node_paths=PackedStringArray("look_at_point_1", "look_at_point_2", "look_at_point_3", "look_at_point_4", "look_at_point_5", "look_at_point_6", "enemies_root") instance=ExtResource("1_bcb0y")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.979807, 6.210661, -10.167667)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5161886, 6.210661, -12.433248)
 look_at_point_1 = NodePath("../LookAtMarker1")
 look_at_point_2 = NodePath("../LookAtMarker2")
 look_at_point_3 = NodePath("../LookAtMarker3")
 look_at_point_4 = NodePath("../LookAtMarker4")
 look_at_point_5 = NodePath("../LookAtMarker5")
 look_at_point_6 = NodePath("../LookAtMarker6")
-enemies_root = NodePath("../Enemies")
+enemies_root = NodePath("../EnemyConfigurations")
 
-[node name="Enemies" type="Node" parent="."]
+[node name="EnemyConfigurations" type="Node" parent="."]
+script = ExtResource("6_4x7h6")
 
 [node name="SpawnTimer" type="Timer" parent="."]
 process_callback = 0
 wait_time = 2.0
+one_shot = true
 
 [node name="SpawnPoints" type="Node" parent="."]
 
-[node name="SpawnPoint" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.90521765, 5.618756, -28.593964)
-direction = 1
+[node name="SpawnPoint1" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.533777, 5.947303, 3.287921)
 
 [node name="SpawnPoint2" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5835376, 5.618756, -28.593964)
-direction = 1
+transform = Transform3D(-4.3711385e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, -4.3711385e-08, -10.392839, 5.947303, -13.915985)
+direction = 0
 
 [node name="SpawnPoint3" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.945776, 5.618756, -28.593964)
-direction = 1
+transform = Transform3D(-0.99999994, 0, -1.5099579e-07, 0, 1, 0, 1.5099579e-07, 0, -0.99999994, 4.43336, 5.947303, -28.036152)
 
 [node name="SpawnPoint4" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.221395, 5.9058194, -17.534433)
-direction = 0
-
-[node name="SpawnPoint5" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.221395, 5.9058194, -13.10219)
-direction = 0
-
-[node name="SpawnPoint6" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.711912, 5.9058194, -8.152197)
-direction = 0
-
-[node name="SpawnPoint7" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.205397, 6.005754, 3.7367668)
-direction = 1
-
-[node name="SpawnPoint8" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5231857, 6.005754, 3.7367668)
-direction = 1
-
-[node name="SpawnPoint9" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.450447, 6.005754, 3.7367668)
-direction = 1
-
-[node name="SpawnPoint10" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.361656, 5.5273447, -7.3664846)
-direction = 0
-
-[node name="SpawnPoint11" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.361656, 5.5273447, -13.124186)
-direction = 0
-
-[node name="SpawnPoint12" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.361656, 5.5273447, -18.849094)
+transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, -4.3711385e-08, 21.153837, 5.947303, -12.265361)
 direction = 0
 
 [node name="Arena" type="Node3D" parent="."]

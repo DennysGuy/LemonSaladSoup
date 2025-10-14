@@ -3,10 +3,6 @@ class_name Enemy extends CharacterBody3D
 var player : Player
 var prev_state : State
 
-@export var death_sfx_player: AudioStreamPlayer3D
-@export var head_shot_sfx_player: AudioStreamPlayer3D
-@export var grunt_sfx_player: AudioStreamPlayer3D
-
 
 @export_group("Enemy Stats")
 @export var move_speed  : float = 40
@@ -69,8 +65,7 @@ func kill_enemy() -> void:
 	AudioManager.play_sfx(AudioManager.HOLDER_VOX_ENE_DEAD)
 	# lock in bonus here
 	timer_bonus = set_timer_bonus()
-	death_sfx_player.pitch_scale = grunt_death_pitch
-	death_sfx_player.play()
+
 	var score = base_score
 	update_score(score, false)
 	state_machine.change_state(dead_state)
@@ -110,10 +105,6 @@ func damage_enemy() -> void:
 	
 	AudioManager.play_sfx(AudioManager.HEADSHOT_1,2,true)
 	
-	grunt_sfx_player.pitch_scale = grunt_death_pitch
-	grunt_sfx_player.play()
-	if grunt_sfx_player.playing:
-		print("HEY BFDS PRINADF")
 	
 	var chosen_state : State = hurt_states.pick_random()
 	state_machine.change_state(chosen_state)

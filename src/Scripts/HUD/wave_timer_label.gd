@@ -18,6 +18,7 @@ func _ready() -> void:
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+@warning_ignore("unused_parameter")
 func _process(delta: float) -> void:
 	#if Input.is_action_just_pressed("shoot"):
 		#timer_started = true
@@ -30,11 +31,14 @@ func _physics_process(delta: float) -> void:
 			seconds_tracker += 1
 			milliseconds = 100
 				
-			if seconds_tracker >= WaveManager.waves[WaveManager.current_wave]["decrement_interval"]:
-				SignalBus.decrement_spawn_time.emit()
+			if seconds_tracker >= 60:
+				if GameManager.max_config_amount < 4:
+					GameManager.max_config_amount += 1
+				
 				seconds_tracker = 0
 				
 		else:
+			@warning_ignore("narrowing_conversion")
 			milliseconds -= delta
 		
 		if seconds <= 0:

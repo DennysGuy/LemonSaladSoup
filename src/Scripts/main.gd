@@ -255,6 +255,9 @@ func decrement_combo_meter_kill_count() -> void:
 	combo_meter_timer.start()
 	GameManager.kills_left -= 1
 	
+	if GameManager.current_multiplier >= 2:
+		AudioManager.play_sfx(AudioManager.POINTINCREASE, 2)
+	
 	if GameManager.kills_left <= 0:
 		GameManager.kills_left = GameManager.KILLS_NEEDED
 		GameManager.current_multiplier += 1
