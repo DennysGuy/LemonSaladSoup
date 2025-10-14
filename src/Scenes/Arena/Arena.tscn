@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=4 uid="uid://cqmipwjw5ygil"]
+[gd_scene load_steps=79 format=4 uid="uid://cqmipwjw5ygil"]
 
 [ext_resource type="PackedScene" uid="uid://cwfahle4ha0uq" path="res://src/Scenes/Player/Player.tscn" id="1_bcb0y"]
 [ext_resource type="Script" uid="uid://cru4sfh1iabsn" path="res://src/Scripts/arena.gd" id="1_y77rj"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://c3iouo5dhp016" path="res://Assets/Art/3D Assets/Arena/centre.png" id="12_tp8ty"]
 [ext_resource type="Texture2D" uid="uid://ckxgfeca1m0yo" path="res://Assets/Art/3D Assets/Arena/Abstract_512x512-17.png" id="13_dbweq"]
 [ext_resource type="Texture2D" uid="uid://ce7rorlkpixgi" path="res://Assets/Art/3D Assets/Arena/additional.png" id="14_x5eqy"]
+[ext_resource type="AudioStream" uid="uid://1lxghv1yxlnx" path="res://Assets/Audio/SFX/mainambient.ogg" id="16_tp8ty"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bcb0y"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -1637,6 +1638,11 @@ skeleton = NodePath("")
 transform = Transform3D(4.6401573e-07, -1.4801039, 2.766282, -2.5949636, -3.6221527e-07, 3.4553796e-07, 1.546719e-07, -1.6366519, -2.5016832, 25.91179, -0.82274985, 44.540787)
 mesh = SubResource("ArrayMesh_84e2j")
 skeleton = NodePath("")
+
+[node name="Ambience" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_tp8ty")
+autoplay = true
+bus = &"Ambience"
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 

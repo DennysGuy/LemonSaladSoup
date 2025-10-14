@@ -100,9 +100,9 @@ func _on_spawn_timer_timeout() -> void:
 				var stagger_time : float
 				if chosen_config_amount >= 2:	
 					if chosen_config_amount >= 3:
-						stagger_time = 2.5
+						stagger_time = 2.2
 					elif chosen_config_amount >= 4:
-						stagger_time = 2.8
+						stagger_time = 2.4
 					else:
 						stagger_time = WaveManager.waves[WaveManager.current_wave]["stagger_time"]
 						
@@ -156,6 +156,8 @@ func play_boss_idle() -> void:
 
 func boss_fall_shake() -> void:
 	SignalBus.shake_camera.emit(3)
+	AudioManager.play_sfx(AudioManager.BOSSFALL)
+
 
 func clear_enemies() -> void:
 	for config in enemy_configurations.get_children():

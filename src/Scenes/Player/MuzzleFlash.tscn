@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://c32dc8g4xyoc3"]
+[gd_scene load_steps=4 format=3 uid="uid://c32dc8g4xyoc3"]
 
+[ext_resource type="Script" uid="uid://cr8iyqs70vgo4" path="res://src/Scripts/muzzle_flash.gd" id="1_4ea8w"]
 [ext_resource type="Texture2D" uid="uid://dnrtgriiqh6fl" path="res://Assets/Art/2D Assets/MuzzleFlare.png" id="1_dy38f"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dy38f"]
@@ -11,6 +12,7 @@ shading_mode = 2
 albedo_texture = ExtResource("1_dy38f")
 
 [node name="MuzzleFlash" type="Node3D"]
+script = ExtResource("1_4ea8w")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(-0.99042875, -0.04068998, -0.13189144, -0.048996802, 0.9969733, 0.060360253, 0.1290362, 0.06624472, -0.9894247, -0.43505535, -0.0939899, -0.051219456)

@@ -461,7 +461,7 @@ tracks/9/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
-"method": &"play_pistol_shot"
+"method": &"play_rifle_shot"
 }]
 }
 tracks/10/type = "method"

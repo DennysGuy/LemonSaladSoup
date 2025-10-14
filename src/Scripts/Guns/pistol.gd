@@ -6,6 +6,7 @@ class_name Pistol extends Node3D
 
 @onready var camera: Camera3D = $Camera3D
 @onready var pistol_sfx : Array[AudioStream] = [AudioManager.PISTOLDRY_1, AudioManager.PISTOLDRY_2, AudioManager.PISTOLDRY_3]
+@onready var rifle_sfx : Array[AudioStream] = [AudioManager.RIFLE_1, AudioManager.RIFLE_2, AudioManager.RIFLE_3, AudioManager.RIFLE_4]
 @onready var gun: Node3D = $Gun
 var reticle_offset := Vector2(-90,0)
 @export var max_arm_offset: Vector2 = Vector2(600, 300) # how far the arm can move on screen
@@ -39,6 +40,10 @@ func enable_shooting():
 
 func play_pistol_shot() -> void:
 	var random_shot : AudioStream = pistol_sfx.pick_random()
+	AudioManager.play_sfx(random_shot)
+
+func play_rifle_shot() -> void:
+	var random_shot : AudioStream = rifle_sfx.pick_random()
 	AudioManager.play_sfx(random_shot)
 
 func play_pistol_reload() -> void:

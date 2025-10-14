@@ -5,6 +5,15 @@ const PISTOLDRY_1 = preload("uid://beq2nhf6oao5r")
 const PISTOLDRY_2 = preload("uid://074bdvixjdlh")
 const PISTOLDRY_3 = preload("uid://oitkpnkg7qj2")
 
+const RIFLE_1 = preload("uid://boldsopsg0yd1")
+const RIFLE_2 = preload("uid://ckkvl43jlwubx")
+const RIFLE_3 = preload("uid://bm3scb2c7c7b7")
+const RIFLE_4 = preload("uid://c3xrf4k5lcsdm")
+
+const MAINAMBIENT = preload("uid://1lxghv1yxlnx")
+
+const BOSSFALL = preload("uid://bmeban2paw0mi")
+
 const PISTOL_RELOAD_EDIT_1 = preload("uid://c5sybff6nu4ki")
 const RIFLEDRAWDRY = preload("uid://b30x564x3r1x1")
 const RIFLEHOLSTERDRY = preload("uid://bra2jehmy1oig")
@@ -42,8 +51,6 @@ const YOU_DARE_PLACEHOLDER = preload("uid://5y3tha3m65v1")
 const HEADSHOT_1 = preload("uid://g6hygnwxcdja")
 const HEADSHOT_2 = preload("uid://bci8uytfvkwpv")
 const HEADSHOT_3 = preload("uid://dmm0kj77faaw8")
-
-
 
 
 const COMBOEND = preload("uid://d4huy0s6v3lnn")
