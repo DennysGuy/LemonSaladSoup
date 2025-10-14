@@ -1644,6 +1644,9 @@ stream = ExtResource("16_tp8ty")
 autoplay = true
 bus = &"Ambience"
 
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Music"
+
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 
 [editable path="BossMan"]

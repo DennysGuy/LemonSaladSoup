@@ -1,3 +1,4 @@
+do AudioManager.play_boss_theme()
 do CutSceneManager.disable_player_movement()
 [wait time="2.0"]
 do CutSceneManager.look_at_boss_man()

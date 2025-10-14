@@ -12,7 +12,10 @@ func enter() -> void:
 	#parent.animation_player.play(animation_name)
 	parent.animation_player.play("die")
 	
-	parent.timer.wait_time = 2.0
+	if parent is WalkerEnemy and parent.is_greeter:
+		AudioManager.stop_music_player()
+	
+	parent.timer.wait_time = 1.4
 	parent.timer.start()
 
 func exit() -> void:

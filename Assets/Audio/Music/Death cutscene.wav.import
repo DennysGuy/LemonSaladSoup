@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bgxbh7l7etfk6"
+path="res://.godot/imported/Death cutscene.wav-dcc4f6b965c3fe0ec5c55557481a0eba.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/Music/Death cutscene.wav"
+dest_files=["res://.godot/imported/Death cutscene.wav-dcc4f6b965c3fe0ec5c55557481a0eba.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

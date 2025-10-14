@@ -114,6 +114,13 @@ func init_count_down() -> void:
 func play_reload_animation() -> void:
 	magazine_reload_animation_player.play("reload")
 
+func play_wave_theme() -> void:
+	var theme : AudioStream = WaveManager.waves[WaveManager.current_wave]["theme"]
+	AudioManager.play_music(theme)
+	
+func stop_music() -> void:
+	AudioManager.stop_music_player()
+
 func start_invincibility_overlay() -> void:
 	animation_player.play("Invincibility")
 
@@ -154,6 +161,7 @@ func stop_wave() -> void:
 	score_count.hide()
 	score_label.hide()
 	added_score_label_player.play("hide_health")
+	stop_music()
 	if pistol_mag_showing:
 		magazine_reload_animation_player.play("hide_mag") #don't actually set var false so we can show the appropriate mag when next round starts
 	

@@ -60,8 +60,15 @@ const LOOKRIGHT = preload("uid://m5f4tqm3hfv5")
 
 const POINTINCREASE = preload("uid://t1normcgnmqr")
 
-
 const ROUNDSTART = preload("uid://bl8vq57n8287y")
+
+#music 
+const DEATH_CUTSCENE = preload("uid://bgxbh7l7etfk6")
+const FIRST_WAVE_1_1 = preload("uid://c8rt38qcovpij")
+const START_MENU_THEME_OPTION_1 = preload("uid://dgldl1dapp7je")
+const WELCOME_TO_THE_ARENA__DIALOGUE_CUTSCENE_1_ = preload("uid://cs5qkscs13mik")
+
+@onready var music_player: AudioStreamPlayer = $MusicPlayer
 
 
 func play_sfx(audio_stream : AudioStream, volume_db : float = 0.0, randomized_pitch : bool = false) -> void:
@@ -77,6 +84,17 @@ func play_sfx(audio_stream : AudioStream, volume_db : float = 0.0, randomized_pi
 	asp.play()
 	await asp.finished
 	asp.queue_free()
+
+func play_music(audio_stream : AudioStream, volume_db : float = 0.0) -> void:
+	music_player.stream = audio_stream
+	music_player.volume_db = volume_db
+	music_player.play()
+
+func play_boss_theme() -> void:
+	play_music(WELCOME_TO_THE_ARENA__DIALOGUE_CUTSCENE_1_)
+
+func stop_music_player() -> void:
+	music_player.stop()
 
 func randomize_pitch() -> float:
 	return randf_range(0.5,0.7)	
