@@ -80,10 +80,10 @@ offset_bottom = -12.0
 grow_vertical = 0
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 24
-text = "Voice SFX director : Dan Galletti
+text = "Artist, Writer, and Director: Rotten
+Voice SFX Director : Dan Galletti
 Sound Designer: PMYA
 Composer: Aria
-Programmer, Game and Systems Designer: Denny'sGuy 
-Artist, Writer, and Director: Rotten"
+Programmer, Game Designer, and Systems Engineer: Denny'sGuy "
 
 [connection signal="button_up" from="PlayButton" to="." method="_on_play_button_button_up"]
