@@ -11,6 +11,7 @@ enemies = NodePath("Enemies")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.87, 0, 0)
+visible = false
 size = Vector3(12, 0.001, 12)
 
 [node name="Enemies" type="Node3D" parent="."]

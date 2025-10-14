@@ -42,9 +42,9 @@ func _ready() -> void:
 	spawn_timer.one_shot = true
 
 func _process(delta: float) -> void:
-	if not WaveManager.wave_started:
-		if not enemy_configurations.get_children().is_empty():
-			clear_enemies()
+	if not WaveManager.wave_started and not enemy_configurations.get_children().is_empty():
+		clear_enemies()
+	print(spawn_timer.time_left)
 			
 func _on_spawn_timer_timeout() -> void:
 	spawn_timer.stop()
@@ -67,7 +67,7 @@ func _on_spawn_timer_timeout() -> void:
 			for i in range(chosen_config_amount):
 				# Pick a random configuration
 				var config_list : Array = WaveManager.waves[WaveManager.current_wave]["config list"]
-				var random_config : PackedScene = config_list.pick_random()
+				var random_config : PackedScene = WaveManager.pick_weighted_config(config_list)
 				var chosen_configuration : EnemyConfiguration = random_config.instantiate()
 				
 				# Pick a free spawn point
@@ -96,16 +96,22 @@ func _on_spawn_timer_timeout() -> void:
 			
 				# Add to scene
 				enemy_configurations.add_child(chosen_configuration)
-				
-			if chosen_config_amount >= 2:
-				var stagger_time : float = WaveManager.waves[WaveManager.current_wave]["stagger_time"]
-				await get_tree().create_timer(randf_range(stagger_time-0.2,stagger_time+0.2)).timeout
+			
+				var stagger_time : float
+				if chosen_config_amount >= 2:	
+					if chosen_config_amount >= 3:
+						stagger_time = 2.5
+					elif chosen_config_amount >= 4:
+						stagger_time = 2.8
+					else:
+						stagger_time = WaveManager.waves[WaveManager.current_wave]["stagger_time"]
+						
+					await get_tree().create_timer(randf_range(stagger_time-0.2,stagger_time+0.2)).timeout
 		
 	
 	# Randomize timer AFTER loop
-	var random_time : float = randf_range(spawn_time - 0.5, spawn_time + 0.5)
+	var random_time : float = max(1,randf_range(spawn_time - 0.6, spawn_time + 0.5))
 	spawn_timer.wait_time = random_time
-
 
 func reset_spawn_point_availability() -> void:
 	for point in available_spawn_points:

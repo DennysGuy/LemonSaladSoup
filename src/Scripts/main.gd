@@ -35,6 +35,7 @@ var blinking = false
 @onready var combo_meter_timer: Timer = $ComboMeterTimer
 @onready var total_timer: Label = $HUD/TotalTimer
 
+@onready var wave_count_down_player: AnimationPlayer = $WaveCountDownPlayer
 
 var combo_meter_wait_time : int = 6
 
@@ -108,7 +109,7 @@ func hide_reload_notification() -> void:
 	reload_notification.hide()
 
 func init_count_down() -> void:
-	animation_player.play("WaveStartCountDown")
+	wave_count_down_player.play("WaveCountDown")
 
 func play_reload_animation() -> void:
 	magazine_reload_animation_player.play("reload")

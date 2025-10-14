@@ -12,15 +12,15 @@ const MAX_WAVE :int = 2
 		"time": 120,
 		"starting config amount": 1,
 		"stagger_time":2,
-		"spawn_time":3, #in seconds
+		"spawn_time":2, #in seconds
 		"config list": wave_1_configurations,
 		"cut_scene": null #this plays at the end of the wave?
 	},
 	
 	1 : {
 		"time": 180,
-		"starting config amount": 1,
-		"stagger_time":2,
+		"starting config amount": 2,
+		"stagger_time":2.2,
 		"spawn_time":1.8, #in seconds
 		"config list": wave_2_configurations,
 		"cut_scene": null,
@@ -29,8 +29,8 @@ const MAX_WAVE :int = 2
 	2 : {
 		"time": 240,
 		"starting config amount": 2,
-		"stagger_time":3,
-		"spawn_time":1.8, #in seconds
+		"stagger_time":1.8,
+		"spawn_time":1.5, #in seconds
 		"config list": wave_3_configurations,
 		"cut_scene": "BossFight",
 	}
@@ -111,47 +111,62 @@ const CONFIGURATION_29 = preload("uid://wbsbmsp5j8xf")
 const CONFIGURATION_30 = preload("uid://d28y8dd7w1rje")
 
 
-var wave_1_configurations : Array[PackedScene] = [
-	CONFIGURATION_1,
-	CONFIGURATION_2,
-	CONFIGURATION_3,
-	CONFIGURATION_4,
-	CONFIGURATION_5,
-	CONFIGURATION_6,
-	CONFIGURATION_7,
-	CONFIGURATION_8,
-	CONFIGURATION_9,
-	CONFIGURATION_10
+var wave_1_configurations : Array[Dictionary] = [
+	{"scene": CONFIGURATION_1, "weight": 4},
+	{"scene": CONFIGURATION_2, "weight": 5},
+	{"scene": CONFIGURATION_3, "weight": 2},
+	{"scene": CONFIGURATION_4, "weight": 1},
+	{"scene": CONFIGURATION_5, "weight": 2},
+	{"scene": CONFIGURATION_6, "weight": 3},
+	{"scene": CONFIGURATION_7, "weight": 5},
+	{"scene": CONFIGURATION_8, "weight": 4},
+	{"scene": CONFIGURATION_9, "weight": 1},
+	{"scene": CONFIGURATION_10, "weight": 1},
 ]
 
-var wave_2_configurations : Array[PackedScene] = [
-	CONFIGURATION_1, 
-	CONFIGURATION_2, 
-	CONFIGURATION_3,
-	CONFIGURATION_11,
-	CONFIGURATION_12,
-	CONFIGURATION_13,
-	CONFIGURATION_14,
-	CONFIGURATION_15,
-	CONFIGURATION_16,
-	CONFIGURATION_17,
-	CONFIGURATION_18,
-	CONFIGURATION_19,
-	CONFIGURATION_20
+var wave_2_configurations : Array[Dictionary] = [
+	{"scene": CONFIGURATION_1, "weight": 2},
+	{"scene": CONFIGURATION_2, "weight": 2},
+	{"scene": CONFIGURATION_3, "weight": 2},
+	{"scene": CONFIGURATION_11, "weight": 4},
+	{"scene": CONFIGURATION_12, "weight": 3},
+	{"scene": CONFIGURATION_13, "weight": 5},
+	{"scene": CONFIGURATION_14, "weight": 3},
+	{"scene": CONFIGURATION_15, "weight": 2},
+	{"scene": CONFIGURATION_16, "weight": 3},
+	{"scene": CONFIGURATION_17, "weight": 2},
+	{"scene": CONFIGURATION_18, "weight": 4},
+	{"scene": CONFIGURATION_19, "weight": 2},
+	{"scene": CONFIGURATION_20, "weight": 1},
 ]
 
-
-var wave_3_configurations : Array[PackedScene] = [
-	CONFIGURATION_3,
-	CONFIGURATION_4,
-	CONFIGURATION_1, 
-	CONFIGURATION_22,
-	CONFIGURATION_23,
-	CONFIGURATION_24,
-	CONFIGURATION_25,
-	CONFIGURATION_26,
-	CONFIGURATION_27,
-	CONFIGURATION_28,
-	CONFIGURATION_29,
-	CONFIGURATION_30
+var wave_3_configurations : Array[Dictionary] = [
+	{"scene": CONFIGURATION_3, "weight": 2},
+	{"scene": CONFIGURATION_4, "weight": 2},
+	{"scene": CONFIGURATION_1, "weight": 2},
+	{"scene": CONFIGURATION_21, "weight": 3},
+	{"scene": CONFIGURATION_22, "weight": 2},
+	{"scene": CONFIGURATION_23, "weight": 5},
+	{"scene": CONFIGURATION_24, "weight": 2},
+	{"scene": CONFIGURATION_25, "weight": 1},
+	{"scene": CONFIGURATION_26, "weight": 4},
+	{"scene": CONFIGURATION_27, "weight": 3},
+	{"scene": CONFIGURATION_28, "weight": 5},
+	{"scene": CONFIGURATION_29, "weight": 2},
+	{"scene": CONFIGURATION_30, "weight": 2},
 ]
+
+func pick_weighted_config(config_list: Array) -> PackedScene:
+	var total_weight := 0
+	for entry in config_list:
+		total_weight += entry["weight"]
+	
+	var roll := randi_range(1, total_weight)
+	var cumulative := 0
+	
+	for entry in config_list:
+		cumulative += entry["weight"]
+		if roll <= cumulative:
+			return entry["scene"]
+	
+	return null # should never hit if weights are valid

@@ -17,5 +17,5 @@ func _process(delta: float) -> void:
 func decrement_config_count() -> void:
 	config_to_destroy_count -= 1
 	
-	if config_to_destroy_count <=0:
+	if config_to_destroy_count <=0 and WaveManager.wave_started:
 		spawn_timer.start()
