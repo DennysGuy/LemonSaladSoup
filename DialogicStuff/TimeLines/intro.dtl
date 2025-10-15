@@ -14,9 +14,9 @@ do CutSceneManager.spawn_greeter()
 do CutSceneManager.zoom_camera()
 Radioman: That thing right there is a bonafide Walker minion! Aim your weapon and press 'LEFT CLICK' to fire. \
 When you run out of ammo press 'R' to reload!
-Radioman: You can also toss a grenade by pressing 'RIGHT CLICK' - but use it sparingly, it has a long cool down time.
-Radioman: Finally, rotate to one of the four cardinal directions using 'A', 'S', and 'D'. Pressing 'D' will rotate you to the opposite direction.
-Radioman: That's about it. Give the controls a quick test then let 'er rip on that rat bastard in front of you!
+Radioman: If things get too tough you can clear the screen with a grenade by pressing 'RIGHT CLICK'.  Use this sparingly as it has a long cool down time and your score combo meter will break.
+Radioman: Finally, rotate to one of the four cardinal directions using 'A', 'S', and 'D'. Pressing 'S' will rotate you to the opposite direction.
+Radioman: That's about it. Give the controls a quick test then let 'er rip on that damned bastard in front of you!
 Radioman: Survive at all costs! Good luck.
 do CutSceneManager.enable_player_movement()
 do CutSceneManager.reset_camera_fov()

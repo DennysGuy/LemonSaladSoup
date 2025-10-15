@@ -17,7 +17,8 @@ script = ExtResource("2_tixh0")
 scene = ExtResource("1_b02of")
 overrides = {
 "global_bg_color": "Color(0.29803923, 0.29803923, 0.29803923, 1)",
-"global_font_size": "16.0"
+"global_font": "\"res://Assets/Art/Font/LOLII___.TTF\"",
+"global_font_size": "28.0"
 }
 
 [sub_resource type="Resource" id="Resource_q37ok"]
@@ -37,7 +38,7 @@ script = ExtResource("2_tixh0")
 scene = ExtResource("6_24gct")
 overrides = {
 "box_size": "Vector2(900, 220)",
-"normal_font": "\"res://Assets/Art/Font/Comical Cartoon.ttf\""
+"text_size": "32.0"
 }
 
 [sub_resource type="Resource" id="Resource_5rjp0"]
@@ -71,4 +72,4 @@ layer_info = {
 "16": SubResource("Resource_cr08r"),
 "17": SubResource("Resource_485hs")
 }
-metadata/_latest_layer = ""
+metadata/_latest_layer = "13"

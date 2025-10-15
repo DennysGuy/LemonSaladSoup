@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://ky1tv07nahro"]
+[gd_scene load_steps=57 format=3 uid="uid://ky1tv07nahro"]
 
 [ext_resource type="PackedScene" uid="uid://cqmipwjw5ygil" path="res://src/Scenes/Arena/Arena.tscn" id="1_kwadw"]
 [ext_resource type="Script" uid="uid://dc8d3py4vg0ax" path="res://src/Scripts/main.gd" id="1_n3v4m"]
@@ -239,7 +239,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1, 2, 2.98),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": ["5", "4", "3", "SURVIVE!"]
+"values": ["3", "2", "1", "SURVIVE!"]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -590,13 +590,42 @@ tracks/2/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_qo6x5"]
+resource_name = "fade_in"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect2:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eml7d"]
 _data = {
 &"Dead": SubResource("Animation_ojnsd"),
 &"Invincibility": SubResource("Animation_u2m37"),
 &"RESET": SubResource("Animation_j4yc3"),
 &"WaveStartCountDown": SubResource("Animation_xyvdf"),
-&"Win": SubResource("Animation_m1gvt")
+&"Win": SubResource("Animation_m1gvt"),
+&"fade_in": SubResource("Animation_qo6x5")
 }
 
 [sub_resource type="Animation" id="Animation_e4c6v"]
@@ -893,48 +922,6 @@ tracks/4/keys = {
 "values": [Vector2(-268, 582)]
 }
 
-[sub_resource type="Animation" id="Animation_1whra"]
-resource_name = "show_boss_hp"
-length = 0.01
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HUD/BossHP:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HUD/Label:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/2/type = "method"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"fill_boss_hp"
-}]
-}
-
 [sub_resource type="Animation" id="Animation_hhp4l"]
 resource_name = "grenade_explosion"
 length = 1.4
@@ -996,6 +983,48 @@ tracks/0/keys = {
 "values": [Vector2(-268, 582), Vector2(16, 582), Vector2(16, 582), Vector2(-268, 582)]
 }
 
+[sub_resource type="Animation" id="Animation_1whra"]
+resource_name = "show_boss_hp"
+length = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/BossHP:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HUD/Label:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"fill_boss_hp"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h0xvo"]
 _data = {
 &"RESET": SubResource("Animation_47f0w"),
@@ -1004,8 +1033,8 @@ _data = {
 &"show_boss_hp": SubResource("Animation_1whra")
 }
 
-[sub_resource type="Animation" id="Animation_de2fw"]
-resource_name = "ShowGrenadeIcon"
+[sub_resource type="Animation" id="Animation_4jata"]
+resource_name = "HideGrenade"
 length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -1017,7 +1046,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(-56, 510), Vector2(8, 510)]
+"values": [Vector2(38, 510), Vector2(-56, 510)]
 }
 
 [sub_resource type="Animation" id="Animation_rw6xf"]
@@ -1035,8 +1064,8 @@ tracks/0/keys = {
 "values": [Vector2(-56, 510)]
 }
 
-[sub_resource type="Animation" id="Animation_4jata"]
-resource_name = "HideGrenade"
+[sub_resource type="Animation" id="Animation_de2fw"]
+resource_name = "ShowGrenadeIcon"
 length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -1048,7 +1077,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(8, 510), Vector2(-56, 510)]
+"values": [Vector2(-56, 510), Vector2(38, 510)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4jata"]
@@ -1489,16 +1518,6 @@ offset_bottom = 48.0
 grow_horizontal = 2
 show_percentage = false
 
-[node name="ColorRect2" type="ColorRect" parent="HUD"]
-modulate = Color(1, 1, 1, 0)
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0.8339277, 0.55710906, 3.85046e-07, 1)
-
 [node name="GrenadeIcon" type="TextureRect" parent="HUD"]
 anchors_preset = 4
 anchor_top = 0.5
@@ -1521,6 +1540,16 @@ theme_override_fonts/font = ExtResource("4_j4yc3")
 theme_override_font_sizes/font_size = 32
 text = "30"
 horizontal_alignment = 1
+
+[node name="ColorRect2" type="ColorRect" parent="HUD"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.8339277, 0.55710906, 3.85046e-07, 1)
 
 [node name="RifleMagReloadAnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../MagazineReloadAnimationPlayer")

@@ -50,7 +50,7 @@ var enemy_list : Array[Enemy] = []
 
 
 var reticle_offset := Vector2(-90,0)
-const SENSITIVITY := 0.4
+const SENSITIVITY := 0.6
 var rotate_speed: float = 10.0  # higher = faster turn
 var target_location : Marker3D
 var zoom_target: float = 60.0  # smaller FOV = zoom in

@@ -105,6 +105,7 @@ func _ready() -> void:
 	score_label.hide()
 	count_down_label.hide()
 	total_timer.hide()
+	animation_player.play("fade_in")
 	CutSceneManager.play_intro_cutscene()
 	#init_count_down() #this here is the start of the round we'll replace this with intro cutscene stuff
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -381,7 +382,7 @@ func show_grading_phrase(bonus: int) -> void:
  
 func issue_grenade() -> void:
 	GameManager.can_throw_grenade = false
-	
+	reset_combo_meter()
 	boss_health_bar_player.play("grenade_explosion")
 	SignalBus.shake_camera.emit(1.4)
 	AudioManager.play_sfx(AudioManager.GRENADEBLOW)

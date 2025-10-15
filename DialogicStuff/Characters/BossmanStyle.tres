@@ -17,6 +17,7 @@ script = ExtResource("2_lexub")
 scene = ExtResource("1_wtq8k")
 overrides = {
 "global_bg_color": "Color(0.56166285, 0, 0.71484375, 1)",
+"global_font": "\"res://Assets/Art/Font/Comical Cartoon.ttf\"",
 "global_font_size": "16.0"
 }
 

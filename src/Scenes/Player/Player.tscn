@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://el3ur7a8rggo" path="res://src/Scripts/reticle.gd" id="3_lxwd3"]
 [ext_resource type="PackedScene" uid="uid://de75lun6r25ey" path="res://src/Scenes/HUD/alert_arrow.tscn" id="4_iqpho"]
 [ext_resource type="PackedScene" uid="uid://cs8p3p1woyr7q" path="res://src/Scenes/Player/Weapons/Pistol.tscn" id="5_t5wo0"]
-[ext_resource type="Script" uid="uid://rua1ns2gjilc" path="res://src/Scenes/Player/resource_collision_point.gd" id="7_iqpho"]
+[ext_resource type="Script" path="res://src/Scenes/Player/resource_collision_point.gd" id="7_iqpho"]
 
 [sub_resource type="Animation" id="Animation_lxwd3"]
 resource_name = "HideArm"
