@@ -47,6 +47,7 @@ var combo_meter_wait_time : int = 6
 @onready var health: HBoxContainer = $HUD/Health
 
 @onready var added_score_label_player: AnimationPlayer = $AddedScoreLabelPlayer
+@onready var wave_title_label: Label = $HUD/WaveTitleLabel
 
 #all things timers
 @onready var timer: Timer = $Timer
@@ -97,6 +98,8 @@ func _ready() -> void:
 	SignalBus.play_ammo_retrieved_flash.connect(play_ammo_pick_up_flash)
 	SignalBus.issue_grenade.connect(issue_grenade)
 	
+	SignalBus.hide_reload_notification.connect(hide_reload_notification)
+	
 	update_combo_meter_label()
 	update_health()
 	update_score()
@@ -127,6 +130,7 @@ func hide_reload_notification() -> void:
 	reload_notification.hide()
 
 func init_count_down() -> void:
+	wave_title_label.text = WaveManager.waves[WaveManager.current_wave+1]["wave_title"]
 	wave_count_down_player.play("WaveCountDown")
 
 func play_reload_animation() -> void:
@@ -177,6 +181,9 @@ func start_wave() -> void:
 	elif rifle_mag_showing:
 		rifle_mag_reload_animation_player.play("show_mag")
 	
+	if GameManager.ammo_count <=0:
+		show_reload_notification()
+	
 	SignalBus.start_wave.emit()
 
 func show_added_score_label(score : int, head_shot : bool) -> void:
@@ -191,6 +198,8 @@ func stop_wave() -> void:
 	score_count.hide()
 	score_label.hide()
 	added_score_label_player.play("hide_health")
+	hide_reload_notification()
+
 	grenade_icon_player.play("HideGrenade")
 	stop_music()
 	if pistol_mag_showing:

@@ -15,6 +15,7 @@ const MAX_WAVE :int = 2
 		"spawn_time":1.5, #in seconds
 		"config list": wave_1_configurations,
 		"theme" : AudioManager.FIRST_WAVE_1_1,
+		"wave_title" : "Wave 1",
 		"cut_scene": null #this plays at the end of the wave?
 	},
 	
@@ -25,6 +26,7 @@ const MAX_WAVE :int = 2
 		"spawn_time":1.8, #in seconds
 		"config list": wave_2_configurations,
 		"theme" : AudioManager.FIRST_WAVE_1_1,
+		"wave_title" : "Wave 2",
 		"cut_scene": null,
 	},
 	
@@ -35,6 +37,7 @@ const MAX_WAVE :int = 2
 		"spawn_time":1.2, #in seconds
 		"config list": wave_3_configurations,
 		"theme" : AudioManager.FIRST_WAVE_1_1,
+		"wave_title" : "Final Wave",
 		"cut_scene": "BossFight",
 	}
 	

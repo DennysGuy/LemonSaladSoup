@@ -38,6 +38,9 @@ signal update_ammo_count
 signal show_reload_notification
 
 @warning_ignore("unused_signal")
+signal hide_reload_notification
+
+@warning_ignore("unused_signal")
 signal reload_pistol
 
 @warning_ignore("unused_signal")

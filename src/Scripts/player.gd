@@ -176,6 +176,8 @@ func move_player() -> void:
 
 func swap_to_pistol() -> void:
 	GameManager.equipped_weapon = GameManager.WEAPONS.PISTOL
+	if GameManager.ammo_count <= 0:
+		SignalBus.show_reload_notification.emit()
 	animation_player.play("SwapWeapons")
 	SignalBus.swap_to_pistol.emit()
 
@@ -183,6 +185,7 @@ func swap_to_rifle() -> void:
 	GameManager.equipped_weapon = GameManager.WEAPONS.RIFLE
 	animation_player.play("SwapWeapons")
 	SignalBus.swap_to_rifle.emit()
+	SignalBus.hide_reload_notification.emit()
 
 func move_arm() -> void:
 	var screen_center = get_viewport().get_visible_rect().size * 0.5
@@ -253,10 +256,8 @@ func shoot_enemy(enemy_body_part : Node3D):
 		elif enemy_body_part is EnemyHeadCollider:
 			seen_enemy.head_shot_kill()
 		elif seen_enemy is BossMan and enemy_body_part is ForceFieldArea:
-			print("in here babyyy")
 			seen_enemy.play_reflection()
 		
-		print("HELLO?")
 	
 func damage_player() -> void:
 	if can_be_hit:
@@ -293,7 +294,6 @@ func play_shoot_animation() -> void:
 		GameManager.can_shoot = false
 		SignalBus.show_reload_notification.emit()
 	else:
-		
 		await get_tree().create_timer(0.2).timeout
 		GameManager.can_shoot = true
 
