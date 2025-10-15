@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxmpqesrmab0g"]
+
+[ext_resource type="Texture2D" uid="uid://de3d8ytnibpb8" path="res://Assets/Art/2D Assets/Shadow.png" id="1_vafhh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p35q7"]
+transparency = 1
+no_depth_test = true
+albedo_color = Color(0, 0, 0, 0.6117647)
+albedo_texture = ExtResource("1_vafhh")
+
+[node name="Shadow" type="CSGBox3D"]
+size = Vector3(2.0997248, 0.001, 1.6906433)
+material = SubResource("StandardMaterial3D_p35q7")

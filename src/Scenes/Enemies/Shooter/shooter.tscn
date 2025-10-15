@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=4 uid="uid://bqbj7je120a8g"]
+[gd_scene load_steps=40 format=4 uid="uid://bqbj7je120a8g"]
 
 [ext_resource type="Script" uid="uid://w03ulhutc6ro" path="res://src/Scripts/shooter.gd" id="1_g57k7"]
 [ext_resource type="Texture2D" uid="uid://cexevvkkj2r7y" path="res://Assets/Art/3D Assets/Enemies/BlueGrunt(Shoota)/Bluegrunt.png" id="1_y8es4"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://cp5cxfsa4e2me" path="res://src/Scenes/Enemies/Shooter/shooter_head_shot_dead.gd" id="10_f6ayb"]
 [ext_resource type="PackedScene" uid="uid://dbjgbhbibqyfq" path="res://src/Scenes/Enemies/BodyCollider.tscn" id="11_gopj7"]
 [ext_resource type="PackedScene" uid="uid://cyulroyk7t1a5" path="res://src/Scenes/Enemies/HeadCollider.tscn" id="12_f6ayb"]
+[ext_resource type="PackedScene" uid="uid://bxmpqesrmab0g" path="res://src/Scenes/Enemies/Shadow.tscn" id="13_124i2"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5sd6k"]
 resource_name = "Material"
@@ -1592,5 +1593,9 @@ shape = SubResource("BoxShape3D_124i2")
 
 [node name="ConsumableSpawnPoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8798752, 0)
+
+[node name="Shadow" parent="." instance=ExtResource("13_124i2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.039279222, 0, 0.20998764)
+size = Vector3(2.7411113, 0.001, 2.65728)
 
 [connection signal="timeout" from="BonusTimer" to="." method="_on_bonus_timer_timeout"]

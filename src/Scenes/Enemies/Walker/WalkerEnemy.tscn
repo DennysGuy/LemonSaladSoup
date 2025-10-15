@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://coiyr773xvwd4"]
+[gd_scene load_steps=49 format=4 uid="uid://coiyr773xvwd4"]
 
 [ext_resource type="Script" uid="uid://bwknuerc2pbuw" path="res://src/Scripts/test_enemy.gd" id="1_rgxcw"]
 [ext_resource type="Texture2D" uid="uid://bx5p3ywfppeyi" path="res://Assets/Art/3D Assets/Enemies/RedGrunt/RedGrunt.png" id="2_rgxcw"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://cghm3vhbrium3" path="res://src/Scripts/StateMachine/Enemies/head_shot_dead.gd" id="9_ajmvi"]
 [ext_resource type="PackedScene" uid="uid://cyulroyk7t1a5" path="res://src/Scenes/Enemies/HeadCollider.tscn" id="10_sqskc"]
 [ext_resource type="PackedScene" uid="uid://dbjgbhbibqyfq" path="res://src/Scenes/Enemies/BodyCollider.tscn" id="11_dwuo6"]
+[ext_resource type="PackedScene" uid="uid://bxmpqesrmab0g" path="res://src/Scenes/Enemies/Shadow.tscn" id="12_4m0ww"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rgxcw"]
 resource_name = "redguy1"
@@ -1771,6 +1772,9 @@ shape = SubResource("BoxShape3D_rgxcw")
 
 [node name="ConsumableSpawnPoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76271343, 0)
+
+[node name="Shadow" parent="." instance=ExtResource("12_4m0ww")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0817374, 0.07739696, -0.010487318)
 
 [connection signal="timeout" from="BonusTimer" to="." method="_on_bonus_timer_timeout"]
 [connection signal="body_entered" from="PlayerSensor" to="." method="_on_player_sensor_body_entered"]
