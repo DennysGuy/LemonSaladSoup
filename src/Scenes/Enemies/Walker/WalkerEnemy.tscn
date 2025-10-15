@@ -1531,10 +1531,11 @@ size = Vector3(1.9436853, 2.6761508, 1.8095703)
 [sub_resource type="BoxShape3D" id="BoxShape3D_rgxcw"]
 size = Vector3(1, 1, 1.9604492)
 
-[node name="WalkerEnemy" type="CharacterBody3D" node_paths=PackedStringArray("dead_state", "attack_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
+[node name="WalkerEnemy" type="CharacterBody3D" node_paths=PackedStringArray("consumable_spawn_point", "dead_state", "attack_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
 script = ExtResource("1_rgxcw")
 base_score = 100
 grunt_death_pitch = 1.0
+consumable_spawn_point = NodePath("ConsumableSpawnPoint")
 dead_state = NodePath("StateMachine/Dead")
 attack_state = NodePath("StateMachine/Attack")
 hurt_1_state = NodePath("StateMachine/Hurt1")
@@ -1767,6 +1768,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.803263, -3.4659004)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerSensor"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.4802246)
 shape = SubResource("BoxShape3D_rgxcw")
+
+[node name="ConsumableSpawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.76271343, 0)
 
 [connection signal="timeout" from="BonusTimer" to="." method="_on_bonus_timer_timeout"]
 [connection signal="body_entered" from="PlayerSensor" to="." method="_on_player_sensor_body_entered"]

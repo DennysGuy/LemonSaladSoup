@@ -12,8 +12,10 @@ class_name Main extends Node3D
 @onready var rifle_bullets: VBoxContainer = $HUD/RifleMagazine/RifleBullets
 
 @onready var reload_notification: Label = $HUD/ReloadNotification
+@onready var grenade_cool_down_label: Label = $HUD/GrenadeIcon/GrenadeCoolDownLabel
 
 @onready var bullets: HBoxContainer = $HUD/Magazine/Bullets
+@onready var pick_up_animation_player: AnimationPlayer = $PickUpAnimationPlayer
 
 var should_blink = true
 var blinking = false
@@ -24,6 +26,7 @@ var blinking = false
 @onready var grade_phrase_player: AnimationPlayer = $GradePhrasePlayer
 @onready var rifle_mag_reload_animation_player: AnimationPlayer = $RifleMagReloadAnimationPlayer
 
+@onready var texture_progress_bar: TextureProgressBar = $HUD/GrenadeIcon/TextureProgressBar
 
 @onready var added_score: Label = $HUD/AddedScore
 @onready var grade_phrase: Label = $HUD/GradePhrase
@@ -38,6 +41,7 @@ var blinking = false
 @onready var wave_count_down_player: AnimationPlayer = $WaveCountDownPlayer
 
 var combo_meter_wait_time : int = 6
+@onready var grenade_cool_down_prog_bar: TextureProgressBar = $HUD/GrenadeIcon/GrenadeCoolDownProgBar
 
 @onready var magazine_reload_animation_player: AnimationPlayer = $MagazineReloadAnimationPlayer
 @onready var health: HBoxContainer = $HUD/Health
@@ -54,11 +58,13 @@ var rifle_mag_showing : bool = false
 var pistol_mag_showing : bool = true
 
 var combo_meter_showing : bool = false
+var grenade_in_cool_down : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	combo_meter_timer.wait_time = combo_meter_wait_time
 	reload_notification.hide()
+	grenade_cool_down_label.hide()
 	SignalBus.init_count_down.connect(init_count_down)
 	SignalBus.stop_wave.connect(stop_wave)
 	SignalBus.update_score_label.connect(update_score)
@@ -86,9 +92,15 @@ func _ready() -> void:
 	
 	SignalBus.show_hud.connect(show_hud)
 	SignalBus.update_boss_hp.connect(update_boss_hp)
+	SignalBus.play_health_caught_anim.connect(play_health_caught_anim)
+	
+	SignalBus.play_ammo_retrieved_flash.connect(play_ammo_pick_up_flash)
+	SignalBus.issue_grenade.connect(issue_grenade)
+	
 	update_combo_meter_label()
 	update_health()
 	update_score()
+	
 	score_count.hide()
 	score_label.hide()
 	count_down_label.hide()
@@ -101,6 +113,11 @@ func _process(delta: float) -> void:
 	if should_blink and not blinking:
 		blinking = true
 		reload_notif_blink()
+	
+	if grenade_cooldown_timer.time_left > 0:
+		grenade_cool_down_label.text = str(int(grenade_cooldown_timer.time_left))
+
+		
 
 func show_reload_notification() -> void:
 	reload_notification.show()
@@ -113,6 +130,14 @@ func init_count_down() -> void:
 
 func play_reload_animation() -> void:
 	magazine_reload_animation_player.play("reload")
+
+func play_health_caught_anim() -> void:
+	pick_up_animation_player.play("Pickups/HealthPickup")
+	GameManager.player_current_health += 1
+	update_health()
+	
+func play_ammo_pick_up_flash() -> void:
+	pick_up_animation_player.play("Pickups/HealthPickup")
 
 func play_wave_theme() -> void:
 	var theme : AudioStream = WaveManager.waves[WaveManager.current_wave]["theme"]
@@ -137,10 +162,14 @@ func set_wave_parameters() -> void:
 	score_count.show()
 	score_label.show()
 	SignalBus.set_wave_params.emit()
+	
+@onready var grenade_icon_player: AnimationPlayer = $GrenadeIconPlayer
 
 func start_wave() -> void:
 	WaveManager.wave_started = true
+	GameManager.can_throw_grenade = true
 	#health shower animation player here
+	grenade_icon_player.play("ShowGrenadeIcon")
 	added_score_label_player.play("show_health")
 	if pistol_mag_showing:
 		magazine_reload_animation_player.play("show_mag")
@@ -161,6 +190,7 @@ func stop_wave() -> void:
 	score_count.hide()
 	score_label.hide()
 	added_score_label_player.play("hide_health")
+	grenade_icon_player.play("HideGrenade")
 	stop_music()
 	if pistol_mag_showing:
 		magazine_reload_animation_player.play("hide_mag") #don't actually set var false so we can show the appropriate mag when next round starts
@@ -343,9 +373,36 @@ func show_grading_phrase(bonus: int) -> void:
 		1:
 			grade_phrase.text = "NOT BAD!"
 			AudioManager.play_sfx(AudioManager.HOLDER_VOX_RADIO_PRAISE_03)
+		-1:
+			grade_phrase.text = "Clear!"
 	
 	grade_phrase_player.play("show_grade_phrase")
 
+ 
+func issue_grenade() -> void:
+	GameManager.can_throw_grenade = false
+	
+	boss_health_bar_player.play("grenade_explosion")
+	SignalBus.shake_camera.emit(1.4)
+	AudioManager.play_sfx(AudioManager.GRENADEBLOW)
+	
+@onready var grenade_cooldown_timer: Timer = $GrenadeCooldownTimer
 
+func start_grenade_cool_down() -> void:
+	grenade_cooldown_timer.wait_time = GameManager.grenade_cool_down_time
+	grenade_cooldown_timer.start()
+	grenade_cool_down_label.show()
+	
+
+func kill_enemies_with_grenade() -> void:
+	SignalBus.kill_enemy_by_grenade.emit(true)
+	show_grading_phrase(-1)
+	
 func play_round_start_sfx() -> void:
 	AudioManager.play_sfx(AudioManager.ROUNDSTART)
+
+
+func _on_grenade_cooldown_timer_timeout() -> void:
+	GameManager.can_throw_grenade = true
+	boss_health_bar_player.play("grenade_ready")
+	grenade_cool_down_label.hide()

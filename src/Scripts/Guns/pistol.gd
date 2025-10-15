@@ -5,7 +5,7 @@ class_name Pistol extends Node3D
 @onready var ar: Node3D = $AR
 
 @onready var camera: Camera3D = $Camera3D
-@onready var pistol_sfx : Array[AudioStream] = [AudioManager.PISTOLDRY_1, AudioManager.PISTOLDRY_2, AudioManager.PISTOLDRY_3]
+@onready var pistol_sfx : Array[AudioStream] = [AudioManager.PISTOL_1, AudioManager.PISTOL_2, AudioManager.PISTOL_3]
 @onready var rifle_sfx : Array[AudioStream] = [AudioManager.RIFLE_1, AudioManager.RIFLE_2, AudioManager.RIFLE_3, AudioManager.RIFLE_4]
 @onready var gun: Node3D = $Gun
 var reticle_offset := Vector2(-90,0)
@@ -47,26 +47,25 @@ func play_rifle_shot() -> void:
 	AudioManager.play_sfx(random_shot)
 
 func play_pistol_reload() -> void:
-	var reload_sfx : AudioStream = AudioManager.PISTOL_RELOAD_EDIT_1
+	var reload_sfx : AudioStream = AudioManager.PISTOLRELOAD
 	AudioManager.play_sfx(reload_sfx)
 
 func play_weapon_holster() -> void:
 	var sfx : AudioStream 
 	if GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL:
-		sfx = AudioManager.PISTOLHOLSTERDRY
+		sfx = AudioManager.PISTOLHOLSTER
 	else:
-		sfx = AudioManager.RIFLEHOLSTERDRY
+		sfx = AudioManager.RIFLEHOLSTER
 	
 	AudioManager.play_sfx(sfx)
 	
 func play_weapon_draw() -> void:
 	var sfx : AudioStream 
 	if GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL:
-		sfx = AudioManager.PISTOLDRAWDRY
+		sfx = AudioManager.PISTOLDRAW
 	else:
-		sfx = AudioManager.RIFLEDRAWDRY
+		sfx = AudioManager.RIFLEDRAW
 	AudioManager.play_sfx(sfx)
-
 
 
 func set_weapon_visual() -> void:
@@ -83,3 +82,6 @@ func enable_movement() -> void:
 
 func disable_movement() -> void:
 	SignalBus.disable_movement.emit()
+
+func issue_grenade() -> void:
+	SignalBus.issue_grenade.emit()

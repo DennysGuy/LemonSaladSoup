@@ -146,11 +146,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func move_player() -> void:
 	if Input.is_action_just_pressed("rotate_left"):
-		AudioManager.play_sfx(AudioManager.LOOKLEFT)
+		AudioManager.play_sfx(AudioManager.LOOKLEFT,-2)
 		rotate_camera_left()
 
 	if Input.is_action_just_pressed("rotate_right"):
-		AudioManager.play_sfx(AudioManager.LOOKRIGHT)
+		AudioManager.play_sfx(AudioManager.LOOKRIGHT,-2)
 		rotate_camera_right()
 	
 	if GameManager.can_shoot:
@@ -161,13 +161,16 @@ func move_player() -> void:
 			and GameManager.rifle_ammo_count > 0 and GameManager.rifle_unlocked:
 				swap_to_rifle()
 		
+		if Input.is_action_just_pressed("toss_grenade") and GameManager.can_throw_grenade:
+			SignalBus.issue_grenade.emit()
+		
 			
 	if Input.is_action_just_pressed("reload") and GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL:
 		play_reload_animation()
 		SignalBus.reload_pistol.emit()
 	
 	if Input.is_action_just_pressed("rotate_opposite"):
-		AudioManager.play_sfx(AudioManager.LOOKLEFT)
+		AudioManager.play_sfx(AudioManager.LOOKLEFT, -2)
 		rotate_camera_opposite()
 
 
@@ -257,12 +260,14 @@ func shoot_enemy(enemy_body_part : Node3D):
 	
 func damage_player() -> void:
 	if can_be_hit:
+		AudioManager.play_sfx(AudioManager.player_hits.pick_random())
 		SignalBus.shake_camera.emit(1.0)
 		SignalBus.start_invincibility_overlay.emit()
 		GameManager.player_current_health -= 1
 		SignalBus.update_health_display.emit()
 		SignalBus.reset_combo_meter.emit()
 		if GameManager.player_current_health <= 0:
+			AudioManager.play_sfx(AudioManager.PLAYERDEATH)
 			disable_movement()
 			hide_arm()
 			hide_reticle()

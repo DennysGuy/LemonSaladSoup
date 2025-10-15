@@ -1334,11 +1334,12 @@ size = Vector3(1.7457275, 2.8033957, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_124i2"]
 size = Vector3(1.8158264, 0.8385315, 1)
 
-[node name="Shooter" type="CharacterBody3D" node_paths=PackedStringArray("dead_state", "attack_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
+[node name="Shooter" type="CharacterBody3D" node_paths=PackedStringArray("consumable_spawn_point", "dead_state", "attack_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
 script = ExtResource("1_g57k7")
 health = 4
 base_score = 300
 grunt_death_pitch = 0.6
+consumable_spawn_point = NodePath("ConsumableSpawnPoint")
 dead_state = NodePath("StateMachine/Dead")
 attack_state = NodePath("StateMachine/Attack")
 hurt_1_state = NodePath("StateMachine/Hurt1")
@@ -1588,5 +1589,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03424579, 3.48591, -2.2358
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HeadCollider"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1421051, -0.2028656, 0)
 shape = SubResource("BoxShape3D_124i2")
+
+[node name="ConsumableSpawnPoint" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8798752, 0)
 
 [connection signal="timeout" from="BonusTimer" to="." method="_on_bonus_timer_timeout"]

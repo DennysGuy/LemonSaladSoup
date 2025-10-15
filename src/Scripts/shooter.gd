@@ -8,6 +8,8 @@ var dir_list : Array[String] = ["left", "right"]
 
 var can_strafe : bool = true
 
+const CHANCE_TO_SPAWN_AMMO :int = 55
+
 @onready var movement_timer: Timer = $MovementTimer
 @onready var timer: Timer = $Timer
 @onready var animation_player: AnimationPlayer = $bluegrunt/AnimationPlayer
@@ -50,3 +52,12 @@ func _on_bonus_timer_timeout() -> void:
 	can_receive_bonus = false
 
 	
+func spawn_ammo_drop() -> void:
+	var random_num : int = randi_range(0,100)
+	if random_num > CHANCE_TO_SPAWN_AMMO:
+		return
+	
+	var ammo_drop : AmmoDrop = preload("uid://brl005mrnmblk").instantiate()
+	ammo_drop.global_position = consumable_spawn_point.global_position
+	arena.add_child(ammo_drop)
+		

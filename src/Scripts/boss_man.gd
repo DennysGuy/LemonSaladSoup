@@ -6,6 +6,7 @@ class_name BossMan extends Enemy
 
 func _ready() -> void:
 	super()
+	is_boss = true
 	SignalBus.enemy_spawned.emit(self)
 	SignalBus.reflect_bullet.connect(play_reflection)
 	SignalBus.disable_force_field.connect(disable_force_field)

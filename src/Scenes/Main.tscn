@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://ky1tv07nahro"]
+[gd_scene load_steps=56 format=3 uid="uid://ky1tv07nahro"]
 
 [ext_resource type="PackedScene" uid="uid://cqmipwjw5ygil" path="res://src/Scenes/Arena/Arena.tscn" id="1_kwadw"]
 [ext_resource type="Script" uid="uid://dc8d3py4vg0ax" path="res://src/Scripts/main.gd" id="1_n3v4m"]
@@ -11,6 +11,9 @@
 [ext_resource type="Texture2D" uid="uid://b1wsna7q68tru" path="res://Assets/Art/2D Assets/AR-14_Bullet.png" id="7_ojnsd"]
 [ext_resource type="Texture2D" uid="uid://c6l2brcd36hkp" path="res://Assets/Art/2D Assets/MagazineOver.png" id="7_p301h"]
 [ext_resource type="Texture2D" uid="uid://bhr7rdlujmmje" path="res://Assets/Art/2D Assets/AR-14_Mag_Top.png" id="8_hg6nk"]
+[ext_resource type="Texture2D" uid="uid://b5f4uybllur7b" path="res://Assets/Art/2D Assets/grenade_icon.png" id="12_ojnsd"]
+[ext_resource type="Animation" uid="uid://hhvk44dbvgl1" path="res://src/AmmoPickUp.res" id="13_e4c6v"]
+[ext_resource type="Animation" uid="uid://cvv13s3yiy6g0" path="res://src/HealthPickup.res" id="14_w3s2q"]
 
 [sub_resource type="Animation" id="Animation_7p1hp"]
 length = 0.001
@@ -154,6 +157,12 @@ _data = {
 &"show_mag": SubResource("Animation_p301h")
 }
 
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2kg1o"]
+_data = {
+&"AmmoPickUp": ExtResource("13_e4c6v"),
+&"HealthPickup": ExtResource("14_w3s2q")
+}
+
 [sub_resource type="Animation" id="Animation_fx0xh"]
 length = 0.001
 tracks/0/type = "value"
@@ -192,10 +201,34 @@ tracks/2/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../HUD/ColorRect2:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.05901879, 0.65172106, 1.92523e-07, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../HUD/ColorRect2:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_h0xvo"]
 resource_name = "WaveCountDown"
-length = 7.0
+length = 5.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -203,10 +236,10 @@ tracks/0/path = NodePath("../HUD/CountDownLabel:text")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2, 2.98, 4, 4.98),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 1, 2, 2.98),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": ["5", "4", "3", "2", "1", "SURVIVE!"]
+"values": ["5", "4", "3", "SURVIVE!"]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -215,7 +248,7 @@ tracks/1/path = NodePath("../HUD/CountDownLabel:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(5, 7),
+"times": PackedFloat32Array(3, 5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -227,7 +260,7 @@ tracks/2/path = NodePath("../HUD/CountDownLabel:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 7),
+"times": PackedFloat32Array(0, 5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -239,7 +272,7 @@ tracks/3/path = NodePath("..")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0, 5, 7),
+"times": PackedFloat32Array(0, 3, 5),
 "transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
 "args": [],
@@ -259,7 +292,7 @@ tracks/4/path = NodePath("..")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(5),
+"times": PackedFloat32Array(3),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -269,6 +302,8 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_m1gvt"]
 _data = {
+&"AmmoPickUp": ExtResource("13_e4c6v"),
+&"HealthPickup": ExtResource("14_w3s2q"),
 &"RESET": SubResource("Animation_fx0xh"),
 &"WaveCountDown": SubResource("Animation_h0xvo")
 }
@@ -317,7 +352,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_u2m37"]
 resource_name = "Invincibility"
-length = 6.0
+length = 4.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -325,10 +360,22 @@ tracks/0/path = NodePath("ColorRect:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.06666667, 0.3, 0.96666664, 1.7, 2.5, 3.2666667, 4.1, 4.8, 5.2, 5.5333333, 5.8333335, 6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.36666667, 0.7, 1.1333333, 1.5666667, 2, 2.4666667, 3.0333333, 3.5, 3.7666667, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.6431373), Color(1, 1, 1, 0), Color(1, 1, 1, 0.59607846), Color(1, 1, 1, 0), Color(1, 1, 1, 0.25882354), Color(1, 1, 1, 0), Color(1, 1, 1, 0.2509804), Color(1, 1, 1, 0), Color(1, 1, 1, 0.17254902), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ColorRect2:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.574492, 0.08164664, 9.62615e-08, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_j4yc3"]
@@ -809,6 +856,42 @@ tracks/1/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("HUD/ColorRect2:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.8339277, 0.55710906, 3.85046e-07, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("HUD/ColorRect2:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("HUD/GrenadeReady:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-268, 582)]
+}
 
 [sub_resource type="Animation" id="Animation_1whra"]
 resource_name = "show_boss_hp"
@@ -852,10 +935,127 @@ tracks/2/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_hhp4l"]
+resource_name = "grenade_explosion"
+length = 1.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/ColorRect2:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.8339277, 0.55710906, 3.85046e-07, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HUD/ColorRect2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.7, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.7, 1.4),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"kill_enemies_with_grenade"
+}, {
+"args": [],
+"method": &"start_grenade_cool_down"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_8yfs3"]
+resource_name = "grenade_ready"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/GrenadeReady:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1972864, 1.7682707, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-268, 582), Vector2(16, 582), Vector2(16, 582), Vector2(-268, 582)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h0xvo"]
 _data = {
 &"RESET": SubResource("Animation_47f0w"),
+&"grenade_explosion": SubResource("Animation_hhp4l"),
+&"grenade_ready": SubResource("Animation_8yfs3"),
 &"show_boss_hp": SubResource("Animation_1whra")
+}
+
+[sub_resource type="Animation" id="Animation_de2fw"]
+resource_name = "ShowGrenadeIcon"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/GrenadeIcon:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-56, 510), Vector2(8, 510)]
+}
+
+[sub_resource type="Animation" id="Animation_rw6xf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/GrenadeIcon:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-56, 510)]
+}
+
+[sub_resource type="Animation" id="Animation_4jata"]
+resource_name = "HideGrenade"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/GrenadeIcon:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(8, 510), Vector2(-56, 510)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4jata"]
+_data = {
+&"HideGrenade": SubResource("Animation_4jata"),
+&"RESET": SubResource("Animation_rw6xf"),
+&"ShowGrenadeIcon": SubResource("Animation_de2fw")
 }
 
 [node name="Main" type="Node3D"]
@@ -978,6 +1178,20 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("4_j4yc3")
 theme_override_font_sizes/font_size = 52
 text = "GREAT!"
+
+[node name="GrenadeReady" type="Label" parent="HUD"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -268.0
+offset_top = 222.0
+offset_right = -20.0
+offset_bottom = 255.0
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_j4yc3")
+theme_override_font_sizes/font_size = 32
+text = "GRENADE READY!"
 
 [node name="ComboMeter" type="Control" parent="HUD"]
 layout_mode = 3
@@ -1186,9 +1400,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -97.0
-offset_top = -35.5
+offset_top = -36.5
 offset_right = 127.0
-offset_bottom = 35.5
+offset_bottom = 34.5
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
@@ -1283,7 +1497,30 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0.574492, 0.08164664, 9.62615e-08, 1)
+color = Color(0.8339277, 0.55710906, 3.85046e-07, 1)
+
+[node name="GrenadeIcon" type="TextureRect" parent="HUD"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -56.0
+offset_top = 150.0
+offset_right = -14.0
+offset_bottom = 211.0
+grow_vertical = 2
+texture = ExtResource("12_ojnsd")
+
+[node name="GrenadeCoolDownLabel" type="Label" parent="HUD/GrenadeIcon"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 20.0
+offset_right = 40.0
+offset_bottom = 53.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_j4yc3")
+theme_override_font_sizes/font_size = 32
+text = "30"
+horizontal_alignment = 1
 
 [node name="RifleMagReloadAnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../MagazineReloadAnimationPlayer")
@@ -1295,6 +1532,12 @@ libraries = {
 root_node = NodePath("../AnimationPlayer")
 libraries = {
 &"": SubResource("AnimationLibrary_ohpsy")
+}
+
+[node name="PickUpAnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../WaveCountDownPlayer")
+libraries = {
+&"Pickups": SubResource("AnimationLibrary_2kg1o")
 }
 
 [node name="WaveCountDownPlayer" type="AnimationPlayer" parent="."]
@@ -1326,6 +1569,16 @@ libraries = {
 &"": SubResource("AnimationLibrary_n0f2q")
 }
 
+[node name="BossHealthBarPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_h0xvo")
+}
+
+[node name="GrenadeIconPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_4jata")
+}
+
 [node name="Timer" type="Timer" parent="."]
 process_callback = 0
 wait_time = 2.0
@@ -1340,11 +1593,11 @@ process_callback = 0
 wait_time = 2.0
 one_shot = true
 
-[node name="BossHealthBarPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_h0xvo")
-}
+[node name="GrenadeCooldownTimer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="ComboMeterTimer" to="." method="_on_combo_meter_timer_timeout"]
 [connection signal="timeout" from="AddedScoreLabelTimer" to="." method="_on_added_score_label_timer_timeout"]
+[connection signal="timeout" from="GrenadeCooldownTimer" to="." method="_on_grenade_cooldown_timer_timeout"]

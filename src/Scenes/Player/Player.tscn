@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cwfahle4ha0uq"]
+[gd_scene load_steps=20 format=3 uid="uid://cwfahle4ha0uq"]
 
 [ext_resource type="Script" uid="uid://dwqwn0yq03m0" path="res://src/Scripts/player.gd" id="1_qw5p0"]
 [ext_resource type="Script" uid="uid://crac21w6f0oy2" path="res://src/Scripts/camera.gd" id="2_lxwd3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://el3ur7a8rggo" path="res://src/Scripts/reticle.gd" id="3_lxwd3"]
 [ext_resource type="PackedScene" uid="uid://de75lun6r25ey" path="res://src/Scenes/HUD/alert_arrow.tscn" id="4_iqpho"]
 [ext_resource type="PackedScene" uid="uid://cs8p3p1woyr7q" path="res://src/Scenes/Player/Weapons/Pistol.tscn" id="5_t5wo0"]
+[ext_resource type="Script" uid="uid://rua1ns2gjilc" path="res://src/Scenes/Player/resource_collision_point.gd" id="7_iqpho"]
 
 [sub_resource type="Animation" id="Animation_lxwd3"]
 resource_name = "HideArm"
@@ -289,6 +290,9 @@ height = 14.648
 radius = 0.7167969
 height = 4.685669
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_lxwd3"]
+size = Vector3(1.4835205, 1.1678467, 0.8017578)
+
 [node name="Player" type="CharacterBody3D" groups=["Player"]]
 script = ExtResource("1_qw5p0")
 
@@ -298,7 +302,7 @@ one_shot = true
 
 [node name="InvincibilityTimer" type="Timer" parent="."]
 process_callback = 0
-wait_time = 6.0
+wait_time = 4.0
 one_shot = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -412,7 +416,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4682698, -0.530756)
 shape = SubResource("CapsuleShape3D_waosb")
 
 [node name="MagnetPoint" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1401143, -1.1460431)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7250161, -1.9261141)
+
+[node name="ResourceCollisionPoint" type="Area3D" parent="MagnetPoint"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.43408656, -0.08312774)
+script = ExtResource("7_iqpho")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MagnetPoint/ResourceCollisionPoint"]
+transform = Transform3D(1, 0, 0, 0, 0.99990493, -0.0137876645, 0, 0.0137876645, 0.99990493, -0.041931152, 0.49093628, 0.10027826)
+shape = SubResource("BoxShape3D_lxwd3")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]

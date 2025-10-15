@@ -31,8 +31,8 @@ const MAX_WAVE :int = 2
 	2 : {
 		"time": 240,
 		"starting config amount": 2,
-		"stagger_time":1.8,
-		"spawn_time":1.5, #in seconds
+		"stagger_time":1.6,
+		"spawn_time":1.2, #in seconds
 		"config list": wave_3_configurations,
 		"theme" : AudioManager.FIRST_WAVE_1_1,
 		"cut_scene": "BossFight",

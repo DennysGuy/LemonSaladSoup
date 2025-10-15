@@ -16,8 +16,7 @@ func enter() -> void:
 		GameManager.rifle_unlocked = true
 		SignalBus.swap_to_rifle_first_time.emit()
 	else:
-		GameManager.rifle_ammo_count += randi_range(30,40)
-		SignalBus.update_rifle_ammo.emit()
+		parent.spawn_ammo_drop()
 
 func exit() -> void:
 	pass

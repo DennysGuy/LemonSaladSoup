@@ -975,7 +975,7 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_3rcag")
 
-[node name="Arena" type="Node3D"]
+[node name="Arena" type="Node3D" groups=["Arena"]]
 script = ExtResource("1_y77rj")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

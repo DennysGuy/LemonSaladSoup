@@ -15,7 +15,10 @@ func enter() -> void:
 	if parent is WalkerEnemy and parent.is_greeter:
 		AudioManager.stop_music_player()
 	
-	parent.timer.wait_time = 1.4
+	if GameManager.player_current_health < GameManager.PLAYER_MAX_HEALTH:
+		parent.spawn_health_drop()
+	
+	parent.timer.wait_time = 1.8
 	parent.timer.start()
 
 func exit() -> void:

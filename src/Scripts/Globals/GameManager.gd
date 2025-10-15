@@ -6,8 +6,12 @@ const PISTOL_MAGAZINE_SIZE = 6
 const RIFLE_MAGAZINE_SIZE = 10
 const KILLS_NEEDED : int = 5
 
+
 var player_is_alive : bool = true
 var player_current_health : int = PLAYER_MAX_HEALTH
+
+var grenade_cool_down_time : int = 30
+var can_throw_grenade : bool = false
 
 var score : int = 0
 var current_multiplier : int = 1
@@ -28,6 +32,7 @@ var can_shoot : bool = false
 var rifle_unlocked = false
 
 var max_config_amount : int = 0
+
 
 enum WEAPONS  {
 	PISTOL,

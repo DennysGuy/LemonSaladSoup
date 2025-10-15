@@ -127,3 +127,11 @@ signal add_enemy_to_list(enemy : Enemy)
 signal decrement_config_count
 @warning_ignore("unused_signal")
 signal swap_to_rifle_first_time
+@warning_ignore("unused_signal")
+signal play_health_caught_anim
+@warning_ignore("unused_signal")
+signal play_ammo_retrieved_flash
+@warning_ignore("unused_signal")
+signal issue_grenade
+@warning_ignore("unused_signal")
+signal kill_enemy_by_grenade(by_grenade : bool)

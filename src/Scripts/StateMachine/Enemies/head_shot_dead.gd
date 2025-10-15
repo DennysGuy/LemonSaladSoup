@@ -10,8 +10,11 @@ func enter() -> void:
 	parent_collider.disabled = true
 	#parent.animation_player.play(animation_name)
 	parent.animation_player.play("HEADSHOTdeath")
-	parent.timer.wait_time = 1.0
+	parent.timer.wait_time = 1.6
 	parent.timer.start()
+
+	if GameManager.player_current_health < GameManager.PLAYER_MAX_HEALTH:
+		parent.spawn_health_drop()
 	
 	if parent is WalkerEnemy and parent.is_greeter:
 		AudioManager.stop_music_player()
