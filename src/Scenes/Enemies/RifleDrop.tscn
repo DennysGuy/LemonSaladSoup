@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://b5qe5t1ktqakk"]
+
+[ext_resource type="Script" uid="uid://de2tnylxkyo6v" path="res://src/Scripts/rifle_drop.gd" id="1_f66gu"]
+[ext_resource type="PackedScene" uid="uid://balonwd6aty4n" path="res://Assets/Art/3D Assets/Player/Rifle/Avtomat.gltf" id="2_f66gu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2fla3"]
+size = Vector3(2.8874664, 1.6271973, 1)
+
+[node name="RifleDrop" type="Node3D"]
+script = ExtResource("1_f66gu")
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 1.5
+one_shot = true
+autostart = true
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36198854, 0)
+
+[node name="Avtomat" parent="Marker3D" instance=ExtResource("2_f66gu")]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 0.17953873, -2.847826, -1.2916758)
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4599932, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.200737, 0.032592803, 0)
+shape = SubResource("BoxShape3D_2fla3")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

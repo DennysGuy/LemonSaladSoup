@@ -138,3 +138,10 @@ signal play_ammo_retrieved_flash
 signal issue_grenade
 @warning_ignore("unused_signal")
 signal kill_enemy_by_grenade(by_grenade : bool)
+
+@warning_ignore("unused_signal")
+signal spawn_special_config
+@warning_ignore("unused_signal")
+signal add_rifle_preview
+@warning_ignore("unused_signal")
+signal remove_rifle_preview

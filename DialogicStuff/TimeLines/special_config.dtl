@@ -1,0 +1,3 @@
+do CutSceneManager.spawn_special_config()
+do CutSceneManager.enable_player_movement()
+[end_timeline]

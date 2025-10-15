@@ -1,30 +1,33 @@
-[gd_scene load_steps=5 format=3 uid="uid://c6ne8ny8skdso"]
+[gd_scene load_steps=6 format=3 uid="uid://c6ne8ny8skdso"]
 
 [ext_resource type="Script" uid="uid://dxhsodc0omaq" path="res://src/Scripts/rifle_preview.gd" id="1_3xm0s"]
 [ext_resource type="PackedScene" uid="uid://balonwd6aty4n" path="res://Assets/Art/3D Assets/Player/Rifle/Avtomat.gltf" id="2_4pry5"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_3xm0s"]
-size = Vector3(3.9560547, 2.932129, 3.7490234)
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3xm0s"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_4pry5"]
-size = Vector3(1, 2.5751953, 3.4086914)
+[sub_resource type="Sky" id="Sky_4pry5"]
+sky_material = SubResource("ProceduralSkyMaterial_3xm0s")
 
-[node name="RiflePreview" type="CharacterBody3D"]
+[sub_resource type="Environment" id="Environment_6bhkb"]
+background_energy_multiplier = 1.3
+sky = SubResource("Sky_4pry5")
+ambient_light_source = 3
+tonemap_mode = 2
+
+[node name="RiflePreview" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.6323853, 0)
 script = ExtResource("1_3xm0s")
 
-[node name="Avtomat" parent="." instance=ExtResource("2_4pry5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.6520996, -0.77545166)
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6bhkb")
 
-[node name="Area3D" type="Area3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4625244, -0.9301605)
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1674236, 1.7916096, -0.4641677)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.26513672, 0.96606445, 1.3745117)
-shape = SubResource("BoxShape3D_3xm0s")
+[node name="Avtomat" parent="Marker3D" instance=ExtResource("2_4pry5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3642869, -3.19031, -1.3108002)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.78759766, 1.2043457)
-shape = SubResource("BoxShape3D_4pry5")
-
-[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25942278, 1.3573098, 4.481196)

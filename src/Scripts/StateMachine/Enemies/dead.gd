@@ -34,6 +34,6 @@ func process_physics(_delta: float) -> State:
 	if parent.timer.time_left <= 0:
 		if parent is WalkerEnemy and parent.is_greeter:
 			SignalBus.piss_off_boss.emit()
-		parent.queue_free()
+		parent.remove()
 	
 	return null

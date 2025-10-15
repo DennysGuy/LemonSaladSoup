@@ -109,7 +109,8 @@ func _ready() -> void:
 	count_down_label.hide()
 	total_timer.hide()
 	animation_player.play("fade_in")
-	CutSceneManager.play_intro_cutscene()
+	#CutSceneManager.play_intro_cutscene()
+	init_count_down()
 	#init_count_down() #this here is the start of the round we'll replace this with intro cutscene stuff
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 @warning_ignore("unused_parameter")

@@ -62,3 +62,12 @@ func disable_force_field() -> void:
 
 func show_hude() -> void:
 	SignalBus.show_hud.emit()
+
+func spawn_special_config() -> void:
+	SignalBus.spawn_special_config.emit()
+
+func spawn_rifle_preview_hud() -> void:
+	SignalBus.add_rifle_preview.emit()
+
+func remove_rifle_preview_hud() -> void:
+	SignalBus.remove_rifle_preview.emit()

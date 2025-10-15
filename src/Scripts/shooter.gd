@@ -51,6 +51,10 @@ func _on_bonus_timer_timeout() -> void:
 	timer_bonus = 0
 	can_receive_bonus = false
 
+func spawn_rifle_drop() -> void:
+	var rifle_drop : RifleDrop = preload("uid://b5qe5t1ktqakk").instantiate()
+	rifle_drop.global_position = consumable_spawn_point.global_position
+	arena.add_child(rifle_drop)
 	
 func spawn_ammo_drop() -> void:
 	var random_num : int = randi_range(0,100)

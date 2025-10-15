@@ -10,7 +10,10 @@ func enter() -> void:
 	parent.animation_player.play("walk")
 	movement_timer.wait_time = randi_range(1,2)
 	movement_timer.start()
-	strafe_dir = parent.dir_list.pick_random()
+	if strafe_dir == "left":
+		strafe_dir = "right"
+	else:
+		strafe_dir = "left"
 	
 	if parent.is_adjacent:
 		if strafe_dir == "left": 	

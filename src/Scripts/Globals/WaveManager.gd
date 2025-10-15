@@ -9,14 +9,14 @@ const MAX_WAVE :int = 2
 @onready var waves : Dictionary = {
 	
 	0 : {
-		"time": 120,
+		"time": 10,
 		"starting config amount": 1,
 		"stagger_time":2,
 		"spawn_time":1.5, #in seconds
 		"config list": wave_1_configurations,
 		"theme" : AudioManager.FIRST_WAVE_1_1,
 		"wave_title" : "Wave 1",
-		"cut_scene": null #this plays at the end of the wave?
+		"cut_scene": "special_config" #this plays at the end of the wave?
 	},
 	
 	1 : {
@@ -27,7 +27,7 @@ const MAX_WAVE :int = 2
 		"config list": wave_2_configurations,
 		"theme" : AudioManager.FIRST_WAVE_1_1,
 		"wave_title" : "Wave 2",
-		"cut_scene": null,
+		"cut_scene": "null",
 	},
 	
 	2 : {

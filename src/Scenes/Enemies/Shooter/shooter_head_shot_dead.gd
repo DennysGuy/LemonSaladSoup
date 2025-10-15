@@ -13,8 +13,8 @@ func enter() -> void:
 	parent.timer.wait_time = 2.0
 	parent.timer.start()
 	if not GameManager.rifle_unlocked:
+		parent.spawn_rifle_drop()
 		GameManager.rifle_unlocked = true
-		SignalBus.swap_to_rifle_first_time.emit()
 	else:
 		parent.spawn_ammo_drop()
 
