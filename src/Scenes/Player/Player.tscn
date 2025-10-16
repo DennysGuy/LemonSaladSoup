@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://el3ur7a8rggo" path="res://src/Scripts/reticle.gd" id="3_lxwd3"]
 [ext_resource type="PackedScene" uid="uid://de75lun6r25ey" path="res://src/Scenes/HUD/alert_arrow.tscn" id="4_iqpho"]
 [ext_resource type="PackedScene" uid="uid://cs8p3p1woyr7q" path="res://src/Scenes/Player/Weapons/Pistol.tscn" id="5_t5wo0"]
-[ext_resource type="Script" uid="uid://rua1ns2gjilc" path="res://src/Scenes/Player/resource_collision_point.gd" id="7_iqpho"]
+[ext_resource type="Script" path="res://src/Scenes/Player/resource_collision_point.gd" id="7_iqpho"]
 
 [sub_resource type="Animation" id="Animation_lxwd3"]
 resource_name = "HideArm"
@@ -28,7 +28,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Head/Pistol:position")
+tracks/1/path = NodePath("Head/Marker3D/Pistol:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -40,7 +40,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Head/Pistol:rotation")
+tracks/2/path = NodePath("Head/Marker3D/Pistol:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -52,7 +52,7 @@ tracks/2/keys = {
 tracks/3/type = "method"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Head/Pistol")
+tracks/3/path = NodePath("Head/Marker3D/Pistol")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -69,7 +69,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Head/Pistol:position")
+tracks/0/path = NodePath("Head/Marker3D/Pistol:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -81,7 +81,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Head/Pistol:rotation")
+tracks/1/path = NodePath("Head/Marker3D/Pistol:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -111,7 +111,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Head/Pistol:position")
+tracks/1/path = NodePath("Head/Marker3D/Pistol:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -123,7 +123,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Head/Pistol:rotation")
+tracks/2/path = NodePath("Head/Marker3D/Pistol:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -135,7 +135,7 @@ tracks/2/keys = {
 tracks/3/type = "method"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Head/Pistol")
+tracks/3/path = NodePath("Head/Marker3D/Pistol")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -169,7 +169,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Head/Pistol:position")
+tracks/1/path = NodePath("Head/Marker3D/Pistol:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -181,7 +181,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Head/Pistol:rotation")
+tracks/2/path = NodePath("Head/Marker3D/Pistol:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -207,7 +207,7 @@ tracks/3/keys = {
 tracks/4/type = "method"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("Head/Pistol")
+tracks/4/path = NodePath("Head/Marker3D/Pistol")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -232,7 +232,7 @@ tracks/5/keys = {
 tracks/6/type = "method"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Head/Pistol")
+tracks/6/path = NodePath("Head/Marker3D/Pistol")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -338,8 +338,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10118011, -0.22526388, -0.1
 material_override = SubResource("StandardMaterial3D_f8bxg")
 size = Vector3(0.08564758, 0.07984924, 0.6223526)
 
-[node name="Pistol" parent="Head" instance=ExtResource("5_t5wo0")]
+[node name="Marker3D" type="Marker3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1768291, 0, 0)
+
+[node name="Pistol" parent="Head/Marker3D" instance=ExtResource("5_t5wo0")]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 1, -0.5, -0.6)
+
+[node name="Skeleton3D" parent="Head/Marker3D/Pistol/AR/rifle" index="0"]
+bones/3/rotation = Quaternion(0.20439999, 0.303933, -0.5137683, 0.77581424)
+bones/4/rotation = Quaternion(-0.016315853, 0.008270145, 0.9998327, -0.00013674553)
 
 [node name="CSGMesh3D" type="CSGMesh3D" parent="."]
 transform = Transform3D(0.34652677, 0, 0, 0, 0.31030542, 0, 0, 0, 0.33825758, 0, 2.3098607, -0.530756)
@@ -353,12 +360,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
+offset_left = -640.0
+offset_top = -360.0
+offset_right = -576.0
+offset_bottom = -296.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(32, 33)
 texture = ExtResource("2_t5wo0")
 script = ExtResource("3_lxwd3")
 metadata/_edit_use_anchors_ = true
@@ -413,6 +421,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4682698, -0.530756)
+visible = false
 shape = SubResource("CapsuleShape3D_waosb")
 
 [node name="MagnetPoint" type="Marker3D" parent="."]
@@ -424,9 +433,10 @@ script = ExtResource("7_iqpho")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MagnetPoint/ResourceCollisionPoint"]
 transform = Transform3D(1, 0, 0, 0, 0.99990493, -0.0137876645, 0, 0.0137876645, 0.99990493, -0.041931152, 0.49093628, 0.10027826)
+visible = false
 shape = SubResource("BoxShape3D_lxwd3")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]
 
-[editable path="Head/Pistol"]
+[editable path="Head/Marker3D/Pistol"]

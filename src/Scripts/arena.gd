@@ -33,6 +33,7 @@ var max_config_amount : int = 1
 	{"spawn point": config_spawn_point_3, "occupied": false},
 	{"spawn point": config_spawn_point_4, "occupied": false}
 ]
+@onready var ambience: AudioStreamPlayer = $Ambience
 
 func _ready() -> void:
 	SignalBus.start_wave.connect(start_spawn_timer)
@@ -46,6 +47,8 @@ func _ready() -> void:
 	SignalBus.play_crowd_cheer.connect(play_crowd_cheer)
 	SignalBus.stop_crowd_cheer.connect(stop_crowd_cheer)
 	spawn_timer.one_shot = true
+	ambience.play()
+	
 
 func _process(delta: float) -> void:
 	if not WaveManager.wave_started and not enemy_configurations.get_children().is_empty():

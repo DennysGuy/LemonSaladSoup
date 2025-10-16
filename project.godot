@@ -46,11 +46,11 @@ layout/style_list=["res://DialogicStuff/Characters/BossmanStyle.tres", "res://Di
 layout/default_style="res://DialogicStuff/Characters/RadiomanBox.tres"
 glossary/default_case_sensitive=true
 extensions_folder="res://addons/dialogic_additions"
-text/letter_speed=0.03
+text/letter_speed=0.025
 text/initial_text_reveal_skippable=true
 text/text_reveal_skip_delay=1.0
 text/advance_delay=0.1
-text/autoadvance_per_character_delay=0.1
+text/autoadvance_per_character_delay=0.2
 text/autoadvance_ignored_characters_enabled=true
 animations/join_default_length=0.5
 animations/join_default_wait=true
@@ -82,6 +82,7 @@ variables={}
 text/input_action="skip_dialogue"
 audio/type_sound_bus="SFX"
 text/autoadvance_enabled=true
+text/autoadvance_fixed_delay=1.0
 
 [display]
 

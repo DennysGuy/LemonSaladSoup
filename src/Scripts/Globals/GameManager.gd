@@ -1,7 +1,7 @@
 extends Node
 
 const PLAYER_MAX_HEALTH : int = 5
-const HEAD_SHOT_BONUS_MULTIPLIER : float = 1.5
+const HEAD_SHOT_BONUS_MULTIPLIER : float = 1.2
 const PISTOL_MAGAZINE_SIZE = 6
 const RIFLE_MAGAZINE_SIZE = 10
 const KILLS_NEEDED : int = 5

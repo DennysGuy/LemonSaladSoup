@@ -51,3 +51,11 @@ func attack_player() -> void:
 func _on_bonus_timer_timeout() -> void:
 	timer_bonus = 0
 	can_receive_bonus = false
+
+
+func play_walk_animation(animation_name : String) -> void:
+	var animation : Animation = animation_player.get_animation(animation_name)
+	var length = animation.length
+	var random_frame : float = randf_range(0, length)
+	animation_player.play(animation_name)
+	animation_player.seek(random_frame,true)

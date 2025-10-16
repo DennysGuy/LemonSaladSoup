@@ -21,8 +21,10 @@ class_name GameWinScreen extends Control
 var slogans : Array[String] = [
 	"A Fool yet a winner",
 	"Reality isn't what it always seems...",
-	"Can I trouble you a glass of warm mill?",
+	"Can I trouble you a glass of warm milk?",
 	"You can trouble me for a glass of shut the hell up!",
+	"You will go to sleep, or I will put you to sleep!",
+	"Two for the Price of 1",
 	"We don't always get what we want in life",
 	"Great job.. you're only human though.",
 	"You defeated evil, but True evil was your demise"
@@ -35,7 +37,7 @@ func _ready() -> void:
 	
 	score.text = "Score: %s" % [GameManager.score]
 	final_time.text = "Final Time: %s" % [GameManager.final_time]
-	damage_taken.text = "Damage Take: %s" % [GameManager.damage_taken]
+	damage_taken.text = "Damage Taken: %s" % [GameManager.damage_taken]
 	grenade_uses.text = "Grenade Uses: %s" % [GameManager.grenade_uses]
 	highest_combo_multiplier.text = "Highest Combo Multiplier: %s" % [GameManager.highest_multiplier]
 	accuracy.text = "Accuracy: %s" % [GameManager.get_hit_percentage()]

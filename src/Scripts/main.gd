@@ -127,7 +127,6 @@ func _process(delta: float) -> void:
 		grenade_cool_down_label.text = str(int(grenade_cooldown_timer.time_left))
 
 		
-
 func show_reload_notification() -> void:
 	reload_notification.show()
 
@@ -158,6 +157,18 @@ func stop_music() -> void:
 
 func start_invincibility_overlay() -> void:
 	animation_player.play("Invincibility")
+
+func play_three() -> void:
+	AudioManager.play_sfx(AudioManager.VOX_ANNOUNCER_COUNT_DOWN__THREE_01)
+
+func play_two() -> void:
+	AudioManager.play_sfx(AudioManager.VOX_ANNOUNCER_COUNT_DOWN__TWO_01)
+	
+func play_one() -> void:
+	AudioManager.play_sfx(AudioManager.VOX_ANNOUNCER_COUNT_DOWN__ONE_01)
+	
+func play_survive() -> void:
+	AudioManager.play_sfx(AudioManager.VOX_ANNOUNCER_COUNT_DOWN__SURVIVE_01)
 
 func set_wave_parameters() -> void:
 	WaveManager.move_to_next_wave()
@@ -396,13 +407,13 @@ func update_boss_hp() -> void:
 func show_grading_phrase(bonus: int) -> void:
 	match bonus:
 		3:
-			grade_phrase.text = "GOOD JOB!"
+			grade_phrase.text = "PERFECT!"
 			AudioManager.play_sfx(AudioManager.HOLDER_VOX_RADIO_PRAISE_01)
 		2:
 			grade_phrase.text = "GREAT!"
 			AudioManager.play_sfx(AudioManager.HOLDER_VOX_RADIO_PRAISE_02)
 		1:
-			grade_phrase.text = "NOT BAD!"
+			grade_phrase.text = "OKAY!"
 			AudioManager.play_sfx(AudioManager.HOLDER_VOX_RADIO_PRAISE_03)
 		-1:
 			grade_phrase.text = "Clear!"
@@ -432,6 +443,8 @@ func kill_enemies_with_grenade() -> void:
 func play_round_start_sfx() -> void:
 	AudioManager.play_sfx(AudioManager.ROUNDSTART)
 
+func play_start_round_shake() -> void:
+	SignalBus.shake_camera.emit(3)
 
 func _on_grenade_cooldown_timer_timeout() -> void:
 	GameManager.can_throw_grenade = true

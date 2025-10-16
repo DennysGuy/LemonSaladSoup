@@ -25,7 +25,7 @@ class_name Player
 @onready var alert_arrow_front: TextureRect = $Crosshair/AlertArrow4
 
 #@onready var gun_2: Node3D = $Head/GUN2
-@onready var pistol: Pistol = $Head/Pistol
+@onready var pistol: Pistol = $Head/Marker3D/Pistol
 
 
 
@@ -37,9 +37,9 @@ class_name Player
 @onready var reticle: TextureRect = $Crosshair/Reticle
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-@onready var gun_animation_player: AnimationPlayer = $Head/Pistol/Gun/GUN2/AnimationPlayer
+@onready var gun_animation_player: AnimationPlayer = $Head/Marker3D/Pistol/Gun/GUN2/AnimationPlayer
 
-@onready var ar_animation_player: AnimationPlayer = $Head/Pistol/AR/AnimationPlayer
+@onready var ar_animation_player: AnimationPlayer = $Head/Marker3D/Pistol/AR/AnimationPlayer
 
 
 @onready var timer: Timer = $Timer
@@ -98,7 +98,7 @@ func _ready() -> void:
 	SignalBus.add_enemy_to_list.connect(add_enemy_to_list)
 	SignalBus.swap_to_rifle_first_time.connect(swap_to_rifle)
 	
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	
 	target_location = look_at_positions[target_index]
 	
@@ -139,10 +139,6 @@ func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("exit"):
 		pause_game()
 	
-		
-	if event is InputEventMouseMotion:
-		# Move virtual reticle with mouse delta
-		reticle_offset += event.relative * SENSITIVITY
 
 func move_player() -> void:
 	if Input.is_action_just_pressed("rotate_left"):
@@ -167,6 +163,7 @@ func move_player() -> void:
 		
 			
 	if Input.is_action_just_pressed("reload") and GameManager.equipped_weapon == GameManager.WEAPONS.PISTOL:
+		GameManager.can_shoot = false
 		play_reload_animation()
 		SignalBus.reload_pistol.emit()
 	
@@ -190,7 +187,7 @@ func swap_to_rifle() -> void:
 
 func move_arm() -> void:
 	var screen_center = get_viewport().get_visible_rect().size * 0.5
-	var mouse_pos = screen_center + reticle_offset
+	var mouse_pos = get_viewport().get_mouse_position()
 	# Move the crosshair UI anywhere on the screen
 	reticle.position = mouse_pos
 	
@@ -217,7 +214,7 @@ func pause_game() -> void:
 	if mouse_visibilty_toggled:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 func rotate_camera_left() -> void:
 	target_index -= 1
@@ -258,7 +255,7 @@ func shoot_enemy(enemy_body_part : Node3D):
 		elif enemy_body_part is EnemyHeadCollider:
 			seen_enemy.head_shot_kill()
 		elif seen_enemy is BossMan and enemy_body_part is ForceFieldArea:
-			seen_enemy.play_reflection()
+			AudioManager.play_sfx(AudioManager.boss_laughs.pick_random())
 	GameManager.total_shots += 1	
 	
 func damage_player() -> void:
@@ -341,21 +338,18 @@ func get_aim_ray() -> Vector3:
 	return to
 
 func shoot_ray() -> Node3D:
-	# Use the actual reticle position on screen
-	var mouse_pos = reticle.position
-	
-	# Project a ray from the camera through the reticle
+	var mouse_pos = get_viewport().get_mouse_position()
 	var from = camera.project_ray_origin(mouse_pos)
-	var to = from + camera.project_ray_normal(mouse_pos) * 9000
+	var to = from + camera.project_ray_normal(mouse_pos) * 5000
 
-	var space = camera.get_world_3d().direct_space_state
-	var ray_query = PhysicsRayQueryParameters3D.new()
-	ray_query.from = from
-	ray_query.to = to
-	ray_query.exclude = [self]  # prevent hitting player
-	ray_query.collision_mask = 1 << 5 # adjust to hit only desired targets
+	var space_state = get_world_3d().direct_space_state
+	
+	# Create ray query and set collision mask to layer 6
+	var query = PhysicsRayQueryParameters3D.create(from, to)
+	query.collision_mask = 1 << 5  # layer 6 (layers are 0-indexed)
+	
+	var result = space_state.intersect_ray(query)
 
-	var result = space.intersect_ray(ray_query)
 	print(result)
 	if result:
 		return result["collider"]

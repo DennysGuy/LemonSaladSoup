@@ -17,7 +17,8 @@ Bossman: UNFORGIVABLE!!!
 [wait time="2.0"]
 [voice path="res://Assets/Audio/SFX/Vox Processed/VOX_Boss_Dialogue_Blasphemy_04.wav" volume="0.0"]
 Bossman: Minions tear them apart!
+audio "res://Assets/Audio/SFX/Vox Processed/VOX_Boss_Laugh_03.wav"
 do CutSceneManager.look_at_point_1()
 do CutSceneManager.reset_camera_fov()
-[wait time="1.0"]
+[wait time="3.0"]
 do WaveManager.start_wave()

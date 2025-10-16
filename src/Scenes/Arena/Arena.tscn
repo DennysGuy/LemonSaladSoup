@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://c3iouo5dhp016" path="res://Assets/Art/3D Assets/Arena/centre.png" id="12_tp8ty"]
 [ext_resource type="Texture2D" uid="uid://ckxgfeca1m0yo" path="res://Assets/Art/3D Assets/Arena/Abstract_512x512-17.png" id="13_dbweq"]
 [ext_resource type="Texture2D" uid="uid://ce7rorlkpixgi" path="res://Assets/Art/3D Assets/Arena/additional.png" id="14_x5eqy"]
-[ext_resource type="AudioStream" uid="uid://1lxghv1yxlnx" path="res://Assets/Audio/SFX/mainambient.ogg" id="16_tp8ty"]
+[ext_resource type="AudioStream" uid="uid://dl8nsc0xjqh2w" path="res://Assets/Audio/SFX/mainambient.wav" id="16_dbweq"]
 [ext_resource type="AudioStream" uid="uid://dov658jdxs0yg" path="res://Assets/Audio/SFX/crowdloop.wav" id="17_dbweq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bcb0y"]
@@ -96,7 +96,7 @@ tracks/1/path = NodePath("..")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.02),
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -1061,17 +1061,17 @@ one_shot = true
 [node name="SpawnPoints" type="Node" parent="."]
 
 [node name="SpawnPoint1" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.533777, 5.947303, 3.287921)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.533777, 5.947303, 2.007452)
 
 [node name="SpawnPoint2" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(-4.3711385e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, -4.3711385e-08, -10.392839, 5.947303, -13.915985)
+transform = Transform3D(-4.3711385e-08, 0, -0.99999994, 0, 1, 0, 0.99999994, 0, -4.3711385e-08, -9.036871, 5.947303, -13.915985)
 direction = 0
 
 [node name="SpawnPoint3" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(-0.99999994, 0, -1.5099579e-07, 0, 1, 0, 1.5099579e-07, 0, -0.99999994, 4.43336, 5.947303, -28.036152)
+transform = Transform3D(-0.99999994, 0, -1.5099579e-07, 0, 1, 0, 1.5099579e-07, 0, -0.99999994, 4.43336, 5.947303, -26.290472)
 
 [node name="SpawnPoint4" parent="SpawnPoints" instance=ExtResource("3_8vyl5")]
-transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, -4.3711385e-08, 21.153837, 5.947303, -12.265361)
+transform = Transform3D(-4.3711385e-08, 0, 0.99999994, 0, 1, 0, -0.99999994, 0, -4.3711385e-08, 17.987696, 5.947303, -12.265361)
 direction = 0
 
 [node name="Arena" type="Node3D" parent="."]
@@ -1656,8 +1656,8 @@ mesh = SubResource("ArrayMesh_84e2j")
 skeleton = NodePath("")
 
 [node name="Ambience" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("16_tp8ty")
-autoplay = true
+stream = ExtResource("16_dbweq")
+volume_db = 1.2
 bus = &"Ambience"
 
 [node name="CrowdCheer" type="AudioStreamPlayer" parent="."]

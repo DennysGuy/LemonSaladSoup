@@ -8,7 +8,7 @@ var dir_list : Array[String] = ["left", "right"]
 
 var can_strafe : bool = true
 
-const CHANCE_TO_SPAWN_AMMO :int = 55
+const CHANCE_TO_SPAWN_AMMO :int = 47
 
 @onready var movement_timer: Timer = $MovementTimer
 @onready var timer: Timer = $Timer

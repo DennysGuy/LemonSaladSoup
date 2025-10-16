@@ -2,7 +2,7 @@ class_name AmmoDrop extends Node3D
 
 @onready var marker_3d: Marker3D = $Marker3D
 
-@onready var ammo_amount : int = randi_range(15,25)
+@onready var ammo_amount : int = randi_range(24,35)
 
 var player : Player
 var move_to_player : bool = false

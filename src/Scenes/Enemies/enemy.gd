@@ -22,6 +22,7 @@ var arena : Arena
 @export var head_shot_dead : State
 @export var reflect_state : State
 
+
 #@export_group("Sounds")
 #@export var head_shot_effect : AudioStream
 #@export var scream_effect : AudioStream
@@ -84,6 +85,7 @@ func kill_enemy(killed_by_grenade : bool = false) -> void:
 	
 	if not killed_by_grenade:
 		update_score(score, false)
+		
 	state_machine.change_state(dead_state)
 
 
@@ -100,7 +102,7 @@ func head_shot_kill() -> void:
 	
 	alive = false
 	
-	AudioManager.play_sfx(AudioManager.head_shots.pick_random(),2)
+	AudioManager.play_sfx(AudioManager.head_shots.pick_random(),4)
 	AudioManager.play_sfx(AudioManager.enemy_deaths.pick_random(),-2,true)
 	
 	generate_hit_star_hs(head_flash_point, 2)
@@ -114,7 +116,6 @@ func head_shot_kill() -> void:
 	var score : int = int(base_score * GameManager.HEAD_SHOT_BONUS_MULTIPLIER)
 	update_score(score, true)
 	state_machine.change_state(head_shot_dead)
-
 
 
 func damage_enemy() -> void:
@@ -141,7 +142,7 @@ func update_score(value : int, head_shot : bool) -> void:
 	var added_score = value
 	#handle bonuses
 	if can_receive_bonus:
-		added_score *= (5 * timer_bonus)
+		added_score *= timer_bonus
 		SignalBus.show_grade_phrase.emit(timer_bonus)
 		SignalBus.decrement_wave_time.emit(timer_bonus)
 		if timer_bonus == GameManager.GRADING_BONUS.PERFECT:
@@ -162,14 +163,14 @@ func update_score(value : int, head_shot : bool) -> void:
 
 func spawn_health_drop() -> void:
 	var random_num : int = randi_range(0,100)
-	var chance_to_get_health : int = 15
+	var chance_to_get_health : int = 5
 	
 	if GameManager.player_current_health <= 3:
-		chance_to_get_health = 18
+		chance_to_get_health = 8
 	elif GameManager.player_current_health <= 2:
-		chance_to_get_health = 20
+		chance_to_get_health = 10
 	elif GameManager.player_current_health == 1:
-		chance_to_get_health = 23
+		chance_to_get_health = 13
 	
 	if random_num > chance_to_get_health:
 		return
@@ -183,9 +184,9 @@ func spawn_health_drop() -> void:
 func set_timer_bonus() -> int:
 	var bonus : int = int((bonus_timer.time_left / bonus_wait_time) * 100)
 	
-	if bonus >= 70:
+	if bonus >= 60:
 		return GameManager.GRADING_BONUS.PERFECT
-	elif bonus >= 50:
+	elif bonus >= 20:
 		return GameManager.GRADING_BONUS.GREAT
 	else:
 		return GameManager.GRADING_BONUS.OKAY
@@ -203,10 +204,10 @@ func generate_hit_star(location : Marker3D, size : float = 1.0) -> void:
 	add_child(hit_flash)
 
 func play_random_player_hit_sfx() -> void:
-	AudioManager.play_sfx(AudioManager.attack_hits.pick_random(),3)
+	AudioManager.play_sfx(AudioManager.attack_hits.pick_random(),4)
 
 func play_random_swipe_sfx() -> void:
-	AudioManager.play_sfx(AudioManager.attack_swipes.pick_random(),3)
+	AudioManager.play_sfx(AudioManager.attack_swipes.pick_random(),5)
 
 func play_cannon_shot_sfx() -> void:
-	AudioManager.play_sfx(AudioManager.CANNON,1)
+	AudioManager.play_sfx(AudioManager.CANNON,3)

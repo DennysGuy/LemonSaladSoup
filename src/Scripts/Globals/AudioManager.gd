@@ -149,6 +149,8 @@ const VOX_BOSS_LAUGH_02 = preload("uid://b4de2h351cn6m")
 const VOX_BOSS_LAUGH_03 = preload("uid://boac1y7x4obhr")
 const VOX_BOSS_LAUGH_04 = preload("uid://t3txogsib2pb")
 
+@onready var boss_laughs = [VOX_BOSS_LAUGH_01,VOX_BOSS_LAUGH_02,VOX_BOSS_LAUGH_03,VOX_BOSS_LAUGH_04]
+
 #UI
 const UI_GAME_START_01 = preload("uid://vrgv6ldwnay4")
 const UI_HOVER_01 = preload("uid://mgobvjrkqk2w")

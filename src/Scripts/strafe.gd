@@ -8,7 +8,7 @@ var direction : Vector3
 func enter() -> void:
 	print("HEY!!! STRAFE NOE!!!")
 	parent.animation_player.play("walk")
-	movement_timer.wait_time = randi_range(1,2)
+	movement_timer.wait_time = randf_range(0.8,1.2)
 	movement_timer.start()
 	if strafe_dir == "left":
 		strafe_dir = "right"
