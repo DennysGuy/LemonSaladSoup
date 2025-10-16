@@ -1,10 +1,25 @@
 [gd_scene load_steps=7 format=3 uid="uid://d1k5jp5vibp8l"]
 
 [ext_resource type="PackedScene" uid="uid://qjom2h210hyg" path="res://Assets/Art/3D Assets/FoodStandIn.gltf" id="1_hyvms"]
-[ext_resource type="Script" uid="uid://dga0qyynny2cb" path="res://src/Scripts/health_drop.gd" id="1_juujy"]
+[ext_resource type="Script" path="res://src/Scripts/health_drop.gd" id="1_juujy"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_juujy"]
 size = Vector3(1.4976807, 1, 1.3251953)
+
+[sub_resource type="Animation" id="Animation_mgmer"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Soup:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.11823499, 0, 0.056726933)]
+}
 
 [sub_resource type="Animation" id="Animation_juujy"]
 resource_name = "bob"
@@ -21,21 +36,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector3(0.11823499, -0.15495586, 0.056726933), Vector3(0.118, 0.1, 0.057), Vector3(0.11823499, -0.15495586, 0.056726933), Vector3(0.118, 0.1, 0.057), Vector3(0.11823499, -0.15495586, 0.056726933)]
-}
-
-[sub_resource type="Animation" id="Animation_mgmer"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Soup:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.11823499, 0, 0.056726933)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_r4iri"]

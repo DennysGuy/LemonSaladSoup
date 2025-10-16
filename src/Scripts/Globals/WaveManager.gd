@@ -11,8 +11,8 @@ const MAX_WAVE :int = 2
 	0 : {
 		"time": 120,#120,
 		"starting config amount": 1,
-		"stagger_time":2,
-		"spawn_time":1.5, #in seconds
+		"stagger_time":1.8,
+		"spawn_time":1.4, #in seconds
 		"config list": wave_1_configurations,
 		"theme" : AudioManager.FIRST_WAVE,
 		"wave_title" : "Wave 1",
@@ -33,7 +33,7 @@ const MAX_WAVE :int = 2
 	2 : {
 		"time": 240,
 		"starting config amount": 2,
-		"stagger_time":1.6,
+		"stagger_time":1.4,
 		"spawn_time":1.2, #in seconds
 		"config list": wave_3_configurations,
 		"theme" : AudioManager.THIRD_WAVE,

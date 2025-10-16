@@ -163,14 +163,16 @@ func update_score(value : int, head_shot : bool) -> void:
 
 func spawn_health_drop() -> void:
 	var random_num : int = randi_range(0,100)
-	var chance_to_get_health : int = 5
+	var chance_to_get_health : int
 	
-	if GameManager.player_current_health <= 3:
+	if GameManager.player_current_health == 4:
+		chance_to_get_health = 5
+	elif GameManager.player_current_health == 3:
 		chance_to_get_health = 8
-	elif GameManager.player_current_health <= 2:
-		chance_to_get_health = 10
-	elif GameManager.player_current_health == 1:
-		chance_to_get_health = 13
+	elif GameManager.player_current_health == 2:
+		chance_to_get_health = 15
+	else:
+		chance_to_get_health = 25
 	
 	if random_num > chance_to_get_health:
 		return

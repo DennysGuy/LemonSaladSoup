@@ -19,8 +19,8 @@ func _on_retry_button_up() -> void:
 	audio_stream_player.stop()
 	SignalBus.make_boss_laugh.emit()
 	GameManager.waves_reset = true
-	AudioManager.play_sfx(AudioManager.VOX_BOSS_LAUGH_02)
-	AudioManager.play_sfx(AudioManager.START_MENU_THEME_OPTION_1,-2)
+	AudioManager.play_sfx(AudioManager.boss_laughs.pick_random())
+	AudioManager.play_sfx(AudioManager.UI_GAME_START_01,-2)
 	animation_player.play("fade_out")
 	GameManager.reset_game()
 	WaveManager.reset()

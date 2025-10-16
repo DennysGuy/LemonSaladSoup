@@ -295,7 +295,7 @@ func play_shoot_animation() -> void:
 		GameManager.can_shoot = false
 		SignalBus.show_reload_notification.emit()
 	else:
-		await get_tree().create_timer(0.2).timeout
+		await get_tree().create_timer(0.15).timeout
 		GameManager.can_shoot = true
 
 

@@ -143,6 +143,8 @@ func play_reload_animation() -> void:
 func play_health_caught_anim() -> void:
 	pick_up_animation_player.play("Pickups/HealthPickup")
 	GameManager.player_current_health += 1
+	if GameManager.player_current_health > GameManager.PLAYER_MAX_HEALTH:
+		GameManager.player_current_health = GameManager.PLAYER_MAX_HEALTH
 	update_health()
 	
 func play_ammo_pick_up_flash() -> void:
