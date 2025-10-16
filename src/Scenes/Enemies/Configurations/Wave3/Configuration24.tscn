@@ -29,4 +29,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.9778237, 0, -2.1046143)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4111328, 0, 1.9644775)
 
 [node name="Sprinter" parent="Enemies" instance=ExtResource("4_heend")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.6948853)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5477948)

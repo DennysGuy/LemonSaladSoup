@@ -16,7 +16,7 @@ size = Vector3(12, 0.001, 12)
 [node name="Enemies" type="Node3D" parent="."]
 
 [node name="Sprinter" parent="Enemies" instance=ExtResource("2_swrqq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2783237, 0, -2.643094)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.2783237, 0, -1.6796736)
 
 [node name="Shooter" parent="Enemies" instance=ExtResource("3_r8yfp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5758986, 0.34120083, 0.69831777)

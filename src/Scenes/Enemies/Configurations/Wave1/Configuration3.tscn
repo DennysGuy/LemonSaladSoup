@@ -22,4 +22,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2384217, 0, -2.2519774)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.361995, 0, 0)
 
 [node name="Sprinter" parent="." instance=ExtResource("3_ggmtp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.011287, 0.2492783, -1.6302958)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.011287, 0.2492783, 0.5358305)
