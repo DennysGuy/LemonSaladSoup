@@ -12,10 +12,10 @@ func go_to_main() -> void:
 
 
 func play_lemon_line() -> void:
-	AudioManager.play_sfx(AudioManager.HOLDER_VOX_TITLE_LEMON)
+	AudioManager.play_sfx(AudioManager.VOX_ANNOUNCER_LEMON_01)
 
 func play_salad_line() -> void:
-	AudioManager.play_sfx(AudioManager.HOLDER_VOX_TITLE_SALAD)
+	AudioManager.play_sfx(AudioManager.VOX_ANNOUNCER_SALAD_02)
 
 func play_soup_line() -> void:
-	AudioManager.play_sfx(AudioManager.HOLDER_VOX_TITLE_SOUP)
+	AudioManager.play_sfx(AudioManager.VOX_ANNOUNCER_SOUP_02)

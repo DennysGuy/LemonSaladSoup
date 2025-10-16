@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bxxmmwjhpp6g3"
+path="res://.godot/imported/VOX_Announcer_Shot_Miss_02.wav-8fec8e6604d05f08409a6910269eac65.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Vox Processed/VOX_Announcer_Shot_Miss_02.wav"
+dest_files=["res://.godot/imported/VOX_Announcer_Shot_Miss_02.wav-8fec8e6604d05f08409a6910269eac65.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

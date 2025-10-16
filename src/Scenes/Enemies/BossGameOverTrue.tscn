@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=3 uid="uid://c66gku5yeiilh"]
+
+[ext_resource type="PackedScene" uid="uid://uhm40li7akgf" path="res://src/Scenes/Enemies/Bossman/boss.gltf" id="1_jbh6v"]
+[ext_resource type="Script" uid="uid://c3xyircsfr05a" path="res://src/Scenes/Enemies/boss_game_over_true.gd" id="1_x3lbk"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r4cmb"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_52mba"]
+sky_material = SubResource("ProceduralSkyMaterial_r4cmb")
+
+[sub_resource type="Environment" id="Environment_d14ue"]
+sky = SubResource("Sky_52mba")
+ambient_light_source = 3
+tonemap_mode = 2
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_x3lbk")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_d14ue")
+
+[node name="boss" parent="." instance=ExtResource("1_jbh6v")]
+
+[node name="Skeleton3D" parent="boss/bossman" index="0"]
+bones/0/position = Vector3(0, 0, 0)
+bones/1/position = Vector3(-0.41930038, 0.9586505, 0.2548599)
+bones/1/rotation = Quaternion(0.52557474, -0.067832656, 0.12864341, 0.8382248)
+bones/2/rotation = Quaternion(-0.43497205, -0.007357367, -0.09959461, 0.89488894)
+bones/3/rotation = Quaternion(-0.0104210265, -0.0037159529, -0.042654447, 0.9990286)
+bones/4/position = Vector3(0.5543704, 0.9586505, 0.2548598)
+bones/4/rotation = Quaternion(0.52557474, 0.067832656, -0.12864341, 0.8382248)
+bones/5/rotation = Quaternion(-0.54828954, -0.09162255, 0.102971435, 0.824852)
+bones/7/position = Vector3(0, 0, 0)
+bones/8/rotation = Quaternion(-1.825209e-21, 1.4210858e-14, -1.4210858e-14, 1)
+bones/9/position = Vector3(-0.81295776, 0.4264479, 1.1452309e-07)
+bones/10/rotation = Quaternion(-0.6529735, 0.038139805, 0.18241155, 0.73409605)
+bones/11/rotation = Quaternion(-0.057395697, -0.05800864, 0.13544357, 0.9874188)
+bones/12/position = Vector3(0.8661648, 0.47481766, -1.455163e-07)
+bones/12/rotation = Quaternion(1.5894898e-07, 6.3335825e-08, 0.96227014, -0.27209595)
+bones/13/rotation = Quaternion(-0.55956686, 0.10598579, -0.248629, 0.7834767)
+bones/14/rotation = Quaternion(-0.09289231, -0.1550765, -0.2234879, 0.9577972)
+
+[node name="Camera3D" type="Camera3D" parent="boss"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5464559, 4.807626)
+
+[editable path="boss"]

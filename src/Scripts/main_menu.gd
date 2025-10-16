@@ -11,6 +11,7 @@ func _ready() -> void:
 
 func _on_play_button_button_up() -> void:
 	AudioManager.stop_music_player()
+	AudioManager.play_sfx(AudioManager.UI_GAME_START_01)
 	animation_player.play("fade_out")
 
 func go_to_title_card() -> void:
@@ -27,3 +28,7 @@ func go_to_title_card() -> void:
 
 func _do_scene_change(scene_res: PackedScene) -> void:
 	get_tree().change_scene_to_packed(scene_res)
+
+
+func _on_play_button_mouse_entered() -> void:
+	AudioManager.play_sfx(AudioManager.UI_HOVER_01)

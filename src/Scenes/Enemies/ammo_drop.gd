@@ -39,4 +39,5 @@ func _on_area_3d_area_entered(area: Area3D) -> void:
 			GameManager.rifle_ammo_count += ammo_amount
 			SignalBus.update_rifle_ammo.emit()
 	
+		AudioManager.play_sfx(AudioManager.RIFLEDRAW)
 		queue_free()

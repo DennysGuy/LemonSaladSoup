@@ -1,5 +1,8 @@
 do CutSceneManager.disable_player_movement()
 do CutSceneManager.spawn_rifle_preview_hud()
-Radioman: Hey, you’ve unlocked the Rifle! Hold it down to tear through your enemies, but watch your ammo - it’s limited. Hit 1 or 2 to swap between your rifle and pistol, though I’ll auto-switch you to your pistol when you run dry. Grab more rifle ammo from those shooter bastards  you just merc’d! Go get ’em!
+audio "res://Assets/Audio/SFX/WalkieTalkieOn.wav"
+Radioman: [mood=Mood 1]Hey, you’ve unlocked the Rifle! Hold it down to tear through your enemies, but watch your ammo - it’s limited. \
+\
+Hit '1' or '2' to swap between your rifle and pistol, though you'll auto switch back to your pistol when you're out of ammo. Grab more rifle ammo from those shooter bastards  you just merc’d! Go get ’em!
 do CutSceneManager.remove_rifle_preview_hud()
 do WaveManager.start_wave()

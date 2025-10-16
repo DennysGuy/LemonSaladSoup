@@ -20,5 +20,7 @@ func _on_timer_timeout() -> void:
 
 
 func _on_area_3d_area_entered(area: Area3D) -> void:
+	SignalBus.swap_to_rifle_first_time.emit()
+	SignalBus.set_weapon_visual.emit()
 	Dialogic.start("rifle_unlock_scene")
 	queue_free()

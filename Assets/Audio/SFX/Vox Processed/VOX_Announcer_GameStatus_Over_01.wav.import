@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cp6e5uxxqixe4"
+path="res://.godot/imported/VOX_Announcer_GameStatus_Over_01.wav-5a7f34d9f1aff181d56496b9a5f81f95.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Vox Processed/VOX_Announcer_GameStatus_Over_01.wav"
+dest_files=["res://.godot/imported/VOX_Announcer_GameStatus_Over_01.wav-5a7f34d9f1aff181d56496b9a5f81f95.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

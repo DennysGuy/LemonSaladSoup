@@ -1,8 +1,9 @@
 do CutSceneManager.disable_player_movement()
 do CutSceneManager.look_at_boss_man()
 [wait time="1.0"]
+do AudioManager.play_boss_theme()
 do CutSceneManager.zoom_camera()
-[voice path="res://Assets/Audio/SFX/VOX/Placeholders/Impressive_PlaceHolder.wav" volume="0.0"]
+[voice path="res://Assets/Audio/SFX/Vox Processed/VOX_Boss_Dialogue_Defeat_01.wav" volume="0.0"]
 Bossman: Impressive… You’ve proven yourself a worthy opponent. As reward, I grant you the honor of facing me in battle.
 [wait time="1.0"]
 do CutSceneManager.make_boss_jump()
@@ -15,11 +16,12 @@ do CutSceneManager.make_boss_fall()
 do CutSceneManager.zoom_camera()
 [wait time="1.0"]
 do CutSceneManager.show_boss_hp()
-[voice path="res://Assets/Audio/SFX/VOX/Placeholders/MeetFate_PlaceHolder.wav" volume="0.0"]
+[voice path="res://Assets/Audio/SFX/Vox Processed/VOX_Boss_Dialogue_Defeat_02.wav" volume="0.0"]
 Bossman: Come, and meet your fate.
 do CutSceneManager.reset_camera_fov()
 do CutSceneManager.disable_force_field()
 do CutSceneManager.show_hude()
 do CutSceneManager.enable_player_movement()
+do AudioManager.play_boss_battle_theme()
 [wait time="2.0"]
 [end_timeline]

@@ -30,6 +30,7 @@ var blinking = false
 
 @onready var added_score: Label = $HUD/AddedScore
 @onready var grade_phrase: Label = $HUD/GradePhrase
+@onready var final_time_player: AnimationPlayer = $FInalTimePlayer
 
 @onready var combo_meter: Control = $HUD/ComboMeter
 @onready var kill_count_box: HBoxContainer = $HUD/ComboMeter/KillCount
@@ -107,10 +108,13 @@ func _ready() -> void:
 	score_count.hide()
 	score_label.hide()
 	count_down_label.hide()
-	total_timer.hide()
+	#total_timer.hide()
 	animation_player.play("fade_in")
-	#CutSceneManager.play_intro_cutscene()
-	init_count_down()
+	
+	if not GameManager.waves_reset:
+		CutSceneManager.play_intro_cutscene()
+	else:
+		init_count_down()
 	#init_count_down() #this here is the start of the round we'll replace this with intro cutscene stuff
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 @warning_ignore("unused_parameter")
@@ -181,6 +185,9 @@ func start_wave() -> void:
 		magazine_reload_animation_player.play("show_mag")
 	elif rifle_mag_showing:
 		rifle_mag_reload_animation_player.play("show_mag")
+	
+	if WaveManager.current_wave == 0:
+		SignalBus.start_total_timer.emit()
 	
 	if GameManager.ammo_count <=0:
 		show_reload_notification()
@@ -315,6 +322,8 @@ func decrement_combo_meter_kill_count() -> void:
 			AudioManager.play_sfx(AudioManager.COMBOSTART)
 			combo_meter_showing = true
 			combo_meter_animation_player.play("show_combo_meter")
+		if GameManager.current_multiplier > GameManager.highest_multiplier:
+			GameManager.highest_multiplier = GameManager.current_multiplier
 	
 	update_combo_meter_label()
 
@@ -339,6 +348,17 @@ func update_combo_meter_label() -> void:
 		icon.texture = preload("uid://r2br5ovrur3u")
 		kill_count_box.add_child(icon)
 	
+func play_count_down_beep() -> void:
+	AudioManager.play_sfx(AudioManager.COUNTDOWN_BEEP)
+
+func play_count_down_beep_down() -> void:
+	AudioManager.play_sfx(AudioManager.COUNT_DOWN_BEEP_DONE)
+
+func play_crowd_cheer() -> void:
+	SignalBus.play_crowd_cheer.emit()
+
+func stop_crowd_cheer() -> void:
+	SignalBus.stop_crowd_cheer.emit()
 
 func transition_to_game_over_screen() -> void:
 	get_tree().change_scene_to_file("res://src/Scenes/Menus/GameOverScreen.tscn")
@@ -357,7 +377,7 @@ func fade_to_win() -> void:
 func go_to_win_screen() -> void:
 	#TO BE REPLACE WITH ENDING CUTSCENE!!!!
 	print("UMM??")
-	get_tree().change_scene_to_file("res://src/Scenes/Menus/GameWinScreen.tscn")
+	get_tree().change_scene_to_file("res://src/Scenes/FinalCutScene.tscn")
 
 
 func show_hud() -> void:

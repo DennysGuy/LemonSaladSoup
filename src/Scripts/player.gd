@@ -162,6 +162,7 @@ func move_player() -> void:
 				swap_to_rifle()
 		
 		if Input.is_action_just_pressed("toss_grenade") and GameManager.can_throw_grenade:
+			GameManager.grenade_uses += 1
 			SignalBus.issue_grenade.emit()
 		
 			
@@ -248,7 +249,8 @@ func rotate_camera_opposite() -> void:
 
 
 func shoot_enemy(enemy_body_part : Node3D):
-	if  enemy_body_part and enemy_body_part.get_parent() is Enemy: 
+	if  enemy_body_part and enemy_body_part.get_parent() is Enemy:
+		GameManager.total_shots_hit += 1
 		var seen_enemy : Enemy = enemy_body_part.get_parent()
 
 		if enemy_body_part is EnemyBodyCollider:
@@ -257,10 +259,11 @@ func shoot_enemy(enemy_body_part : Node3D):
 			seen_enemy.head_shot_kill()
 		elif seen_enemy is BossMan and enemy_body_part is ForceFieldArea:
 			seen_enemy.play_reflection()
-		
+	GameManager.total_shots += 1	
 	
 func damage_player() -> void:
 	if can_be_hit:
+		GameManager.damage_taken += 1
 		AudioManager.play_sfx(AudioManager.player_hits.pick_random())
 		SignalBus.shake_camera.emit(1.0)
 		SignalBus.start_invincibility_overlay.emit()
@@ -272,6 +275,7 @@ func damage_player() -> void:
 			disable_movement()
 			hide_arm()
 			hide_reticle()
+			AudioManager.stop_music_player()
 			SignalBus.play_death_fadeout.emit()
 		else:
 			invincibility_timer.start()

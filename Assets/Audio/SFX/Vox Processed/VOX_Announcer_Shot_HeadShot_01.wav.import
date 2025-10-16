@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cp2lkuyq1npx4"
+path="res://.godot/imported/VOX_Announcer_Shot_HeadShot_01.wav-5bf2bba9d5483bbc9834608bceb9651d.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Vox Processed/VOX_Announcer_Shot_HeadShot_01.wav"
+dest_files=["res://.godot/imported/VOX_Announcer_Shot_HeadShot_01.wav-5bf2bba9d5483bbc9834608bceb9651d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

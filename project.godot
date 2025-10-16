@@ -81,6 +81,7 @@ audio/channel_defaults={
 variables={}
 text/input_action="skip_dialogue"
 audio/type_sound_bus="SFX"
+text/autoadvance_enabled=true
 
 [display]
 

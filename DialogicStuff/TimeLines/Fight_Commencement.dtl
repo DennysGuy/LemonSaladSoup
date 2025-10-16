@@ -1,3 +1,4 @@
+audio "res://Assets/Audio/SFX/murmur.wav"
 do AudioManager.play_boss_theme()
 do CutSceneManager.disable_player_movement()
 do CutSceneManager.look_at_boss_man()
@@ -5,16 +6,16 @@ do CutSceneManager.look_at_boss_man()
 do CutSceneManager.zoom_camera()
 [wait time="2.0"]
 do CutSceneManager.shake_camera()
-[voice path="res://Assets/Audio/SFX/VOX/Placeholders/Blasphemy_PlaceHolder.wav" volume="0.0"]
+[voice path="res://Assets/Audio/SFX/Vox Processed/VOX_Boss_Dialogue_Blasphemy_01.wav" volume="0.0"]
 Bossman: BLASPHEMY!!!
 [wait time="2.0"]
-[voice path="res://Assets/Audio/SFX/VOX/Placeholders/YouDare_Placeholder.wav" volume="0.0"]
+[voice path="res://Assets/Audio/SFX/Vox Processed/VOX_Boss_Dialogue_Blasphemy_02.wav" volume="0.0"]
 Bossman: You dare spill blood in the midst of our sacred rite?
 do CutSceneManager.shake_camera()
-[voice path="res://Assets/Audio/SFX/VOX/Placeholders/Unforgivable_PlaceHolder.wav" volume="0.0"]
+[voice path="res://Assets/Audio/SFX/Vox Processed/VOX_Boss_Dialogue_Blasphemy_03.wav" volume="0.0"]
 Bossman: UNFORGIVABLE!!!
 [wait time="2.0"]
-[voice path="res://Assets/Audio/SFX/VOX/Placeholders/MinionsTearApart_PlaceHolder.wav" volume="0.0"]
+[voice path="res://Assets/Audio/SFX/Vox Processed/VOX_Boss_Dialogue_Blasphemy_04.wav" volume="0.0"]
 Bossman: Minions tear them apart!
 do CutSceneManager.look_at_point_1()
 do CutSceneManager.reset_camera_fov()

@@ -13,6 +13,7 @@ func enter() -> void:
 	parent.animation_player.play("die")
 	
 	if parent is WalkerEnemy and parent.is_greeter:
+		AudioManager.play_sfx(AudioManager.CROWD_GASP)
 		AudioManager.stop_music_player()
 	
 	if GameManager.player_current_health < GameManager.PLAYER_MAX_HEALTH:

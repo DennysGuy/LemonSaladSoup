@@ -4,6 +4,7 @@ class_name Hurt1 extends State
 @export var attack_state : State
 
 func enter() -> void:
+
 	parent.animation_player.play("hurt1")
 	parent.timer.wait_time = 0.6
 	parent.timer.start()

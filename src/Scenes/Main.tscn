@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://ky1tv07nahro"]
+[gd_scene load_steps=58 format=3 uid="uid://ky1tv07nahro"]
 
 [ext_resource type="PackedScene" uid="uid://cqmipwjw5ygil" path="res://src/Scenes/Arena/Arena.tscn" id="1_kwadw"]
 [ext_resource type="Script" uid="uid://dc8d3py4vg0ax" path="res://src/Scripts/main.gd" id="1_n3v4m"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://c1q6vlcb41jc6" path="res://Assets/Art/2D Assets/MagazineUnder.png" id="5_d85jq"]
 [ext_resource type="Texture2D" uid="uid://bqq433bs811mc" path="res://Assets/Art/2D Assets/Bullet.png" id="6_ohpsy"]
 [ext_resource type="Texture2D" uid="uid://bhygu6lgx06jq" path="res://Assets/Art/2D Assets/AR-14_Mag_Bottom.png" id="6_u2m37"]
+[ext_resource type="PackedScene" uid="uid://bsa4i05po3vxn" path="res://src/Scenes/TotalTimer.tscn" id="6_w3s2q"]
 [ext_resource type="Texture2D" uid="uid://b1wsna7q68tru" path="res://Assets/Art/2D Assets/AR-14_Bullet.png" id="7_ojnsd"]
 [ext_resource type="Texture2D" uid="uid://c6l2brcd36hkp" path="res://Assets/Art/2D Assets/MagazineOver.png" id="7_p301h"]
 [ext_resource type="Texture2D" uid="uid://bhr7rdlujmmje" path="res://Assets/Art/2D Assets/AR-14_Mag_Top.png" id="8_hg6nk"]
@@ -346,6 +347,43 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("..")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_crowd_cheer"
+}]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("..")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 1, 1.997835, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"play_count_down_beep"
+}, {
+"args": [],
+"method": &"play_count_down_beep"
+}, {
+"args": [],
+"method": &"play_count_down_beep"
+}, {
+"args": [],
+"method": &"play_count_down_beep_down"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_m1gvt"]
@@ -1320,26 +1358,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -38.0
+offset_left = -76.0
 offset_top = 15.0
-offset_right = 38.0
 offset_bottom = 31.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TotalTimer" type="Label" parent="HUD"]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -72.0
-offset_top = 9.0
-offset_right = -8.0
-offset_bottom = 38.0
-grow_horizontal = 0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("4_j4yc3")
-theme_override_font_sizes/font_size = 28
-text = "05:27"
+[node name="TotalTimer" parent="HUD" instance=ExtResource("6_w3s2q")]
+offset_left = -78.0
+offset_right = -14.0
 
 [node name="RifleMagazine" type="Control" parent="HUD"]
 layout_mode = 3

@@ -1,6 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cwn6muj1ee41h"]
+[gd_scene load_steps=8 format=3 uid="uid://cwn6muj1ee41h"]
 
 [ext_resource type="Script" uid="uid://d8vblp3y4506" path="res://src/Scripts/game_over_screen.gd" id="1_t2m5x"]
+[ext_resource type="FontFile" uid="uid://dyx88gwegholf" path="res://Assets/Art/Font/Vampire Zone.ttf" id="2_4hnyi"]
+[ext_resource type="PackedScene" uid="uid://c66gku5yeiilh" path="res://src/Scenes/Enemies/BossGameOverTrue.tscn" id="3_rfril"]
 
 [sub_resource type="Animation" id="Animation_8hbul"]
 resource_name = "FadeIn"
@@ -17,6 +19,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../ColorRect:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.57254905, 0.08235294, 0, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_t2m5x"]
 length = 0.001
@@ -32,11 +46,66 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../ColorRect:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.57254905, 0.08235294, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_rfril"]
+resource_name = "fade_out"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.2333333, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../ColorRect:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"go_to_main"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_t2m5x"]
 _data = {
 &"FadeIn": SubResource("Animation_8hbul"),
-&"RESET": SubResource("Animation_t2m5x")
+&"RESET": SubResource("Animation_t2m5x"),
+&"fade_out": SubResource("Animation_rfril")
 }
 
 [node name="Control" type="Control"]
@@ -54,21 +123,62 @@ libraries = {
 &"": SubResource("AnimationLibrary_t2m5x")
 }
 
-[node name="Label" type="Label" parent="."]
+[node name="ColorRect2" type="ColorRect" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -564.0
+offset_top = 36.0
+offset_right = -60.0
+offset_bottom = 146.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_4hnyi")
 theme_override_font_sizes/font_size = 110
-text = "GAME OVER!"
+text = "You Died!"
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 0
+offset_left = 42.0
+offset_top = -91.0
+offset_right = 742.0
+offset_bottom = 719.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+own_world_3d = true
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(700, 810)
+render_target_update_mode = 4
+
+[node name="Node3D" parent="SubViewportContainer/SubViewport" instance=ExtResource("3_rfril")]
+
+[node name="Retry" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -418.0
+offset_top = -30.0
+offset_right = -227.0
+offset_bottom = 66.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("2_4hnyi")
+theme_override_font_sizes/font_size = 64
+text = "Retry"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -77,4 +187,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.57254905, 0.08235294, 0, 1)
+
+[connection signal="button_up" from="Retry" to="." method="_on_retry_button_up"]

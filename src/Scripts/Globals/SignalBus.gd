@@ -145,3 +145,15 @@ signal spawn_special_config
 signal add_rifle_preview
 @warning_ignore("unused_signal")
 signal remove_rifle_preview
+@warning_ignore("unused_signal")
+signal stop_total_timer
+@warning_ignore("unused_signal")
+signal start_total_timer
+@warning_ignore("unused_signal")
+signal make_boss_laugh
+@warning_ignore("unused_signal")
+signal set_weapon_visual
+@warning_ignore("unused_signal")
+signal play_crowd_cheer
+@warning_ignore("unused_signal")
+signal stop_crowd_cheer

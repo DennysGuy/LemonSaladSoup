@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=4 uid="uid://cqmipwjw5ygil"]
+[gd_scene load_steps=80 format=4 uid="uid://cqmipwjw5ygil"]
 
 [ext_resource type="PackedScene" uid="uid://cwfahle4ha0uq" path="res://src/Scenes/Player/Player.tscn" id="1_bcb0y"]
 [ext_resource type="Script" uid="uid://cru4sfh1iabsn" path="res://src/Scripts/arena.gd" id="1_y77rj"]
@@ -16,6 +16,7 @@
 [ext_resource type="Texture2D" uid="uid://ckxgfeca1m0yo" path="res://Assets/Art/3D Assets/Arena/Abstract_512x512-17.png" id="13_dbweq"]
 [ext_resource type="Texture2D" uid="uid://ce7rorlkpixgi" path="res://Assets/Art/3D Assets/Arena/additional.png" id="14_x5eqy"]
 [ext_resource type="AudioStream" uid="uid://1lxghv1yxlnx" path="res://Assets/Audio/SFX/mainambient.ogg" id="16_tp8ty"]
+[ext_resource type="AudioStream" uid="uid://dov658jdxs0yg" path="res://Assets/Audio/SFX/crowdloop.wav" id="17_dbweq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bcb0y"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -75,6 +76,7 @@ tracks/1/keys = {
 [sub_resource type="Animation" id="Animation_2q4a7"]
 resource_name = "BossJump"
 length = 0.21
+step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -86,6 +88,20 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector3(3.5762925, 11.240027, -39.211594), Vector3(3.5762925, 24.823017, -39.211594)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.02),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_boss_jump_sfx"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_jaoi6"]
@@ -1642,6 +1658,11 @@ skeleton = NodePath("")
 [node name="Ambience" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("16_tp8ty")
 autoplay = true
+bus = &"Ambience"
+
+[node name="CrowdCheer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("17_dbweq")
+volume_db = -4.5
 bus = &"Ambience"
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]

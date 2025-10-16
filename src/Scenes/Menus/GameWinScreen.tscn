@@ -1,6 +1,34 @@
-[gd_scene load_steps=5 format=3 uid="uid://n1of11jhuexs"]
+[gd_scene load_steps=7 format=3 uid="uid://n1of11jhuexs"]
 
 [ext_resource type="Script" uid="uid://b6qjeyngcaxje" path="res://src/Scripts/game_win_screen.gd" id="1_5g3g0"]
+[ext_resource type="FontFile" uid="uid://dyx88gwegholf" path="res://Assets/Art/Font/Vampire Zone.ttf" id="2_5jdxi"]
+
+[sub_resource type="Animation" id="Animation_5jdxi"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.78712964, 0, 0.032142676, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_5g3g0"]
 resource_name = "fade_in"
@@ -17,9 +45,22 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.78712964, 0, 0.032142676, 1)]
+}
 
-[sub_resource type="Animation" id="Animation_5jdxi"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_m32l2"]
+resource_name = "fade_out"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -27,16 +68,43 @@ tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0.099999994, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.9666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"go_to_main"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_m32l2"]
 _data = {
 &"RESET": SubResource("Animation_5jdxi"),
-&"fade_in": SubResource("Animation_5g3g0")
+&"fade_in": SubResource("Animation_5g3g0"),
+&"fade_out": SubResource("Animation_m32l2")
 }
 
 [node name="GameWinScreen" type="Control"]
@@ -48,21 +116,210 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5g3g0")
 
-[node name="Label" type="Label" parent="."]
+[node name="BG" type="ColorRect" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -337.0
-offset_top = -119.0
-offset_right = 320.0
-offset_bottom = 73.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 140
-text = "YOU WIN!"
+color = Color(0.14767182, 0.14767179, 0.14767179, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -561.0
+offset_top = 32.0
+offset_right = -39.0
+offset_bottom = 82.0
+grow_horizontal = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 50
+text = "A Fool but a winner."
+horizontal_alignment = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../ColorRect")
+libraries = {
+&"": SubResource("AnimationLibrary_m32l2")
+}
+
+[node name="Results" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 34.0
+offset_top = -196.0
+offset_right = 277.0
+offset_bottom = -131.0
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.77983063, 0, 0.05381567, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 64
+text = "Results"
+
+[node name="Score" type="Label" parent="."]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 257.0
+offset_right = 402.0
+offset_bottom = 290.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 32
+text = "Final SCore:  23,000,000"
+
+[node name="FinalTime" type="Label" parent="."]
+layout_mode = 0
+offset_left = 37.0
+offset_top = 304.0
+offset_right = 281.0
+offset_bottom = 337.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 32
+text = "Final TIme: 4:32"
+
+[node name="DamageTaken" type="Label" parent="."]
+layout_mode = 0
+offset_left = 813.0
+offset_top = 420.0
+offset_right = 1126.0
+offset_bottom = 449.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 28
+text = "Damage Taken: 5"
+
+[node name="Kills" type="Label" parent="."]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 405.0
+offset_right = 348.0
+offset_bottom = 438.0
+theme_override_colors/font_color = Color(0.99889964, 0.4119761, 0.30674666, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 32
+text = "Total Kills: 342"
+
+[node name="GrenadeUses" type="Label" parent="."]
+layout_mode = 0
+offset_left = 812.0
+offset_top = 456.0
+offset_right = 1125.0
+offset_bottom = 485.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 28
+text = "Grenade Uses: 3"
+
+[node name="HighestComboMultiplier" type="Label" parent="."]
+layout_mode = 0
+offset_left = 438.0
+offset_top = 258.0
+offset_right = 905.0
+offset_bottom = 291.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 32
+text = "highest Combo Multiplier: 12"
+
+[node name="Accuracy" type="Label" parent="."]
+layout_mode = 0
+offset_left = 394.0
+offset_top = 423.0
+offset_right = 721.0
+offset_bottom = 452.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 28
+text = "Accuracy: 89%"
+
+[node name="TotalShots" type="Label" parent="."]
+layout_mode = 0
+offset_left = 393.0
+offset_top = 460.0
+offset_right = 720.0
+offset_bottom = 489.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 28
+text = "Total Shots: 1000"
+
+[node name="TotalShotsLanded" type="Label" parent="."]
+layout_mode = 0
+offset_left = 394.0
+offset_top = 496.0
+offset_right = 721.0
+offset_bottom = 525.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 28
+text = "Shots Landed: 1000"
+
+[node name="Perfects" type="Label" parent="."]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 455.0
+offset_right = 365.0
+offset_bottom = 484.0
+theme_override_colors/font_color = Color(1, 1, 0.39215687, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 28
+text = "Perfects': 232"
+
+[node name="Greats" type="Label" parent="."]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 492.0
+offset_right = 365.0
+offset_bottom = 521.0
+theme_override_colors/font_color = Color(0, 0.66254824, 0.5195512, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 28
+text = "Greats': 423"
+
+[node name="Okays" type="Label" parent="."]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 532.0
+offset_right = 365.0
+offset_bottom = 561.0
+theme_override_colors/font_color = Color(0.5764706, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 28
+text = "Okays': 900"
+
+[node name="MainMenu" type="Button" parent="."]
+layout_mode = 0
+offset_left = 827.0
+offset_top = 639.0
+offset_right = 1055.0
+offset_bottom = 702.0
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 40
+text = "Main Menu"
+
+[node name="Replay" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1068.0
+offset_top = 639.0
+offset_right = 1238.0
+offset_bottom = 702.0
+mouse_default_cursor_shape = 2
+theme_override_fonts/font = ExtResource("2_5jdxi")
+theme_override_font_sizes/font_size = 40
+text = "REPLAY?"
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -71,9 +328,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+color = Color(0.78712964, 0, 0.032142676, 1)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../ColorRect")
-libraries = {
-&"": SubResource("AnimationLibrary_m32l2")
-}
+[connection signal="button_up" from="MainMenu" to="." method="_on_main_menu_button_up"]
+[connection signal="button_up" from="Replay" to="." method="_on_replay_button_up"]

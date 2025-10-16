@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dcr0eqpycmvkg"
+path="res://.godot/imported/VOX_Announcer_Alert_ Left_03.wav-1e0f2f19aa3f569cb854aa411eb23305.sample"
+
+[deps]
+
+source_file="res://Assets/Audio/SFX/Vox Processed/VOX_Announcer_Alert_ Left_03.wav"
+dest_files=["res://.godot/imported/VOX_Announcer_Alert_ Left_03.wav-1e0f2f19aa3f569cb854aa411eb23305.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

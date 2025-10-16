@@ -11,6 +11,9 @@ var arena : Arena
 @export var grunt_death_pitch : float
 @export var consumable_spawn_point : Marker3D
 
+@export var body_flash_point : Marker3D
+@export var head_flash_point : Marker3D
+
 @export_group("Damage States")
 @export var dead_state : State
 @export var attack_state : State
@@ -65,6 +68,7 @@ func kill_enemy(killed_by_grenade : bool = false) -> void:
 	
 	alive = false
 	
+	GameManager.total_kills += 1
 	
 	if can_receive_bonus:
 		SignalBus.remove_one_kill.emit()
@@ -72,7 +76,7 @@ func kill_enemy(killed_by_grenade : bool = false) -> void:
 	if killed_by_grenade:
 		AudioManager.play_sfx(AudioManager.enemy_deaths.pick_random(),-3)
 	else:
-		AudioManager.play_sfx(AudioManager.enemy_deaths.pick_random(),-0.5)
+		AudioManager.play_sfx(AudioManager.enemy_deaths.pick_random(),-2)
 	# lock in bonus here
 	timer_bonus = set_timer_bonus()
 
@@ -91,10 +95,15 @@ func head_shot_kill() -> void:
 		GameManager.boss_health = 0
 		SignalBus.update_boss_hp.emit()
 	
+	GameManager.total_kills += 1
+	GameManager.total_head_shots += 1
+	
 	alive = false
 	
 	AudioManager.play_sfx(AudioManager.head_shots.pick_random(),2)
-	AudioManager.play_sfx(AudioManager.enemy_deaths.pick_random(),2,true)
+	AudioManager.play_sfx(AudioManager.enemy_deaths.pick_random(),-2,true)
+	
+	generate_hit_star_hs(head_flash_point, 2)
 	
 	if can_receive_bonus:
 		SignalBus.remove_one_kill.emit()
@@ -116,8 +125,9 @@ func damage_enemy() -> void:
 		GameManager.boss_health -= 1
 		SignalBus.update_boss_hp.emit()
 	
-	AudioManager.play_sfx(AudioManager.head_shots.pick_random(),2,true)
 	
+	AudioManager.play_sfx(AudioManager.head_shots.pick_random(),2,true)
+	generate_hit_star(body_flash_point,4)
 	
 	var chosen_state : State = hurt_states.pick_random()
 	state_machine.change_state(chosen_state)
@@ -131,9 +141,16 @@ func update_score(value : int, head_shot : bool) -> void:
 	var added_score = value
 	#handle bonuses
 	if can_receive_bonus:
-		added_score *= (10 * timer_bonus)
+		added_score *= (5 * timer_bonus)
 		SignalBus.show_grade_phrase.emit(timer_bonus)
 		SignalBus.decrement_wave_time.emit(timer_bonus)
+		if timer_bonus == GameManager.GRADING_BONUS.PERFECT:
+			GameManager.perfects += 1
+		elif timer_bonus == GameManager.GRADING_BONUS.GREAT:
+			GameManager.greats += 1
+		else:
+			GameManager.okays += 1
+		
 
 	added_score *= GameManager.current_multiplier
 	
@@ -148,11 +165,11 @@ func spawn_health_drop() -> void:
 	var chance_to_get_health : int = 15
 	
 	if GameManager.player_current_health <= 3:
-		chance_to_get_health = 20
+		chance_to_get_health = 18
 	elif GameManager.player_current_health <= 2:
-		chance_to_get_health = 23
+		chance_to_get_health = 20
 	elif GameManager.player_current_health == 1:
-		chance_to_get_health = 26
+		chance_to_get_health = 23
 	
 	if random_num > chance_to_get_health:
 		return
@@ -172,3 +189,24 @@ func set_timer_bonus() -> int:
 		return GameManager.GRADING_BONUS.GREAT
 	else:
 		return GameManager.GRADING_BONUS.OKAY
+
+func generate_hit_star_hs(location : Marker3D, size : float = 1.0) -> void:
+	var hit_flash_hs : HitFlash = preload("uid://1koe5d4rrakq").instantiate()
+	hit_flash_hs.scale = Vector3(size,size,size)
+	hit_flash_hs.position = location.position
+	add_child(hit_flash_hs)
+	
+func generate_hit_star(location : Marker3D, size : float = 1.0) -> void:
+	var hit_flash : HitFlash = preload("uid://ch5rydauxhk0i").instantiate()
+	hit_flash.scale = Vector3(size,size,size)
+	hit_flash.position = location.position
+	add_child(hit_flash)
+
+func play_random_player_hit_sfx() -> void:
+	AudioManager.play_sfx(AudioManager.attack_hits.pick_random(),3)
+
+func play_random_swipe_sfx() -> void:
+	AudioManager.play_sfx(AudioManager.attack_swipes.pick_random(),3)
+
+func play_cannon_shot_sfx() -> void:
+	AudioManager.play_sfx(AudioManager.CANNON,1)

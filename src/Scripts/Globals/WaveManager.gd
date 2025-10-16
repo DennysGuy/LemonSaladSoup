@@ -9,12 +9,12 @@ const MAX_WAVE :int = 2
 @onready var waves : Dictionary = {
 	
 	0 : {
-		"time": 120,
+		"time": 120,#120,
 		"starting config amount": 1,
 		"stagger_time":2,
 		"spawn_time":1.5, #in seconds
 		"config list": wave_1_configurations,
-		"theme" : AudioManager.FIRST_WAVE_1_1,
+		"theme" : AudioManager.FIRST_WAVE,
 		"wave_title" : "Wave 1",
 		"cut_scene": "special_config" #this plays at the end of the wave?
 	},
@@ -25,7 +25,7 @@ const MAX_WAVE :int = 2
 		"stagger_time":2.2,
 		"spawn_time":1.8, #in seconds
 		"config list": wave_2_configurations,
-		"theme" : AudioManager.FIRST_WAVE_1_1,
+		"theme" : AudioManager.SECOND_WAVE,
 		"wave_title" : "Wave 2",
 		"cut_scene": null,
 	},
@@ -36,7 +36,7 @@ const MAX_WAVE :int = 2
 		"stagger_time":1.6,
 		"spawn_time":1.2, #in seconds
 		"config list": wave_3_configurations,
-		"theme" : AudioManager.FIRST_WAVE_1_1,
+		"theme" : AudioManager.THIRD_WAVE,
 		"wave_title" : "Final Wave",
 		"cut_scene": "BossFight",
 	}
@@ -76,6 +76,7 @@ func start_wave() -> void:
 
 
 func reset() -> void:
+
 	current_wave = -1
 	wave_started = false
 

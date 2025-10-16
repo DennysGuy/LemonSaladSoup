@@ -1,10 +1,26 @@
-[gd_scene load_steps=9 format=3 uid="uid://dvtx2xptgapr"]
+[gd_scene load_steps=10 format=3 uid="uid://dvtx2xptgapr"]
 
 [ext_resource type="Texture2D" uid="uid://w5hx8conjcyv" path="res://Assets/Art/2D Assets/MockTitleArt.png" id="1_lv5l3"]
 [ext_resource type="Script" uid="uid://bo3ljksg7w56x" path="res://src/Scripts/main_menu.gd" id="1_u6smc"]
 [ext_resource type="VideoStream" uid="uid://dg5gsblb1mww" path="res://Assets/Art/Finalbetetr.ogv" id="2_8lbpf"]
 [ext_resource type="FontFile" uid="uid://bfvjqwxfxrujk" path="res://Assets/Art/Font/Comical Cartoon.ttf" id="3_hj5s1"]
 [ext_resource type="Texture2D" uid="uid://clmw85es8u1d8" path="res://Assets/Art/2D Assets/playbutton.png" id="5_8lbpf"]
+[ext_resource type="Texture2D" uid="uid://b0sun6c45mx5g" path="res://Assets/Art/2D Assets/playbuttonpressed.png" id="6_mcdhn"]
+
+[sub_resource type="Animation" id="Animation_mcdhn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../ColorRect2:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_8lbpf"]
 resource_name = "fade_out"
@@ -34,21 +50,6 @@ tracks/1/keys = {
 "args": [],
 "method": &"go_to_title_card"
 }]
-}
-
-[sub_resource type="Animation" id="Animation_mcdhn"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../ColorRect2:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_81veo"]
@@ -119,8 +120,8 @@ text = "Credits
 Artist & Narrative Designer/Writer
 Rotten
 
-Voice SFX Director
-Dan Galletti
+Voice Editor
+Dan Galletti (With special thanks to VA Tyler Moody)
 
 Sound Designer/Engineer
 PMYA
@@ -153,6 +154,7 @@ grow_vertical = 2
 scale = Vector2(0.3, 0.3)
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("5_8lbpf")
+texture_hover = ExtResource("6_mcdhn")
 
 [node name="ColorRect2" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
@@ -165,3 +167,4 @@ grow_vertical = 2
 mouse_filter = 2
 
 [connection signal="button_up" from="PlayButton" to="." method="_on_play_button_button_up"]
+[connection signal="mouse_entered" from="PlayButton" to="." method="_on_play_button_mouse_entered"]

@@ -7,3 +7,4 @@ script = ExtResource("1_wcxin")
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 bus = &"Music"
+playback_type = 1

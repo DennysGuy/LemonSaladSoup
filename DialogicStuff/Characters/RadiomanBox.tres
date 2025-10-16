@@ -17,7 +17,7 @@ script = ExtResource("2_tixh0")
 scene = ExtResource("1_b02of")
 overrides = {
 "global_bg_color": "Color(0.29803923, 0.29803923, 0.29803923, 1)",
-"global_font": "\"res://Assets/Art/Font/LOLII___.TTF\"",
+"global_font": "\"res://Assets/Art/Font/Action Man.ttf\"",
 "global_font_size": "28.0"
 }
 
@@ -38,7 +38,8 @@ script = ExtResource("2_tixh0")
 scene = ExtResource("6_24gct")
 overrides = {
 "box_size": "Vector2(900, 220)",
-"text_size": "32.0"
+"text_size": "32.0",
+"typing_sounds_sounds_folder": "\"res://Assets/Audio/SFX/radioman_text\""
 }
 
 [sub_resource type="Resource" id="Resource_5rjp0"]

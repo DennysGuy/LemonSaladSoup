@@ -38,7 +38,9 @@ script = ExtResource("2_lexub")
 scene = ExtResource("6_v6b0v")
 overrides = {
 "box_size": "Vector2(900, 220)",
-"normal_font": "\"res://Assets/Art/Font/Comical Cartoon.ttf\""
+"normal_font": "\"res://Assets/Art/Font/Comical Cartoon.ttf\"",
+"typing_sounds_end_sound": "\"res://Assets/Audio/SFX/bossman_text/Bossman_Post.wav\"",
+"typing_sounds_sounds_folder": "\"res://Assets/Audio/SFX/bossman_text\""
 }
 
 [sub_resource type="Resource" id="Resource_v8gsv"]
@@ -72,4 +74,4 @@ layer_info = {
 "16": SubResource("Resource_vtvbj"),
 "17": SubResource("Resource_5pe2n")
 }
-metadata/_latest_layer = ""
+metadata/_latest_layer = "13"

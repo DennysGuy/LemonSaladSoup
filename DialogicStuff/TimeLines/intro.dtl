@@ -4,20 +4,41 @@ do CutSceneManager.disable_player_movement()
 do CutSceneManager.look_at_boss_man()
 [wait time="1.0"]
 do CutSceneManager.zoom_camera()
-[voice path="res://Assets/Audio/SFX/VOX/Placeholders/HOLDER_VOX_BOSS_Intro.wav" volume="0.0"]
-Bossman: Well, well… a human. How unusual. We don’t often get your kind in these lands.
-Bossman: We'd like to take a closer look at you.. if you don't mind, of course
+[voice path="res://Assets/Audio/SFX/Vox Processed/VOX_Boss_Dialogue_Intro_01.wav" volume="0.0"]
+Bossman: Well, well… a human. How unusual. \
+\
+(Press Space to Continue)
+[voice path="res://Assets/Audio/SFX/Vox Processed/VOX_Boss_Dialogue_Intro_02.wav" volume="0.0"]
+Bossman: We don't often get your kind in these Lands!\
+\
+(Press Space to Continue)
+Bossman: [mood=Mood 1]We'd like to take a closer look at you.. if you don't mind, of course\
+\
+(Press Space to Continue)
 do CutSceneManager.look_at_point_1()
 do CutSceneManager.reset_camera_fov()
 [wait time="1.0"]
 do CutSceneManager.spawn_greeter()
 do CutSceneManager.zoom_camera()
-Radioman: That thing right there is a bonafide Walker minion! Aim your weapon and press 'LEFT CLICK' to fire. \
-When you run out of ammo press 'R' to reload!
-Radioman: If things get too tough you can clear the screen with a grenade by pressing 'RIGHT CLICK'.  Use this sparingly as it has a long cool down time and your score combo meter will break.
-Radioman: Finally, rotate to one of the four cardinal directions using 'A', 'S', and 'D'. Pressing 'S' will rotate you to the opposite direction.
-Radioman: That's about it. Give the controls a quick test then let 'er rip on that damned bastard in front of you!
-Radioman: Survive at all costs! Good luck.
+audio "res://Assets/Audio/SFX/WalkieTalkieOn.wav"
+Radioman: [mood=Mood 1]That thing right there is a bonafide Walker minion! Aim your weapon and press 'LEFT CLICK' to fire. \
+When you run out of ammo press 'R' to reload!\
+\
+(Press Space to Continue)
+audio "res://Assets/Audio/SFX/WalkieTalkieOn.wav"
+Radioman: [mood=Mood 1]If things get too tough you can clear the screen with a grenade by pressing 'RIGHT CLICK'.  Use this sparingly as it has a long cool down time and your score combo meter will break.\
+\
+(Press Space to Continue)
+Radioman: [mood=Mood 1]Finally, rotate to one of the four cardinal directions using 'A', 'S', and 'D'. Pressing 'S' will rotate you to the opposite direction.\
+\
+(Press Space to Continue)
+audio "res://Assets/Audio/SFX/WalkieTalkieOn.wav"
+Radioman: [mood=Mood 1]That's about it. Give the controls a quick test then let 'er rip on that damned bastard in front of you!\
+\
+(Press Space to Continue)
+Radioman: [mood=Mood 1]Survive at all costs! Good luck.\
+\
+(Press Space to Continue)
 do CutSceneManager.enable_player_movement()
 do CutSceneManager.reset_camera_fov()
 [wait time="2.0"]

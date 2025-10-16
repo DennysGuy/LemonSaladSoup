@@ -15,6 +15,9 @@ class_name Arena extends Node3D
 
 enum SPAWN_POINT_DIR{ADJACENT,FORWARD}
 
+
+@onready var crowd_cheer: AudioStreamPlayer = $CrowdCheer
+
 @onready var config_spawn_point_1: SpawnPoint = $SpawnPoints/SpawnPoint1
 @onready var config_spawn_point_2: SpawnPoint = $SpawnPoints/SpawnPoint2
 @onready var config_spawn_point_3: SpawnPoint = $SpawnPoints/SpawnPoint3
@@ -40,12 +43,14 @@ func _ready() -> void:
 	SignalBus.make_boss_fall.connect(make_boss_fall)
 	SignalBus.make_boss_jump.connect(make_boss_jump)
 	SignalBus.spawn_special_config.connect(spawn_special_config)
+	SignalBus.play_crowd_cheer.connect(play_crowd_cheer)
+	SignalBus.stop_crowd_cheer.connect(stop_crowd_cheer)
 	spawn_timer.one_shot = true
 
 func _process(delta: float) -> void:
 	if not WaveManager.wave_started and not enemy_configurations.get_children().is_empty():
 		clear_enemies()
-	print(spawn_timer.time_left)
+	#print(spawn_timer.time_left)
 			
 func _on_spawn_timer_timeout() -> void:
 	spawn_timer.stop()
@@ -124,6 +129,9 @@ func init_wave_spawn_time() -> void:
 	GameManager.max_config_amount = wave["starting config amount"]
 	set_spawn_time(spawn_time)
 
+func play_boss_jump_sfx() -> void:
+	AudioManager.play_sfx(AudioManager.BOSSJUMP,3)
+
 func stop_spawn_timer() -> void:
 	spawn_timer.wait_time = 0
 	spawn_timer.stop()
@@ -136,10 +144,12 @@ func decrement_spawn_time() -> void:
 	adjust_spawn_time(-1)
 
 func start_spawn_timer() -> void:
+
 	if spawn_timer.is_stopped():
 		spawn_timer.start()
 
 func end_wave() -> void:
+	crowd_cheer.stop()
 	stop_spawn_timer()
 	clear_enemies()
 
@@ -156,6 +166,12 @@ func boss_fall_shake() -> void:
 	SignalBus.shake_camera.emit(3)
 	AudioManager.play_sfx(AudioManager.BOSSFALL)
 
+
+func play_crowd_cheer() -> void:
+	crowd_cheer.play()
+
+func stop_crowd_cheer() -> void:
+	crowd_cheer.stop
 
 func clear_enemies() -> void:
 	for config in enemy_configurations.get_children():

@@ -17,6 +17,7 @@ func enter() -> void:
 		parent.spawn_health_drop()
 	
 	if parent is WalkerEnemy and parent.is_greeter:
+		AudioManager.play_sfx(AudioManager.CROWD_GASP)
 		AudioManager.stop_music_player()
 
 

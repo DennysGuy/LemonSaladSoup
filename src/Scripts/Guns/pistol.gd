@@ -14,6 +14,7 @@ var reticle_offset := Vector2(-90,0)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	GameManager.equipped_weapon = GameManager.WEAPONS.PISTOL
+	SignalBus.set_weapon_visual.connect(set_weapon_visual)
 	set_weapon_visual()
 
 

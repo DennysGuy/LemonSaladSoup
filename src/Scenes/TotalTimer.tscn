@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsa4i05po3vxn"]
+
+[ext_resource type="FontFile" uid="uid://dyx88gwegholf" path="res://Assets/Art/Font/Vampire Zone.ttf" id="1_rtbys"]
+[ext_resource type="Script" uid="uid://dhyma0tcr41m1" path="res://src/Scenes/total_timer.gd" id="2_q3vqr"]
+
+[node name="TotalTimer" type="Label"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -72.0
+offset_top = 9.0
+offset_right = -8.0
+offset_bottom = 38.0
+grow_horizontal = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_rtbys")
+theme_override_font_sizes/font_size = 28
+text = "05:27"
+script = ExtResource("2_q3vqr")

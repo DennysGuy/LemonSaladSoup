@@ -812,9 +812,11 @@ size = Vector3(3.7601166, 4.114189, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_hoi2c"]
 size = Vector3(2.618103, 2.1132202, 1)
 
-[node name="BossMan" type="CharacterBody3D" node_paths=PackedStringArray("dead_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
+[node name="BossMan" type="CharacterBody3D" node_paths=PackedStringArray("body_flash_point", "head_flash_point", "dead_state", "hurt_1_state", "hurt_2_state", "head_shot_dead")]
 script = ExtResource("1_h1to1")
 base_score = 5000
+body_flash_point = NodePath("BodyHitPoint")
+head_flash_point = NodePath("HeadHitPoint")
 dead_state = NodePath("StateMachine/Dead")
 hurt_1_state = NodePath("StateMachine/Hurt1")
 hurt_2_state = NodePath("StateMachine/Hurt2")
@@ -1039,5 +1041,9 @@ shape = SubResource("BoxShape3D_hoi2c")
 
 [node name="ForceFieldArea" parent="." instance=ExtResource("12_hoi2c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.9940536)
+
+[node name="BodyHitPoint" type="Marker3D" parent="."]
+
+[node name="HeadHitPoint" type="Marker3D" parent="."]
 
 [editable path="ForceFieldArea"]
