@@ -248,6 +248,7 @@ func rotate_camera_opposite() -> void:
 func shoot_enemy(enemy_body_part : Node3D):
 	if  enemy_body_part and enemy_body_part.get_parent() is Enemy:
 		GameManager.total_shots_hit += 1
+		SignalBus.increment_hits_count.emit()
 		var seen_enemy : Enemy = enemy_body_part.get_parent()
 
 		if enemy_body_part is EnemyBodyCollider:
@@ -256,6 +257,9 @@ func shoot_enemy(enemy_body_part : Node3D):
 			seen_enemy.head_shot_kill()
 		elif seen_enemy is BossMan and enemy_body_part is ForceFieldArea:
 			AudioManager.play_sfx(AudioManager.boss_laughs.pick_random())
+	else:
+		SignalBus.reset_hits_count.emit()
+	
 	GameManager.total_shots += 1	
 	
 func damage_player() -> void:
@@ -305,6 +309,7 @@ func play_rifle_shoot_animation() -> void:
 	var body_part = shoot_ray()
 	shoot_enemy(body_part)
 	GameManager.rifle_mag_ammo_count -= 1
+	GameManager.pistol_only_bonus = false
 	SignalBus.shake_camera.emit(0.5)
 	if GameManager.rifle_mag_ammo_count <= 0 and GameManager.rifle_ammo_count > 0:
 		#reload

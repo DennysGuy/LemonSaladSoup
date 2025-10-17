@@ -1,4 +1,5 @@
 do CutSceneManager.disable_player_movement()
+do CutSceneManager.show_black_bars()
 do CutSceneManager.look_at_boss_man()
 [wait time="1.0"]
 do AudioManager.play_boss_theme()
@@ -21,7 +22,8 @@ Bossman: Come, and meet your fate.
 do CutSceneManager.reset_camera_fov()
 do CutSceneManager.disable_force_field()
 do CutSceneManager.show_hude()
-do CutSceneManager.enable_player_movement()
 do AudioManager.play_boss_battle_theme()
+do CutSceneManager.hide_black_bars()
 [wait time="2.0"]
+do CutSceneManager.enable_player_movement()
 [end_timeline]

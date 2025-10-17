@@ -56,9 +56,15 @@ var combo_meter_wait_time : int = 6
 @onready var pistol_mag_ammo_label: Label = $HUD/Magazine/PistolMagAmmoLabel
 @onready var count_down_label: Label = $HUD/CountDownLabel
 
+@onready var hits_counter_player: AnimationPlayer = $HitsCounterPlayer
+@onready var chain_bonus_player: AnimationPlayer = $ChainBonusPlayer
+
+var current_hits_count : int = 0
+var current_hits_pitch : float = 1.0
+
 var rifle_mag_showing : bool = false
 var pistol_mag_showing : bool = true
-
+var hits_count_showing : bool = false
 var combo_meter_showing : bool = false
 var grenade_in_cool_down : bool = false
 
@@ -100,6 +106,9 @@ func _ready() -> void:
 	SignalBus.issue_grenade.connect(issue_grenade)
 	
 	SignalBus.hide_reload_notification.connect(hide_reload_notification)
+	
+	SignalBus.increment_hits_count.connect(increment_hits_count)
+	SignalBus.reset_hits_count.connect(reset_hits_count)
 	
 	update_combo_meter_label()
 	update_health()
@@ -205,6 +214,9 @@ func start_wave() -> void:
 	if GameManager.ammo_count <=0:
 		show_reload_notification()
 	
+	if current_hits_count > 5:
+		show_hits_count()
+	
 	SignalBus.start_wave.emit()
 
 func show_added_score_label(score : int, head_shot : bool) -> void:
@@ -219,6 +231,7 @@ func stop_wave() -> void:
 	score_count.hide()
 	score_label.hide()
 	added_score_label_player.play("hide_health")
+	
 	hide_reload_notification()
 
 	grenade_icon_player.play("HideGrenade")
@@ -229,8 +242,8 @@ func stop_wave() -> void:
 	elif rifle_mag_showing:
 		rifle_mag_reload_animation_player.play("hide_mag")
 	
-	
 	reset_combo_meter()
+	reset_hits_count()
 	#this maybe where I handle starting the next wave?
 	timer.start()
 	pass
@@ -360,9 +373,65 @@ func update_combo_meter_label() -> void:
 		var icon : TextureRect = TextureRect.new()
 		icon.texture = preload("uid://r2br5ovrur3u")
 		kill_count_box.add_child(icon)
+
+func show_hits_count() -> void:
+	hits_count_showing = true
+	hits_counter_player.play("show_hits_counter")
+
+func hide_hits_count() -> void:
+	hits_count_showing = false
+	hits_counter_player.play("hide_hits_counter")
 	
+func reset_hits_count() -> void:
+	
+	if not hits_count_showing:
+		current_hits_count = 0 #reset here as well if not off screen - but we won't get any score
+		return
+	
+	if current_hits_count > GameManager.max_consecutive_shots:
+		GameManager.max_consecutive_shots = current_hits_count
+		
+	var bonus : int = current_hits_count * 10 * GameManager.current_multiplier
+	GameManager.score += bonus
+	hits_count.text = "Hit Chain Bonus: %s" % [bonus]
+	update_score()
+	current_hits_count = 0
+	current_hits_pitch = 1.0
+	
+	var random_num : int = randi_range(1,100)
+	if random_num < 50:
+		AudioManager.play_sfx(AudioManager.VOX_ANNOUNCER_SHOT_MISS_01,-1)
+	AudioManager.play_sfx(AudioManager.COMBOEND)
+	hide_hits_count() 
+	show_chain_bonus(bonus)
+	
+@onready var hits_count: Label = $HUD/HitsCount
+@onready var chain_bonus_notifier: Label = $HUD/ChainBonusNotifier
+
+func show_chain_bonus(bonus : int) -> void:
+	chain_bonus_notifier.text = "Chain +%s" % [bonus]
+	chain_bonus_player.play("ShowChainBonus")
+
+func increment_hits_count() -> void:
+	current_hits_count += 1
+		
+
+	if current_hits_count == 10:
+		AudioManager.play_sfx(AudioManager.COMBOSTART, 2, false, 1.4)
+		show_hits_count()
+	
+	if hits_count_showing:
+		AudioManager.play_sfx(AudioManager.CONSEC_HIT, 2, false, current_hits_pitch)
+		if current_hits_count % 10 == 0:
+			current_hits_pitch = 0
+		else:
+			current_hits_pitch += 0.2
+	
+
+	hits_count.text = "Hits %s" % [current_hits_count]
+
 func play_count_down_beep() -> void:
-	AudioManager.play_sfx(AudioManager.COUNTDOWN_BEEP)
+	AudioManager.play_sfx(AudioManager.COUNT_DOWN_BEEP)
 
 func play_count_down_beep_down() -> void:
 	AudioManager.play_sfx(AudioManager.COUNT_DOWN_BEEP_DONE)

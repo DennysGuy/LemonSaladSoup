@@ -22,7 +22,7 @@ func _on_retry_button_up() -> void:
 	AudioManager.play_sfx(AudioManager.boss_laughs.pick_random())
 	AudioManager.play_sfx(AudioManager.UI_GAME_START_01,-2)
 	animation_player.play("fade_out")
-	GameManager.reset_game()
+	GameManager.reset_game(true)
 	WaveManager.reset()
 
 func go_to_main() -> void:

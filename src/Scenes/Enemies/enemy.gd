@@ -74,10 +74,13 @@ func kill_enemy(killed_by_grenade : bool = false) -> void:
 	if can_receive_bonus:
 		SignalBus.remove_one_kill.emit()
 	
-	if killed_by_grenade:
-		AudioManager.play_sfx(AudioManager.enemy_deaths.pick_random(),-3)
+	if is_boss:
+		AudioManager.play_sfx(AudioManager.boss_death_screas.pick_random())
 	else:
-		AudioManager.play_sfx(AudioManager.enemy_deaths.pick_random(),-2)
+		if killed_by_grenade:
+			AudioManager.play_sfx(AudioManager.enemy_deaths.pick_random(),-3)
+		else:
+			AudioManager.play_sfx(AudioManager.enemy_deaths.pick_random(),-1)
 	# lock in bonus here
 	timer_bonus = set_timer_bonus()
 
@@ -103,7 +106,10 @@ func head_shot_kill() -> void:
 	alive = false
 	
 	AudioManager.play_sfx(AudioManager.head_shots.pick_random(),4)
-	AudioManager.play_sfx(AudioManager.enemy_deaths.pick_random(),-2,true)
+	if is_boss:
+		AudioManager.play_sfx(AudioManager.boss_death_screas.pick_random())
+	else:
+		AudioManager.play_sfx(AudioManager.enemy_deaths.pick_random(),-1,true)
 	
 	generate_hit_star_hs(head_flash_point, 2)
 	

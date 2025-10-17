@@ -66,6 +66,12 @@ func show_hude() -> void:
 func spawn_special_config() -> void:
 	SignalBus.spawn_special_config.emit()
 
+func show_black_bars() -> void:
+	SignalBus.show_black_bars.emit()
+
+func hide_black_bars() -> void:
+	SignalBus.hide_black_bars.emit()
+
 func spawn_rifle_preview_hud() -> void:
 	SignalBus.add_rifle_preview.emit()
 

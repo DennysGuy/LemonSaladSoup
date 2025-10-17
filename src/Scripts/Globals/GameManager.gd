@@ -9,9 +9,12 @@ const KILLS_NEEDED : int = 5
 
 var player_is_alive : bool = true
 var player_current_health : int = PLAYER_MAX_HEALTH
+var retries : int = 0
+var max_consecutive_shots : int = 0
 
 var grenade_cool_down_time : int = 30
 var can_throw_grenade : bool = false
+var pistol_only_bonus : bool = true
 
 var score : int = 0
 var current_multiplier : int = 1
@@ -55,7 +58,12 @@ enum WEAPONS  {
 }
 
 
-func reset_game() -> void:
+func reset_game(retry : bool = false) -> void:
+	if retry:
+		retries += 1
+	else:
+		retries = 0
+	
 	equipped_weapon = WEAPONS.PISTOL
 	rifle_unlocked = false
 	player_is_alive = true
@@ -71,7 +79,11 @@ func reset_game() -> void:
 	damage_taken = 0
 	total_head_shots = 0
 	highest_multiplier = 0
+	max_consecutive_shots = 0
+	rifle_ammo_count = 50
+	rifle_mag_ammo_count = 10
 	final_time = ""
+	pistol_only_bonus = true
 
 
 enum GRADING_BONUS {

@@ -55,6 +55,8 @@ const SHOOTERDEATH_1 = preload("uid://bsp3ajtv5i6oh")
 const SHOOTERDEATH_2 = preload("uid://bgt24up0qy0hy")
 const SHOOTERDEATH_3 = preload("uid://8obg0yuapyyr")
 
+const BONUS = preload("uid://d14cs6t5guiao")
+
 
 @onready var attack_hits : Array[AudioStream] = [ATTACKHIT_1,ATTACKHIT_2,ATTACKHIT_3,ATTACKHIT_4,ATTACKHIT_5,ATTACKHIT_6]
 @onready var attack_swipes : Array[AudioStream] = [ATTACKSWIPE_1,ATTACKSWIPE_2,ATTACKSWIPE_3,ATTACKSWIPE_4,ATTACKSWIPE_5]
@@ -66,33 +68,11 @@ const MAINAMBIENT = preload("uid://1lxghv1yxlnx")
 
 const BOSSFALL = preload("uid://bmeban2paw0mi")
 
-const BLASPHEMY_PLACE_HOLDER = preload("uid://cwjgcv8veu5m5")
-const HOLDER_VOX_ANNOUNCER_HAND_GUN = preload("uid://dwcqgweymtcyl")
-const HOLDER_VOX_ANNOUNCER_RIFLE = preload("uid://manaehqar268")
-const HOLDER_VOX_ANNOUNCER_SURVIVE = preload("uid://rvk6fcxh7o70")
-const HOLDER_VOX_BOSS_FIRST_BLOOD = preload("uid://bojbd68nbqptg")
-const HOLDER_VOX_BOSS_INTRO = preload("uid://c4ncnsjxyysxj")
-const HOLDER_VOX_BOSS_WIN = preload("uid://6vh5i4sr2frx")
-const HOLDER_VOX_ENE_CHARGE_01 = preload("uid://b6sy8smo8n844")
-const HOLDER_VOX_ENE_CHARGE_02 = preload("uid://rma34g338og")
-const HOLDER_VOX_ENE_DEAD = preload("uid://bblicsf453abd")
-const HOLDER_VOX_ENE_GRUNT = preload("uid://bl3swwquit2y7")
-const HOLDER_VOX_MIB_REVEAL = preload("uid://dna3co2505gl3")
-const HOLDER_VOX_RADIO_BEHIND = preload("uid://cbbi0jm6immtf")
-const HOLDER_VOX_RADIO_LEFT = preload("uid://cut5cb0w65efx")
+
 const HOLDER_VOX_RADIO_PRAISE_01 = preload("uid://bduwccig21apf")
 const HOLDER_VOX_RADIO_PRAISE_02 = preload("uid://do2u1hjrbopca")
 const HOLDER_VOX_RADIO_PRAISE_03 = preload("uid://dnisaafc4vnrp")
-const HOLDER_VOX_RADIO_RIGHT = preload("uid://7utdedjjmj77")
-const HOLDER_VOX_TITLE_LEMON = preload("uid://cxk1640gki3h0")
-const HOLDER_VOX_TITLE_LEMON_SALAD_SOUP = preload("uid://dcs2p56k6i31m")
-const HOLDER_VOX_TITLE_SALAD = preload("uid://1gidmsl64s5h")
-const HOLDER_VOX_TITLE_SOUP = preload("uid://5ha1fmja7e1d")
-const IMPRESSIVE_PLACE_HOLDER = preload("uid://wr51xgy1vgqf")
-const MEET_FATE_PLACE_HOLDER = preload("uid://ms0f5d18pu4i")
-const MINIONS_TEAR_APART_PLACE_HOLDER = preload("uid://tgkn4npp03rd")
-const UNFORGIVABLE_PLACE_HOLDER = preload("uid://b4nts41fh65ly")
-const YOU_DARE_PLACEHOLDER = preload("uid://5y3tha3m65v1")
+
 
 #VOX PROCESSED
 const VOX_ANNOUNCER_ALERT__BEHIND_01 = preload("uid://gjvmgnakqhp3")
@@ -149,18 +129,21 @@ const VOX_BOSS_LAUGH_02 = preload("uid://b4de2h351cn6m")
 const VOX_BOSS_LAUGH_03 = preload("uid://boac1y7x4obhr")
 const VOX_BOSS_LAUGH_04 = preload("uid://t3txogsib2pb")
 
-@onready var boss_laughs = [VOX_BOSS_LAUGH_01,VOX_BOSS_LAUGH_02,VOX_BOSS_LAUGH_03,VOX_BOSS_LAUGH_04]
-
+@onready var boss_laughs : Array[AudioStream] = [VOX_BOSS_LAUGH_01,VOX_BOSS_LAUGH_02,VOX_BOSS_LAUGH_03,VOX_BOSS_LAUGH_04]
+@onready var boss_death_screas : Array[AudioStream] = [VOX_BOSS_DEATH_CRY_01,VOX_BOSS_DEATH_CRY_02,VOX_BOSS_DEATH_CRY_03]
 #UI
 const UI_GAME_START_01 = preload("uid://vrgv6ldwnay4")
 const UI_HOVER_01 = preload("uid://mgobvjrkqk2w")
 const UI_PRESS_01 = preload("uid://dpkkqbinpnhrg")
 
 const BOSSJUMP = preload("uid://bvpohncnr21k5")
-const CROWD_GASP = preload("uid://c2yraqi2h6q31")
+const COUNT_DOWN_BEEP = preload("uid://c5ig84q2nhkx2")
+
 
 const MULTIPLIER = preload("uid://cyd6kljstq3gw")
 const MURMUR = preload("uid://dpaaixiqw3wq3")
+const CONSEC_HIT = preload("uid://ci3f275vdqdxh")
+
 
 
 const COMBOEND = preload("uid://d4huy0s6v3lnn")
@@ -172,8 +155,9 @@ const POINTINCREASE = preload("uid://t1normcgnmqr")
 
 const ROUNDSTART = preload("uid://bl8vq57n8287y")
 
-const COUNTDOWN_BEEP = preload("uid://cf6ltpr4suhgh")
 const COUNT_DOWN_BEEP_DONE = preload("uid://d0qxh6l38av1f")
+const CROWD_GASP = preload("uid://c2yraqi2h6q31")
+
 
 
 #music 
@@ -188,11 +172,11 @@ const WELCOME_TO_THE_ARENA_DIALOGUE_CUTSCENE = preload("uid://d3xiyr5t7laqp")
 @onready var music_player: AudioStreamPlayer = $MusicPlayer
 
 
-func play_sfx(audio_stream : AudioStream, volume_db : float = 0.0, randomized_pitch : bool = false) -> void:
+func play_sfx(audio_stream : AudioStream, volume_db : float = 0.0, randomized_pitch : bool = false, pitch : float = 1.0) -> void:
 	var asp : AudioStreamPlayer = AudioStreamPlayer.new()
 	asp.stream = audio_stream
 	asp.volume_db = volume_db
-	
+	asp.pitch_scale = pitch
 	if randomized_pitch:
 		asp.pitch_scale = randomize_pitch()
 		

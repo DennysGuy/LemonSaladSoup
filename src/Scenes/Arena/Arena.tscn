@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=4 uid="uid://cqmipwjw5ygil"]
+[gd_scene load_steps=82 format=4 uid="uid://cqmipwjw5ygil"]
 
 [ext_resource type="PackedScene" uid="uid://cwfahle4ha0uq" path="res://src/Scenes/Player/Player.tscn" id="1_bcb0y"]
 [ext_resource type="Script" uid="uid://cru4sfh1iabsn" path="res://src/Scripts/arena.gd" id="1_y77rj"]
@@ -17,6 +17,13 @@
 [ext_resource type="Texture2D" uid="uid://ce7rorlkpixgi" path="res://Assets/Art/3D Assets/Arena/additional.png" id="14_x5eqy"]
 [ext_resource type="AudioStream" uid="uid://dl8nsc0xjqh2w" path="res://Assets/Audio/SFX/mainambient.wav" id="16_dbweq"]
 [ext_resource type="AudioStream" uid="uid://dov658jdxs0yg" path="res://Assets/Audio/SFX/crowdloop.wav" id="17_dbweq"]
+[ext_resource type="Texture2D" uid="uid://d4dl1yjo0lch6" path="res://Assets/Art/2D Assets/sun.png" id="18_x5eqy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0d2dq"]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+albedo_texture = ExtResource("18_x5eqy")
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bcb0y"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -56,7 +63,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.25),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector3(3.5762925, 23.066269, -26.76021), Vector3(3.5762925, 6.5914745, -26.76021)]
+"values": [Vector3(3.5762925, 23.066269, -26.76021), Vector3(3.576, 6.5, -26.76)]
 }
 tracks/1/type = "method"
 tracks/1/imported = false
@@ -70,6 +77,20 @@ tracks/1/keys = {
 "values": [{
 "args": [],
 "method": &"boss_fall_shake"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_just_chillin"
 }]
 }
 
@@ -994,6 +1015,11 @@ shadow_mesh = SubResource("ArrayMesh_3rcag")
 [node name="Arena" type="Node3D" groups=["Arena"]]
 script = ExtResource("1_y77rj")
 
+[node name="Sun" type="CSGBox3D" parent="."]
+transform = Transform3D(-0.52536786, 0.8495268, -0.047882695, -2.7459854e-09, -0.05627463, -0.9984153, -0.8508753, -0.5245353, 0.029564878, -16.855045, 18.047964, -44.361267)
+size = Vector3(0.001, 19.895462, 13.991043)
+material = SubResource("StandardMaterial3D_0d2dq")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_vbyki")
 
@@ -1031,7 +1057,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.914546, 9.433293, -13.961
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.2274227, 9.5379, 3.1084652)
 
 [node name="LookAtMarker5" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9367542, 5.0822, -35.437717)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.276063, 3.2450266, -35.437717)
 
 [node name="SpawnPoint2" parent="." instance=ExtResource("3_8vyl5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5835376, 5.618756, -28.593964)
@@ -1472,7 +1498,7 @@ libraries = {
 }
 
 [node name="groundin" type="MeshInstance3D" parent="Arena"]
-transform = Transform3D(2.3490865, 0, -0.39357314, 0, 0.6357345, 0, 1.8518227, 0, 0.499258, -0.3494873, 0.30780506, -4.2957916)
+transform = Transform3D(2.3490865, 0, -0.39357314, 0, 0.6357345, 0, 1.8518227, 0, 0.499258, -0.3494873, 0.6946173, -4.2957916)
 mesh = SubResource("ArrayMesh_4sbku")
 skeleton = NodePath("")
 
@@ -1672,3 +1698,5 @@ bus = &"Music"
 
 [editable path="BossMan"]
 [editable path="BossMan/ForceFieldArea"]
+[editable path="Player"]
+[editable path="Player/Head/Marker3D/Pistol"]

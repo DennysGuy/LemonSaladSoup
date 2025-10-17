@@ -2,11 +2,17 @@ class_name BossMan extends Enemy
 
 @onready var animation_player: AnimationPlayer = $boss/AnimationPlayer
 @onready var force_field_player: AnimationPlayer = $ForceFieldPlayer
+@onready var party_hat: Node3D = $PartyHat
 
 
 func _ready() -> void:
 	super()
 	is_boss = true
+	party_hat.hide()
+	var random_number : int = randi_range(0,100)
+	if random_number <= 30:
+		party_hat.show()
+	
 	SignalBus.enemy_spawned.emit(self)
 	SignalBus.reflect_bullet.connect(play_reflection)
 	SignalBus.disable_force_field.connect(disable_force_field)
@@ -30,3 +36,6 @@ func play_reflection() -> void:
 
 func disable_force_field() -> void:
 	force_field_collision_shape.disabled = true
+
+func play_just_chillin() -> void:
+	animation_player.play("justchillin")

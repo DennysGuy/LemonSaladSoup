@@ -2,6 +2,7 @@ audio "res://Assets/Audio/SFX/murmur.wav"
 do AudioManager.play_boss_theme()
 do CutSceneManager.disable_player_movement()
 do CutSceneManager.look_at_boss_man()
+do CutSceneManager.show_black_bars()
 [wait time="1.0"]
 do CutSceneManager.zoom_camera()
 [wait time="2.0"]
@@ -20,5 +21,6 @@ Bossman: Minions tear them apart!
 audio "res://Assets/Audio/SFX/Vox Processed/VOX_Boss_Laugh_03.wav"
 do CutSceneManager.look_at_point_1()
 do CutSceneManager.reset_camera_fov()
+do CutSceneManager.hide_black_bars()
 [wait time="3.0"]
 do WaveManager.start_wave()

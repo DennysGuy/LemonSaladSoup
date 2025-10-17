@@ -9,11 +9,19 @@ signal silence_alarm
 signal enemy_spawned(enemy : Node3D)
 @warning_ignore("unused_signal")
 signal ping_enemies
+@warning_ignore("unused_signal")
+signal show_black_bars
+@warning_ignore("unused_signal")
+signal hide_black_bars
 
 @warning_ignore("unused_signal")
 signal start_wave
 @warning_ignore("unused_signal")
 signal stop_wave
+@warning_ignore("unused_signal")
+signal increment_hits_count
+@warning_ignore("unused_signal")
+signal reset_hits_count
 
 @warning_ignore("unused_signal")
 signal set_wave_params

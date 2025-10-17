@@ -1,5 +1,6 @@
 do AudioManager.play_boss_theme()
 do CutSceneManager.disable_player_movement()
+do CutSceneManager.show_black_bars()
 [wait time="2.0"]
 do CutSceneManager.look_at_boss_man()
 [wait time="1.0"]
@@ -41,5 +42,6 @@ Radioman: [mood=Mood 1]Survive at all costs! Good luck.\
 (Press Space to Continue)
 do CutSceneManager.enable_player_movement()
 do CutSceneManager.reset_camera_fov()
+do CutSceneManager.hide_black_bars()
 [wait time="2.0"]
 [end_timeline]
