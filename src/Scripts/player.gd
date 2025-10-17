@@ -149,7 +149,7 @@ func move_player() -> void:
 		AudioManager.play_sfx(AudioManager.LOOKRIGHT,-2)
 		rotate_camera_right()
 	
-	if GameManager.can_shoot:
+	if GameManager.can_move:
 		if Input.is_action_just_pressed("swap_pistol") and GameManager.equipped_weapon == GameManager.WEAPONS.RIFLE:
 			swap_to_pistol()
 		
@@ -246,9 +246,13 @@ func rotate_camera_opposite() -> void:
 
 
 func shoot_enemy(enemy_body_part : Node3D):
-	if  enemy_body_part and enemy_body_part.get_parent() is Enemy:
-		GameManager.total_shots_hit += 1
-		SignalBus.increment_hits_count.emit()
+	var enemy
+	if enemy_body_part:
+		enemy = enemy_body_part.get_parent()
+	if enemy_body_part and enemy is Enemy:
+		if not enemy.is_boss:
+			GameManager.total_shots_hit += 1
+			SignalBus.increment_hits_count.emit()
 		var seen_enemy : Enemy = enemy_body_part.get_parent()
 
 		if enemy_body_part is EnemyBodyCollider:

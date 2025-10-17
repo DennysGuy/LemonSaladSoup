@@ -16,22 +16,6 @@
 [ext_resource type="Animation" uid="uid://hhvk44dbvgl1" path="res://src/AmmoPickUp.res" id="13_e4c6v"]
 [ext_resource type="Animation" uid="uid://cvv13s3yiy6g0" path="res://src/HealthPickup.res" id="14_w3s2q"]
 
-[sub_resource type="Animation" id="Animation_bei7h"]
-resource_name = "show_hits_counter"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(1312, 64), Vector2(1069, 64)]
-}
-
 [sub_resource type="Animation" id="Animation_ehgys"]
 length = 0.001
 tracks/0/type = "value"
@@ -61,6 +45,22 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(1069, 64), Vector2(1312, 64)]
+}
+
+[sub_resource type="Animation" id="Animation_bei7h"]
+resource_name = "show_hits_counter"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1312, 64), Vector2(1069, 64)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_22wjn"]
@@ -1263,34 +1263,6 @@ _data = {
 &"ShowGrenadeIcon": SubResource("Animation_de2fw")
 }
 
-[sub_resource type="Animation" id="Animation_22wjn"]
-resource_name = "show_bars"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HUD/BlackBarTop:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-2, -94), Vector2(-2, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("HUD/BlackBarBottom:position")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-2, 720), Vector2(-2, 626)]
-}
-
 [sub_resource type="Animation" id="Animation_pm7ww"]
 length = 0.001
 tracks/0/type = "value"
@@ -1346,11 +1318,54 @@ tracks/1/keys = {
 "values": [Vector2(-2, 626), Vector2(-2, 720)]
 }
 
+[sub_resource type="Animation" id="Animation_22wjn"]
+resource_name = "show_bars"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/BlackBarTop:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-2, -94), Vector2(-2, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HUD/BlackBarBottom:position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-2, 720), Vector2(-2, 626)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_r87tl"]
 _data = {
 &"RESET": SubResource("Animation_pm7ww"),
 &"hide_bars": SubResource("Animation_0sjkh"),
 &"show_bars": SubResource("Animation_22wjn")
+}
+
+[sub_resource type="Animation" id="Animation_4nn4f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1315, 204)]
 }
 
 [sub_resource type="Animation" id="Animation_r87tl"]
@@ -1367,21 +1382,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(1315, 204), Vector2(978, 204), Vector2(978, 204), Vector2(1315, 204)]
-}
-
-[sub_resource type="Animation" id="Animation_4nn4f"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1315, 204)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4nn4f"]
@@ -1975,7 +1975,7 @@ wait_time = 2.0
 one_shot = true
 
 [node name="ComboMeterTimer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 7.0
 one_shot = true
 
 [node name="AddedScoreLabelTimer" type="Timer" parent="."]

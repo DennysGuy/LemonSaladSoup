@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://c5ig84q2nhkx2"
-path="res://.godot/imported/CountDownBeep.wav-cbc8433233a08bf674defa4909462bac.sample"
+path="res://.godot/imported/CountdownBeep.wav-789a062c9bca501f10095a57892a1e6a.sample"
 
 [deps]
 
-source_file="res://Assets/Audio/SFX/CountDownBeep.wav"
-dest_files=["res://.godot/imported/CountDownBeep.wav-cbc8433233a08bf674defa4909462bac.sample"]
+source_file="res://Assets/Audio/SFX/CountdownBeep.wav"
+dest_files=["res://.godot/imported/CountdownBeep.wav-789a062c9bca501f10095a57892a1e6a.sample"]
 
 [params]
 

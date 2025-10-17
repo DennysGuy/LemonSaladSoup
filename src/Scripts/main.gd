@@ -242,8 +242,9 @@ func stop_wave() -> void:
 	elif rifle_mag_showing:
 		rifle_mag_reload_animation_player.play("hide_mag")
 	
-	reset_combo_meter()
 	reset_hits_count()
+	reset_combo_meter()
+
 	#this maybe where I handle starting the next wave?
 	timer.start()
 	pass
@@ -417,11 +418,11 @@ func increment_hits_count() -> void:
 		
 
 	if current_hits_count == 10:
-		AudioManager.play_sfx(AudioManager.COMBOSTART, 2, false, 1.4)
+		AudioManager.play_sfx(AudioManager.COMBOSTART, -3, false, 1.4)
 		show_hits_count()
 	
 	if hits_count_showing:
-		AudioManager.play_sfx(AudioManager.CONSEC_HIT, 2, false, current_hits_pitch)
+		AudioManager.play_sfx(AudioManager.CONSEC_HIT, -3, false, current_hits_pitch)
 		if current_hits_count % 10 == 0:
 			current_hits_pitch = 0
 		else:

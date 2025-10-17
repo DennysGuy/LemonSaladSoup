@@ -20,6 +20,7 @@ class_name GameWinScreen extends Control
 @onready var consecutive_shots: Label = $ConsecutiveShots
 @onready var pistol_bonus: Label = $PistolBonus
 
+@onready var results_2: AnimationPlayer = $Results2
 
 var slogans : Array[String] = [
 	"A Fool of a Took.",
@@ -44,6 +45,7 @@ var slogans : Array[String] = [
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	results_2.play("Bob")
 	var random_num = randi_range(0,slogans.size()-1)
 	label.text = slogans[random_num]
 	

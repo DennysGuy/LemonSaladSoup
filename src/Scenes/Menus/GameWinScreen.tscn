@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://n1of11jhuexs"]
+[gd_scene load_steps=13 format=3 uid="uid://n1of11jhuexs"]
 
 [ext_resource type="Script" uid="uid://b6qjeyngcaxje" path="res://src/Scripts/game_win_screen.gd" id="1_5g3g0"]
 [ext_resource type="FontFile" uid="uid://dyx88gwegholf" path="res://Assets/Art/Font/Vampire Zone.ttf" id="2_5jdxi"]
@@ -107,21 +107,6 @@ _data = {
 &"fade_out": SubResource("Animation_m32l2")
 }
 
-[sub_resource type="Animation" id="Animation_y47ky"]
-resource_name = "ShowPerfectRun"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../PerfectRun:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.22),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-484, 626), Vector2(35, 626)]
-}
-
 [sub_resource type="Animation" id="Animation_2vu3y"]
 length = 0.001
 tracks/0/type = "value"
@@ -137,10 +122,86 @@ tracks/0/keys = {
 "values": [Vector2(-484, 626)]
 }
 
+[sub_resource type="Animation" id="Animation_y47ky"]
+resource_name = "ShowPerfectRun"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../PerfectRun:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.22),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-484, 626), Vector2(35, 626)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gts1k"]
 _data = {
 &"RESET": SubResource("Animation_2vu3y"),
 &"ShowPerfectRun": SubResource("Animation_y47ky")
+}
+
+[sub_resource type="Animation" id="Animation_gts1k"]
+resource_name = "Bob"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.26666668, 0.53333336, 0.75, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(34, 164), Vector2(34, 169), Vector2(34, 164), Vector2(34, 169), Vector2(34, 164)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 4
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-0.08726646, 0.12217305]
+}
+
+[sub_resource type="Animation" id="Animation_4clcd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(34, 164)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.08726646]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dedxv"]
+_data = {
+&"Bob": SubResource("Animation_gts1k"),
+&"RESET": SubResource("Animation_4clcd")
 }
 
 [node name="GameWinScreen" type="Control"]
@@ -197,6 +258,12 @@ wait_time = 2.0
 one_shot = true
 autostart = true
 
+[node name="Results2" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Results")
+libraries = {
+&"": SubResource("AnimationLibrary_dedxv")
+}
+
 [node name="Results" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 4
@@ -207,6 +274,8 @@ offset_top = -196.0
 offset_right = 277.0
 offset_bottom = -131.0
 grow_vertical = 2
+rotation = -0.08726646
+pivot_offset = Vector2(115, 34)
 theme_override_colors/font_color = Color(0.77983063, 0, 0.05381567, 1)
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("2_5jdxi")
@@ -421,6 +490,7 @@ theme_override_font_sizes/font_size = 40
 text = "REPLAY?"
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
