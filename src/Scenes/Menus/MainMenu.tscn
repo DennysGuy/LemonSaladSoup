@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dvtx2xptgapr"]
+[gd_scene load_steps=11 format=3 uid="uid://dvtx2xptgapr"]
 
 [ext_resource type="Texture2D" uid="uid://w5hx8conjcyv" path="res://Assets/Art/2D Assets/MockTitleArt.png" id="1_lv5l3"]
 [ext_resource type="Script" uid="uid://bo3ljksg7w56x" path="res://src/Scripts/main_menu.gd" id="1_u6smc"]
@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://bfvjqwxfxrujk" path="res://Assets/Art/Font/Comical Cartoon.ttf" id="3_hj5s1"]
 [ext_resource type="Texture2D" uid="uid://clmw85es8u1d8" path="res://Assets/Art/2D Assets/playbutton.png" id="5_8lbpf"]
 [ext_resource type="Texture2D" uid="uid://b0sun6c45mx5g" path="res://Assets/Art/2D Assets/playbuttonpressed.png" id="6_mcdhn"]
+[ext_resource type="FontFile" uid="uid://dyx88gwegholf" path="res://Assets/Art/Font/Vampire Zone.ttf" id="7_81veo"]
 
 [sub_resource type="Animation" id="Animation_mcdhn"]
 length = 0.001
@@ -130,8 +131,8 @@ PMYA
 Composer
 Aria
 
-Programmer, Game & Systems Design / Engineering
-Denny’sGuy"
+Programmer, Game & Systems Design/Engineer
+Denny’Guy"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../PlayButton")
@@ -167,5 +168,229 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[node name="PressF11" type="Label" parent="."]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 6.0
+offset_right = 304.0
+offset_bottom = 40.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "Press F11 for Full Screen"
+
+[node name="CheckBox" type="CheckBox" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -189.0
+offset_top = -39.0
+offset_right = -11.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0, 0.40860587, 0.2440536, 1)
+theme_override_colors/font_hover_color = Color(0, 0.40894407, 0.5046767, 1)
+theme_override_font_sizes/font_size = 24
+text = "Skip Intro Cutscene"
+
+[node name="ScoringGuideToggle" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -77.0
+offset_top = -133.0
+offset_right = 77.0
+offset_bottom = -94.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 22
+text = "Scoring Guide"
+
+[node name="ScoringGuideMarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="ScoringGuide" type="ColorRect" parent="ScoringGuideMarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.23480967, 0.29455414, 0.29952914, 1)
+
+[node name="Title" type="Label" parent="ScoringGuideMarginContainer/ScoringGuide"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 21.0
+offset_right = 246.0
+offset_bottom = 54.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_81veo")
+theme_override_font_sizes/font_size = 32
+text = "Scoring Guide"
+
+[node name="Title2" type="Label" parent="ScoringGuideMarginContainer/ScoringGuide"]
+layout_mode = 0
+offset_left = 752.0
+offset_top = 80.0
+offset_right = 1055.0
+offset_bottom = 113.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_81veo")
+theme_override_font_sizes/font_size = 32
+text = "Enemy Points"
+
+[node name="Grading" type="Label" parent="ScoringGuideMarginContainer/ScoringGuide"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 83.0
+offset_right = 160.0
+offset_bottom = 116.0
+theme_override_colors/font_color = Color(0.65882355, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_81veo")
+theme_override_font_sizes/font_size = 32
+text = "Grading"
+
+[node name="Grading2" type="Label" parent="ScoringGuideMarginContainer/ScoringGuide"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 332.0
+offset_right = 198.0
+offset_bottom = 365.0
+theme_override_colors/font_color = Color(1, 0.8010404, 0.60958636, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_81veo")
+theme_override_font_sizes/font_size = 32
+text = "Multiplier"
+
+[node name="Grading3" type="Label" parent="ScoringGuideMarginContainer/ScoringGuide"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 472.0
+offset_right = 199.0
+offset_bottom = 505.0
+theme_override_colors/font_color = Color(1, 0.5923311, 0.53627497, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("7_81veo")
+theme_override_font_sizes/font_size = 32
+text = "Hit Chain"
+
+[node name="Grade" type="RichTextLabel" parent="ScoringGuideMarginContainer/ScoringGuide"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 133.0
+offset_right = 584.0
+offset_bottom = 178.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("7_81veo")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[color=yellow]Perfect[/color] - Kill Enemy Within 2sec. of spawn; x30 score bonus, -3sec off Survive timer"
+
+[node name="Grade2" type="RichTextLabel" parent="ScoringGuideMarginContainer/ScoringGuide"]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 192.0
+offset_right = 695.0
+offset_bottom = 245.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("7_81veo")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[color=green]Great[/color] - Kill Enemy Within 3sec. of spawn; x20 score bonus, -2sec off Survive timer"
+
+[node name="Grade3" type="RichTextLabel" parent="ScoringGuideMarginContainer/ScoringGuide"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 253.0
+offset_right = 571.0
+offset_bottom = 300.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("7_81veo")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[color=cyan]Okay[/color] - Kill Enemy Within 4sec. of spawn; x10 score bonus, -1sec off Survive timer"
+
+[node name="Grade4" type="RichTextLabel" parent="ScoringGuideMarginContainer/ScoringGuide"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 375.0
+offset_right = 655.0
+offset_bottom = 442.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("7_81veo")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[color=red]Kill[/color]  5 enemies to Activate score multiplier; multiplier increments every 5 [color=red]kills [/color]and deactivates after 7 seconds of inactivity or currentwave ends."
+
+[node name="Grade5" type="RichTextLabel" parent="ScoringGuideMarginContainer/ScoringGuide"]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 516.0
+offset_right = 776.0
+offset_bottom = 586.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("7_81veo")
+theme_override_font_sizes/normal_font_size = 20
+bbcode_enabled = true
+text = "[color=orange] Hit Chain Bonus [/color] activates after 10 [color=red]kills[/color]. Hit Chain will be active until player [color=gray]misses[/color] or current wave ends. Once Hit Chain ends, points will be alloted based on chain amount *Current multiplier * 10 "
+
+[node name="Grade6" type="RichTextLabel" parent="ScoringGuideMarginContainer/ScoringGuide"]
+layout_mode = 0
+offset_left = 752.0
+offset_top = 125.0
+offset_right = 1160.0
+offset_bottom = 506.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/normal_font = ExtResource("7_81veo")
+theme_override_font_sizes/normal_font_size = 26
+bbcode_enabled = true
+text = "[color=red]Walker [/color]- 100 points
+
+
+[color=yellow]Crawler[/color] - 200 points
+
+
+[color=cyan]Shooter[/color] - 300 points
+
+
+[color=purple]Bossman[/color] - 5000 points
+
+
+[color=pink]Head Shots[/color] - 1.2x base score
+"
+
+[node name="Button" type="Button" parent="ScoringGuideMarginContainer/ScoringGuide"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -87.0
+offset_top = 14.0
+offset_right = -17.0
+offset_bottom = 56.0
+grow_horizontal = 0
+mouse_default_cursor_shape = 2
+theme_override_font_sizes/font_size = 24
+text = "Close"
+
 [connection signal="button_up" from="PlayButton" to="." method="_on_play_button_button_up"]
 [connection signal="mouse_entered" from="PlayButton" to="." method="_on_play_button_mouse_entered"]
+[connection signal="toggled" from="CheckBox" to="." method="_on_check_box_toggled"]
+[connection signal="button_down" from="ScoringGuideToggle" to="." method="_on_scoring_guide_toggle_button_down"]
+[connection signal="button_down" from="ScoringGuideMarginContainer/ScoringGuide/Button" to="." method="_on_button_button_down"]

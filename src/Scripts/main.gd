@@ -123,6 +123,7 @@ func _ready() -> void:
 	if not GameManager.waves_reset:
 		CutSceneManager.play_intro_cutscene()
 	else:
+		SignalBus.remove_greeter_blocker.emit()
 		init_count_down()
 	#init_count_down() #this here is the start of the round we'll replace this with intro cutscene stuff
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -247,7 +248,6 @@ func stop_wave() -> void:
 
 	#this maybe where I handle starting the next wave?
 	timer.start()
-	pass
 
 func swap_to_pistol():
 	magazine_reload_animation_player.play("show_mag")
@@ -400,7 +400,7 @@ func reset_hits_count() -> void:
 	current_hits_pitch = 1.0
 	
 	var random_num : int = randi_range(1,100)
-	if random_num < 50:
+	if random_num < 50 and WaveManager.wave_started:
 		AudioManager.play_sfx(AudioManager.VOX_ANNOUNCER_SHOT_MISS_01,-1)
 	AudioManager.play_sfx(AudioManager.COMBOEND)
 	hide_hits_count() 

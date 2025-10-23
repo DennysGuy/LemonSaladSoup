@@ -79,6 +79,7 @@ func reset_game(retry : bool = false) -> void:
 	damage_taken = 0
 	total_head_shots = 0
 	highest_multiplier = 0
+	grenade_uses = 0
 	max_consecutive_shots = 0
 	rifle_ammo_count = 50
 	rifle_mag_ammo_count = 10

@@ -88,6 +88,7 @@ func _on_replay_button_up() -> void:
 func _on_main_menu_button_up() -> void:
 	GameManager.waves_reset = false
 	GameManager.reset_game()
+	WaveManager.reset()
 	get_tree().change_scene_to_file("res://src/Scenes/Menus/MainMenu.tscn")
 
 

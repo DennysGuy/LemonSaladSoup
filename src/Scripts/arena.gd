@@ -15,6 +15,7 @@ class_name Arena extends Node3D
 
 enum SPAWN_POINT_DIR{ADJACENT,FORWARD}
 
+@onready var greeter_blocker: StaticBody3D = $GreeterBlocker
 
 @onready var crowd_cheer: AudioStreamPlayer = $CrowdCheer
 
@@ -46,6 +47,7 @@ func _ready() -> void:
 	SignalBus.spawn_special_config.connect(spawn_special_config)
 	SignalBus.play_crowd_cheer.connect(play_crowd_cheer)
 	SignalBus.stop_crowd_cheer.connect(stop_crowd_cheer)
+	SignalBus.remove_greeter_blocker.connect(remove_greeter_blocker)
 	spawn_timer.one_shot = true
 	ambience.play()
 	
@@ -54,6 +56,10 @@ func _process(delta: float) -> void:
 	if not WaveManager.wave_started and not enemy_configurations.get_children().is_empty():
 		clear_enemies()
 	#print(spawn_timer.time_left)
+
+
+func remove_greeter_blocker() -> void:
+	greeter_blocker.queue_free()
 			
 func _on_spawn_timer_timeout() -> void:
 	spawn_timer.stop()

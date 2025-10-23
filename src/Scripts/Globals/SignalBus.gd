@@ -13,6 +13,8 @@ signal ping_enemies
 signal show_black_bars
 @warning_ignore("unused_signal")
 signal hide_black_bars
+@warning_ignore("unused_signal")
+signal remove_greeter_blocker
 
 @warning_ignore("unused_signal")
 signal start_wave

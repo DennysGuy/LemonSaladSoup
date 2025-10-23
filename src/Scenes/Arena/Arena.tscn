@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=4 uid="uid://cqmipwjw5ygil"]
+[gd_scene load_steps=83 format=4 uid="uid://cqmipwjw5ygil"]
 
 [ext_resource type="PackedScene" uid="uid://cwfahle4ha0uq" path="res://src/Scenes/Player/Player.tscn" id="1_bcb0y"]
 [ext_resource type="Script" uid="uid://cru4sfh1iabsn" path="res://src/Scripts/arena.gd" id="1_y77rj"]
@@ -1012,6 +1012,9 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_3rcag")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_x5eqy"]
+size = Vector3(12.00592, 7.9627075, 1)
+
 [node name="Arena" type="Node3D" groups=["Arena"]]
 script = ExtResource("1_y77rj")
 
@@ -1693,6 +1696,13 @@ bus = &"Ambience"
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 bus = &"Music"
+
+[node name="GreeterBlocker" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.737195, -27.907955)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GreeterBlocker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.1221046, 3.6798716, 4.7310047)
+shape = SubResource("BoxShape3D_x5eqy")
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 

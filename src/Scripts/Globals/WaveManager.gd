@@ -76,7 +76,6 @@ func start_wave() -> void:
 
 
 func reset() -> void:
-
 	current_wave = -1
 	wave_started = false
 

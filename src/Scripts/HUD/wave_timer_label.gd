@@ -61,8 +61,8 @@ func stop_timer() -> void:
 	
 	if WaveManager.wave_started:
 		hide()
-		SignalBus.stop_wave.emit()
 		WaveManager.wave_started = false
+		SignalBus.stop_wave.emit()
 		
 	timer_started = false
 

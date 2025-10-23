@@ -171,6 +171,14 @@ const WELCOME_TO_THE_ARENA_DIALOGUE_CUTSCENE = preload("uid://d3xiyr5t7laqp")
 
 @onready var music_player: AudioStreamPlayer = $MusicPlayer
 
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("full_screen_toggle"):
+		var current_mode = DisplayServer.window_get_mode()
+		if current_mode == DisplayServer.WINDOW_MODE_FULLSCREEN:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+
 
 func play_sfx(audio_stream : AudioStream, volume_db : float = 0.0, randomized_pitch : bool = false, pitch : float = 1.0) -> void:
 	var asp : AudioStreamPlayer = AudioStreamPlayer.new()

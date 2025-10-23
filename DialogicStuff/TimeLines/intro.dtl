@@ -44,4 +44,5 @@ do CutSceneManager.enable_player_movement()
 do CutSceneManager.reset_camera_fov()
 do CutSceneManager.hide_black_bars()
 [wait time="2.0"]
+do CutSceneManager.remove_greeter_blocker()
 [end_timeline]

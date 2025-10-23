@@ -77,3 +77,6 @@ func spawn_rifle_preview_hud() -> void:
 
 func remove_rifle_preview_hud() -> void:
 	SignalBus.remove_rifle_preview.emit()
+
+func remove_greeter_blocker() -> void:
+	SignalBus.remove_greeter_blocker.emit()
